@@ -97,7 +97,7 @@ public class RunnerController : MonoBehaviour
     private void HandleStrip()
     {
         
-        if (InputHelper.RightDown())
+        if (InputHelper.RightTap())
         {
             _lastPressRight = Time.time;
             HandleRun();
@@ -163,11 +163,11 @@ public class RunnerController : MonoBehaviour
         {
             foreach (var sp in GetComponentsInChildren<SpriteRenderer>())
             {
-                sp.color = new Color(0,0,0,0);
+                sp.color = new Color(0, 0, 0, 0);
             }
             Blood.Play();
-            GetComponent<Collider2D>().enabled = false;
-            _rigidBody.constraints |= RigidbodyConstraints2D.FreezePositionY;
+            Destroy(GetComponent<Collider2D>());
+            Destroy(_rigidBody);
             SpawnKishki();
         }
         transform.Translate(-_settings.Speed, 0f, 0f);
@@ -237,6 +237,7 @@ public class RunnerController : MonoBehaviour
     public void Fall()
     {
         _bananaFall = true;
+        Destroy(_rigidBody);
         Destroy(gameObject, 5f);
         _animation.Play("Fall");
         SoundBanana.Play();

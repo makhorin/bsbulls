@@ -20,7 +20,6 @@ public class GameStarter : MonoBehaviour
     public AudioSource Strip;
     public SpriteRenderer Black;
 
-    private bool _isFullScreen;
     private bool _fading;
 
     public static GameSettings Settings;
@@ -31,10 +30,6 @@ public class GameStarter : MonoBehaviour
 
     void Start ()
     {
-#if UNITY_STANDALONE
-        Screen.SetResolution(1280,720,false);
-#endif
-        _isFullScreen = false;
         DontDestroyOnLoad(gameObject);
         GameStats.CanStartGame = true;
 
@@ -52,21 +47,6 @@ public class GameStarter : MonoBehaviour
     
     void Update ()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-            return;
-        }
-
-        if (Input.GetKeyDown(KeyCode.F12))
-        {
-            if (!_isFullScreen)
-                Screen.SetResolution(1920, 1080, true);
-            else
-                Screen.SetResolution(1280, 720, false);
-            _isFullScreen = !_isFullScreen;
-        }
-
         if (GameStats.CanStartGame && InputHelper.Down())
             HandleStart();
 
@@ -77,35 +57,6 @@ public class GameStarter : MonoBehaviour
         {
             _strip = false;
             StartCoroutine("StripCoroutine");
-        }
-    }
-
-    IEnumerator PlaySounds()
-    {
-        var toWait = 0f;
-        while (true)
-        {
-            if (!Ost.isPlaying && !PreOst.isPlaying && !_striping)
-            {
-                toWait = Time.time + 1f;
-                Ost.Play();
-            }
-
-            if (!GameStats.GameOver && !Stomp.isPlaying && !PreStomp.isPlaying && !_striping)
-            {
-                toWait = Time.time + 1f;
-                Stomp.Play();
-            }
-
-            if (!GameStats.GameOver && !Stomp.isPlaying && !_striping)
-            {
-                toWait = Time.time + 1f;
-                Crowd.Play();
-            }
-                
-            while(toWait > Time.time)
-                yield return null;
-            yield return null;
         }
     }
 
@@ -137,7 +88,6 @@ public class GameStarter : MonoBehaviour
         Ost.PlayDelayed(7f);
         Crowd.PlayDelayed(2f);
         Stomp.PlayDelayed(3f);
-        StartCoroutine("PlaySounds");
     }
 
     private void ResetSounds()
@@ -165,10 +115,8 @@ public class GameStarter : MonoBehaviour
         _strip = true;
     }
 
-    private bool _striping;
     IEnumerator StripCoroutine()
     {
-        _striping = true;
         PreOst.Pause();
         PreStomp.Pause();
         Ost.Pause();
@@ -211,7 +159,6 @@ public class GameStarter : MonoBehaviour
             Settings.CurrentSpeed = prevSpeed * percentComplete;
             yield return null;
         }
-        _striping = false;
     }
 
     IEnumerator FadeOnGameOver()
@@ -252,13 +199,6 @@ public class GameStarter : MonoBehaviour
         SceneManager.LoadScene("ScoreScreen");
         GameStats.GameOver = false;
         _fading = false;
-    }
-
-    void OnApplicationQuit()
-    {
-        PlayerPrefs.SetInt("Screenmanager Resolution Width", 1280);
-        PlayerPrefs.SetInt("Screenmanager Resolution Height", 720);
-        PlayerPrefs.SetInt("Screenmanager Is Fullscreen mode", 0);
     }
 
     public static IScore[] Scores;
