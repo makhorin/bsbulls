@@ -1,0 +1,9 @@
+lastUpgrade=00939
+proj.pluginVersion=0.9.39a
+proj.AppId=558870904506
+proj.classDir=Assets
+proj.ConstantsClassName=GPGSIds
+and.ResourceData=%3c%3fxml+version%3d%221.0%22+encoding%3d%22utf-8%22%3f%3e%0d%0a%3cresources%3e%0d%0a++%3cstring+name%3d%22app_id%22%3e558870904506%3c%2fstring%3e%0d%0a++%3cstring+name%3d%22package_name%22%3eru.biglaserlady.bloodstreetbulls%3c%2fstring%3e%0d%0a++%3cstring+name%3d%22leaderboard_runner_leadboard%22%3eCgkIuv20-qEQEAIQAQ%3c%2fstring%3e%0d%0a%3c%2fresources%3e
+and.ClientId=558870904506-sphg1cejljtpjim308gemdmk6ucdhp32.apps.googleusercontent.com
+android.SetupDone=true
+and.BundleId=ru.biglaserlady.bloodstreetbulls
