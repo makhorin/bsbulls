@@ -167,7 +167,6 @@ public class RunnerController : MonoBehaviour
             }
             Blood.Play();
             Destroy(GetComponent<Collider2D>());
-            Destroy(_rigidBody);
             SpawnKishki();
         }
         transform.Translate(-_settings.Speed, 0f, 0f);
@@ -237,7 +236,6 @@ public class RunnerController : MonoBehaviour
     public void Fall()
     {
         _bananaFall = true;
-        Destroy(_rigidBody);
         Destroy(gameObject, 5f);
         _animation.Play("Fall");
         SoundBanana.Play();
