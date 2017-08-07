@@ -167,6 +167,8 @@ public class RunnerController : MonoBehaviour
             }
             Blood.Play();
             Destroy(GetComponent<Collider2D>());
+            _rigidBody.constraints |= RigidbodyConstraints2D.FreezePositionY;
+            Destroy(_rigidBody);
             SpawnKishki();
         }
         transform.Translate(-_settings.Speed, 0f, 0f);
