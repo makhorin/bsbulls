@@ -42,6 +42,7 @@ public class GameStarter : MonoBehaviour
         PlayerPrefs.SetFloat("Menu", Menu.volume);
         PlayerPrefs.Save();
 
+        PlayGamesPlatform.Activate();
         SceneManager.sceneLoaded += SceneManagerOnSceneLoaded;
     }
     
@@ -172,7 +173,6 @@ public class GameStarter : MonoBehaviour
 
         if (!PlayGamesPlatform.Instance.localUser.authenticated)
         {
-            PlayGamesPlatform.Activate();
             PlayGamesPlatform.Instance.localUser.Authenticate(OnAuthenticate);
         }
         else

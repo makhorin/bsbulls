@@ -9,7 +9,6 @@ public class RunnerController : MonoBehaviour
     private float _translateX;
     private Rigidbody2D _rigidBody;
     private Animator _animation;
-    public ParticleSystem Blood;
     private float _defaultSpeedMultiplier = 2;
     private float _maxSpeedMultiplier = 5;
     private float _minSpeedMultiplier = 1;
@@ -33,9 +32,8 @@ public class RunnerController : MonoBehaviour
     private GameObject _stripBar;
 
     public SpriteRenderer Shadow;
-    public SpriteRenderer BloodSprite;
+    public GameObject Blood;
 
-    public event Action<GameObject> DestroyMePlease;
     public event Action<GameObject> IamDead;
 
     private bool _dead;
@@ -159,19 +157,15 @@ public class RunnerController : MonoBehaviour
 
     private void HandleDeath()
     {
-        if (!Blood.isPlaying)
+        foreach (var sp in GetComponentsInChildren<SpriteRenderer>())
         {
-            foreach (var sp in GetComponentsInChildren<SpriteRenderer>())
-            {
-                sp.color = new Color(0, 0, 0, 0);
-            }
-            Blood.Play();
-            Destroy(GetComponent<Collider2D>());
-            _rigidBody.constraints |= RigidbodyConstraints2D.FreezePositionY;
-            Destroy(_rigidBody);
-            SpawnKishki();
+            sp.color = new Color(0, 0, 0, 0);
         }
-        transform.Translate(-_settings.Speed, 0f, 0f);
+        Destroy(GetComponent<Collider2D>());
+        _rigidBody.constraints |= RigidbodyConstraints2D.FreezePositionY;
+        Destroy(_rigidBody);
+        SpawnKishki();
+        enabled = false;
     }
 
     private void HandleFall()
@@ -265,7 +259,8 @@ public class RunnerController : MonoBehaviour
         if (_dead)
             return;
         _dead = true;
-        IamDead(gameObject);
+        if (IamDead != null)
+            IamDead(gameObject);
     }
 
     private Vector2[] _forcesOrder = 
@@ -290,7 +285,7 @@ public class RunnerController : MonoBehaviour
             if (j >= _forcesOrder.Length)
                 j = 0;
         }
-        var go = Instantiate(BloodSprite, new Vector3(transform.position.x, _settings.Ground[_line]), Quaternion.identity);
+        var go = Instantiate(Blood, new Vector3(transform.position.x, _settings.Ground[_line]), Quaternion.identity);
         go.GetComponent<EnviromentScroller>().SetSettings(_settings);
         Destroy(go,5f);
     }
