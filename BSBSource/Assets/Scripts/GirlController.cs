@@ -11,7 +11,7 @@ public class GirlController : MonoBehaviour
     void Start()
     {
         TutorController.ShowTutor(KeyCode.DownArrow, 1);
-        GameSettings.ShakeIt = true;
+        GameStats.ShakeIt = true;
     }
 
 

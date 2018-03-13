@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Text;
+using Assets;
 
 public class PerlinShake : MonoBehaviour {
     
@@ -19,8 +20,8 @@ public class PerlinShake : MonoBehaviour {
     
     // -------------------------------------------------------------------------
     void Update() {
-        if (GameSettings.ShakeIt) {
-            GameSettings.ShakeIt = false;
+        if (GameStats.ShakeIt) {
+            GameStats.ShakeIt = false;
             PlayShake();
         }
     }
@@ -34,7 +35,7 @@ public class PerlinShake : MonoBehaviour {
         float randomStart = Random.Range(-1000.0f, 1000.0f);
 
         var defShCnt = 3;
-        var koef = Setting.DefaultSpeed / Setting.Speed;
+        var koef = GameSettings.DefaultSpeed / GameStats.Speed;
         var shCnt = Mathf.CeilToInt(defShCnt * koef);
         for (var i = 0; i < Mathf.Max(shCnt,1); i++)
         {

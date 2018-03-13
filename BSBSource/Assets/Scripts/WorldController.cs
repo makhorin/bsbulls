@@ -12,16 +12,17 @@ public class WorldController : MonoBehaviour
 
     public Vector3 StartPoint;
 
-    public GameSettings Settings;
-
     void Start()
     {
-        for (var i = 0; i < Settings.MaxRunners; i++)
+        for (var i = 0; i < GameSettings.MaxRunners; i++)
         {
-            var line = Settings.GetRandomLine();
+            var line = GameSettings.GetRandomLine();
             var runnerPosKoef = GameSettings.Rnd.NextDouble();
-            var runner = Instantiate(RunnerPrefab, new Vector3(-Settings.RunnersRadius + Settings.Center + 2 * Settings.RunnersRadius  * (float)runnerPosKoef, Settings.Ground[line] + 0.1f), _rotation);
-            runner.SetSettings(Settings, line,false);
+            var runner = Instantiate(RunnerPrefab, 
+                new Vector3(-GameSettings.RunnersRadius + GameSettings.Center + 2 * GameSettings.RunnersRadius  * (float)runnerPosKoef, 
+                GameSettings.Ground[line] + 0.1f), 
+                _rotation);
+            runner.SetSettings(line,false);
         }
     }
 
@@ -38,7 +39,7 @@ public class WorldController : MonoBehaviour
         var toDestroy = new List<Obstacle>();
         foreach (var obstacle in _currentObstacles)
         {
-            if (obstacle != null && obstacle.transform.position.x < Settings.LeftBorder - obstacle.Width)
+            if (obstacle != null && obstacle.transform.position.x < GameSettings.LeftBorder - obstacle.Width)
             {
                 toDestroy.Add(obstacle);
             }
@@ -54,16 +55,16 @@ public class WorldController : MonoBehaviour
 
     private void GenerateObstacles()
     {
-        if (Time.time - _lastObstacle < Settings.ObstacleCooldownS)
+        if (Time.time - _lastObstacle < GameSettings.ObstacleCooldownS)
             return;
 
         var chance = GameSettings.Rnd.NextDouble();
 
-        if (chance > 1f - Settings.GroundObstaclesChance && GroundObstaclesPatterns != null && GroundObstaclesPatterns.Length > 0)
+        if (chance > 1f - GameSettings.GroundObstaclesChance && GroundObstaclesPatterns != null && GroundObstaclesPatterns.Length > 0)
         {
-            var line = Settings.GetRandomLine();
-            var go = Instantiate(GroundObstaclesPatterns[GameSettings.Rnd.Next(0, GroundObstaclesPatterns.Length)], new Vector3(StartPoint.x, Settings.Ground[line]), _rotation);
-            go.SetSettings(Settings, line);
+            var line = GameSettings.GetRandomLine();
+            var go = Instantiate(GroundObstaclesPatterns[GameSettings.Rnd.Next(0, GroundObstaclesPatterns.Length)], new Vector3(StartPoint.x, GameSettings.Ground[line]), _rotation);
+            go.SetSettings(line);
             _currentObstacles.Add(go);
             _lastObstacle = Time.time;
         }

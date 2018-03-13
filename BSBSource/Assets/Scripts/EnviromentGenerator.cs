@@ -13,24 +13,21 @@ public class EnviromentGenerator : MonoBehaviour
     public float Y;
     public float XOffset;
 
-    public GameSettings Settings;
-
     void Start()
     {
         if (EnviromentPatterns.Length == 0)
             return;
 
-        var x = Settings.LeftBorder + XOffset;
+        var x = GameSettings.LeftBorder + XOffset;
         var newEnv = EnviromentPatterns[GameSettings.Rnd.Next(0, EnviromentPatterns.Length)];
         do
         {
             var go = Instantiate(newEnv, new Vector3(x - 0.05f, Y + newEnv.Height / 2f, 0f), _rotation);
-            go.SetSettings(Settings);
             _currentEnviroment.Add(go);
             x += go.Width / 2f;
             newEnv = EnviromentPatterns[GameSettings.Rnd.Next(0, EnviromentPatterns.Length)];
             x += newEnv.Width / 2f;
-        } while (x < Settings.RightBorder);
+        } while (x < GameSettings.RightBorder);
     }
 
     void Update()
@@ -45,14 +42,13 @@ public class EnviromentGenerator : MonoBehaviour
             return;
 
         var env = _currentEnviroment.Last();
-        if (env.transform.position.x + env.Width / 2 > Settings.RightBorder)
+        if (env.transform.position.x + env.Width / 2 > GameSettings.RightBorder)
             return;
 
         var newEnv = SelectBld();
 
         var pos = env.transform.position.x + newEnv.Width;
         var go = Instantiate(newEnv, new Vector3(pos - 0.05f, Y + newEnv.Height / 2f, 0f), _rotation);
-        go.SetSettings(Settings);
         _currentEnviroment.Add(go);
     }
 
@@ -66,7 +62,7 @@ public class EnviromentGenerator : MonoBehaviour
         var toDestroy = new List<EnviromentScroller>();
         foreach (var env in _currentEnviroment)
         {
-            if (env != null && env.transform.position.x < Settings.LeftBorder - env.Width)
+            if (env != null && env.transform.position.x < GameSettings.LeftBorder - env.Width)
             {
                 toDestroy.Add(env);
             }

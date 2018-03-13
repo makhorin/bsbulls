@@ -10,7 +10,7 @@ public class HousesGenerator : EnviromentGenerator
     {
         EnviromentScroller newEnv = null;
 
-        if (Time.time - _lastSpecBld > Settings.SpecBldCooldownS)
+        if (Time.time - _lastSpecBld > GameSettings.SpecBldCooldownS)
         {
             var specBld = SpecialBuildings[GameSettings.Rnd.Next(0, SpecialBuildings.Length)];
             if (GameSettings.Rnd.NextDouble() > 1f - specBld.Chance)

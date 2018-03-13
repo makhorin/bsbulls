@@ -8,17 +8,11 @@ public class WaitingRunnerController : MonoBehaviour
     public bool ShouldJump;
     public float ChanceToBeShown;
     public RunnerController RunnerObj;
-    private GameSettings _settings;
 
     public int MinTaps;
 
     private bool _show;
     private int? toGenerate;
-
-    public void SetSettings(GameSettings settings)
-    {
-        _settings = settings;
-    }
 
     void Start ()
     {
@@ -32,7 +26,7 @@ public class WaitingRunnerController : MonoBehaviour
         if (GameStats.GameOver)
             return;
 
-        if (transform.position.x <= _settings.LeftBorder)
+        if (transform.position.x <= GameSettings.LeftBorder)
             return;
 
         if (MinTaps > 0)
@@ -49,7 +43,7 @@ public class WaitingRunnerController : MonoBehaviour
         for (int i = 0; i < toGenerate.Value; i++)
         {
             var go = Instantiate(RunnerObj, transform.position, Quaternion.identity);
-            go.SetSettings(_settings, _settings.GetRandomLine(), ShouldJump);
+            go.SetSettings(GameSettings.GetRandomLine(), ShouldJump);
         }
         Destroy(gameObject);
     }
