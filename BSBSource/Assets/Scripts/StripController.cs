@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class StripController : MonoBehaviour
 {
-    private Collider2D _collider2D;
     private bool _toggled;
     private float _lastPressRight;
     private HashSet<RunnerController> _runners = new HashSet<RunnerController>();
@@ -14,7 +13,6 @@ public class StripController : MonoBehaviour
 
     void Start ()
     {
-        _collider2D = GetComponent<Collider2D>();
         GameStats.IsStrip = true;
     }
 
@@ -49,7 +47,6 @@ public class StripController : MonoBehaviour
         if (_toggled)
             return;
 
-        _collider2D.enabled = true;
         TutorController.ShowTutor(KeyCode.RightArrow, int.MaxValue);
         GameStarter.ToggleStrip();
         GameStats.ToggleSlowMotion();

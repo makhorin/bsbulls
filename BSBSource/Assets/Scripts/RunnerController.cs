@@ -90,7 +90,7 @@ public class RunnerController : MonoBehaviour
 
     public void HandleStrip(Vector3 pos)
     {
-        transform.position = Vector3.MoveTowards(transform.position, pos, GameSettings.DefaultSpeed);
+        transform.position = Vector3.MoveTowards(transform.position, pos, GameStats.CurrentSpeed);
         _animation.SetFloat("SpeedMultiplier", _defaultSpeedMultiplier);
         if (Math.Abs(Vector3.Distance(pos, transform.position)) < 0.1f)
         {

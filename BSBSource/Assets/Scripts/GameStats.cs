@@ -115,23 +115,21 @@ namespace Assets
         }
 
         private static float _speedMultipier;
-
-        float _deltaTime = 0.0f;
-
+        private float _deltaTime;
         static bool _isRunning;
         void Update()
         {
-            CurrentSpeed = GameSettings.DefaultSpeed;
             _deltaTime += (Time.unscaledDeltaTime - _deltaTime) * 0.1f;
+
+            CurrentSpeed = GameSettings.DefaultSpeed * _deltaTime;
             _isRunning = false;
-            var fpsCoef = 60f / (1f / _deltaTime);
 
             if (InputHelper.RightDown())
             {
                 if (Stamina > 0f)
                 {
                     _speedMultipier = GameSettings.SpeedUpMultipier;
-                    Stamina -= 0.01f * fpsCoef;
+                    Stamina -= Time.deltaTime;
                     _isRunning = true;
                 }
                 else
@@ -140,11 +138,8 @@ namespace Assets
             else
             {
                 _speedMultipier = 1f;
-                Stamina += 0.01f * fpsCoef;
+                Stamina += 0.5f * Time.deltaTime;
             }
-
-            CurrentSpeed *= fpsCoef;
-
             HandleSlowMotion();
         }
 
