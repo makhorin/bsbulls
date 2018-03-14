@@ -10,6 +10,11 @@ public class BackBull : MonoBehaviour
     private bool _soundPlayed;
     private AudioSource _mooo;
 
+    private void Start()
+    {
+        _lastDash = Time.time;
+    }
+
     public void SetSettings(int line, float left)
     {
         _left = left;
@@ -19,6 +24,11 @@ public class BackBull : MonoBehaviour
             sp.sortingLayerName = GameSettings.BullSortingLayers[line];
         foreach (var sp in GetComponentsInChildren<ParticleSystem>())
             sp.GetComponent<Renderer>().sortingLayerName = GameSettings.BullSortingLayers[line];
+    }
+
+    void OnDestroy()
+    {
+        GameStats.IsBackBull = false;
     }
 
     void Update ()
@@ -61,14 +71,16 @@ public class BackBull : MonoBehaviour
                 {
                     _isInDash = false;
                     _soundPlayed = false;
+                    GameStats.IsBackBull = false;
                 }
             }  
         }
         else if (pos <= _left && Time.time - _lastDash > GameSettings.DashCooldownS && 
-            GameSettings.BackBullDashChance > GameSettings.Rnd.NextDouble())
+            GameSettings.BackBullDashChance > GameSettings.Rnd.NextDouble() && !GameStats.IsFrontBull && !GameStats.IsStrip)
         {
             _lastDash = Time.time;
             _isInDash = true;
+            GameStats.IsBackBull = true;
         }
             
     }

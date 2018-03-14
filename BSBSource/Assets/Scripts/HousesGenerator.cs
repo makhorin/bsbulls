@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets;
+using UnityEngine;
 
 public class HousesGenerator : EnviromentGenerator
 {
@@ -13,7 +14,10 @@ public class HousesGenerator : EnviromentGenerator
         if (Time.time - _lastSpecBld > GameSettings.SpecBldCooldownS)
         {
             var specBld = SpecialBuildings[GameSettings.Rnd.Next(0, SpecialBuildings.Length)];
-            if (GameSettings.Rnd.NextDouble() > 1f - specBld.Chance)
+            if (specBld.IsStrip)
+
+            if (GameSettings.Rnd.NextDouble() > 1f - specBld.Chance && 
+                    !specBld.IsStrip || (!GameStats.IsFrontBull && !GameStats.IsBackBull))
             {
                 newEnv = specBld.Bld;
                 _lastSpecBld = Time.time;

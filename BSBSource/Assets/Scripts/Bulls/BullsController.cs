@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets;
+using UnityEngine;
 
 public class BullsController : MonoBehaviour
 {
@@ -40,7 +41,7 @@ public class BullsController : MonoBehaviour
 
     private void GenerateFrontBulls()
     {
-        if (BullPatterns.Length < 1 || Time.time - _lastFrontBull < GameSettings.FrontBullCooldownS)
+        if (BullPatterns.Length < 1 || Time.time - _lastFrontBull < GameSettings.FrontBullCooldownS || GameStats.IsStrip || GameStats.IsBackBull)
             return;
 
         var chance = GameSettings.Rnd.NextDouble();

@@ -63,12 +63,6 @@ namespace Assets
 
         private static DateTime? _gameStarted;
 
-        static GameStats()
-        {
-            //var prev = PlayerPrefs.GetString("stats","0");
-            //int.TryParse(prev, out MaxDead);
-        }
-
         public static void RegisterRunner(RunnerController runner)
         {
             CurrentRunners++;
@@ -173,5 +167,9 @@ namespace Assets
 
         public static float CurrentSpeed;
         public static bool ShakeIt { get; set; }
+
+        public static bool IsStrip { get; set; }
+        public static bool IsFrontBull { get; set; }
+        public static bool IsBackBull { get; set; }
     }
 }

@@ -15,6 +15,12 @@ public class StripController : MonoBehaviour
     void Start ()
     {
         _collider2D = GetComponent<Collider2D>();
+        GameStats.IsStrip = true;
+    }
+
+    private void OnDestroy()
+    {
+        GameStats.IsStrip = false;
     }
 
     void Update ()

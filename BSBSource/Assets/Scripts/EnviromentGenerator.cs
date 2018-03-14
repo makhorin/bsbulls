@@ -81,4 +81,5 @@ public class BldWithChance
 {
     public EnviromentScroller Bld;
     public float Chance;
+    public bool IsStrip;
 }
