@@ -132,10 +132,9 @@ public class RunnerController : MonoBehaviour
         Shadow.enabled = false;
         _canJump = false;
         var jumpKoef = (float)GameSettings.Rnd.NextDouble() * GameSettings.RandomJumpMultipier;
-        if (!GameStats.IsRunning)
-            jumpKoef *= .5f;
         var jump = GameSettings.MinJumpHeight + jumpKoef;
-
+        if (GameStats.IsRunning)
+            jump *= 1.2f;
         RigidBody.AddForce(transform.up * jump);
         _animation.Play("Jump");
     }

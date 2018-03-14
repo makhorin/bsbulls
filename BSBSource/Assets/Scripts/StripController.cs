@@ -50,7 +50,7 @@ public class StripController : MonoBehaviour
             return;
 
         _collider2D.enabled = true;
-        TutorController.ShowTutor(KeyCode.RightArrow, 5);
+        TutorController.ShowTutor(KeyCode.RightArrow, int.MaxValue);
         GameStarter.ToggleStrip();
         GameStats.ToggleSlowMotion();
         _toggled = true;

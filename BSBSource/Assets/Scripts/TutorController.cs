@@ -5,9 +5,9 @@ using UnityEngine.UI;
 public class TutorController : MonoBehaviour {
 
     private static KeyCode? _key;
-    private static int _times;
     private float _showTime;
     private float _lastSwitch;
+    private static int _times;
 
     public Text TextField;
     public Shadow Shadow;
@@ -28,16 +28,26 @@ public class TutorController : MonoBehaviour {
     {
         if (TextField.IsActive())
         {
-            if (Input.GetKeyDown(_key.Value))
-                _times--;
-            var prt = GameSettings.MaxSpeed / GameSettings.DefaultTutorShowTime;
-            var spd = Mathf.FloorToInt(GameStats.CurrentSpeed / prt);
+            switch (_key.Value)
+            {
+                case KeyCode.LeftArrow:
+                    if (InputHelper.LeftTap())
+                        _times--;
+                    break;
+                case KeyCode.RightArrow:
+                    if (InputHelper.RightTap())
+                        _times--;
+                     break;
+                case KeyCode.DownArrow:
+                    if (InputHelper.Down())
+                        _times--;
+                  break;
+            }
 
-            if (Time.time - _showTime >= GameSettings.DefaultTutorShowTime - spd || _times <=0)
+            if (Time.time - _showTime >= GameSettings.DefaultTutorShowTime || _times <= 0)
             {
                 TextField.gameObject.SetActive(false);
                 _key = null;
-                _times = 0;
             }   
             else if (Time.time - _lastSwitch >= 0.2f)
             {

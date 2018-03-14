@@ -14,10 +14,8 @@ public class HousesGenerator : EnviromentGenerator
         if (Time.time - _lastSpecBld > GameSettings.SpecBldCooldownS)
         {
             var specBld = SpecialBuildings[GameSettings.Rnd.Next(0, SpecialBuildings.Length)];
-            if (specBld.IsStrip)
-
-            if (GameSettings.Rnd.NextDouble() > 1f - specBld.Chance && 
-                    !specBld.IsStrip || (!GameStats.IsFrontBull && !GameStats.IsBackBull))
+            if (GameSettings.Rnd.NextDouble() > 1f - specBld.Chance && (
+                    !specBld.IsStrip || (!GameStats.IsFrontBull && !GameStats.IsBackBull)))
             {
                 newEnv = specBld.Bld;
                 _lastSpecBld = Time.time;

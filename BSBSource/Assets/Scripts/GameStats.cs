@@ -101,7 +101,7 @@ namespace Assets
             RunTime = 0f;
             Dead = 0;
             _score = 0f;
-            _stamina = 0f;
+            _stamina = GameSettings.MaxStamina;
         }
 
         public static float Speed

@@ -66,7 +66,7 @@ public class BackBull : MonoBehaviour
             if (_isInDash)
             {
                 var maxDist = GameSettings.Center - _left;
-                if (Time.time - _lastDash > 3 || 
+                if (Time.time - _lastDash > GameSettings.DashDurationS || 
                     pos >= _left + maxDist  * GameSettings.BackBullApproachKoef)
                 {
                     _isInDash = false;

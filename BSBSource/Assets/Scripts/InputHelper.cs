@@ -91,6 +91,9 @@ namespace Assets
                 if (touch.phase == TouchPhase.Stationary || touch.phase == TouchPhase.Moved && (_rightTouch || _leftTouch))
                     TouchHold(touch.position);
             }
+
+            if (Input.GetKey(KeyCode.Escape))
+                Application.Quit();
         }
 
         private void TouchHold(Vector3 position)

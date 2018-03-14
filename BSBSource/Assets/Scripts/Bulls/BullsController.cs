@@ -14,6 +14,7 @@ public class BullsController : MonoBehaviour
 
     void Start()
     {
+        return;
         for (var i = 0; i < 3; i++)
         {
             var xPos = GameSettings.LeftBorder + (GameSettings.BullMinOffset * 1.3f) +
@@ -41,6 +42,7 @@ public class BullsController : MonoBehaviour
 
     private void GenerateFrontBulls()
     {
+        return;
         if (BullPatterns.Length < 1 || Time.time - _lastFrontBull < GameSettings.FrontBullCooldownS || GameStats.IsStrip || GameStats.IsBackBull)
             return;
 
