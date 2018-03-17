@@ -24,7 +24,7 @@ public class FrontBull : MonoBehaviour
 
     void Update ()
     {
-        transform.Translate(GameSettings.FrontBullSpeedMultiplier * Mathf.Max(GameStats.Speed, GameSettings.DefaultSpeed), 0f,0f);
+        transform.Translate(GameSettings.FrontBullSpeedMultiplier * GameStats.Speed, 0f,0f);
     }
 
     public void LaserHit()

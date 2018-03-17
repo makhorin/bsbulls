@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>Android:13</UnityBuildTarget>
     <UnityVersion>2017.3.1f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -489,6 +491,12 @@
     <Compile Include="Assets\GooglePlayGames\Platforms\TokenClient.cs" />
     <Compile Include="Assets\GooglePlayGames\PluginVersion.cs" />
     <Compile Include="Assets\GPGSIds.cs" />
+    <Compile Include="Assets\LeanTouch\Scripts\LeanFinger.cs" />
+    <Compile Include="Assets\LeanTouch\Scripts\LeanGesture.cs" />
+    <Compile Include="Assets\LeanTouch\Scripts\LeanSelectable.cs" />
+    <Compile Include="Assets\LeanTouch\Scripts\LeanSnapshot.cs" />
+    <Compile Include="Assets\LeanTouch\Scripts\LeanTouch.cs" />
+    <Compile Include="Assets\Scripts\AudioHelper.cs" />
     <Compile Include="Assets\Scripts\BloodSplat.cs" />
     <Compile Include="Assets\Scripts\Bulls\BackBull.cs" />
     <Compile Include="Assets\Scripts\Bulls\BullsController.cs" />

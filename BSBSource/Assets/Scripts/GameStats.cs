@@ -143,21 +143,18 @@ namespace Assets
             HandleSlowMotion();
         }
 
-        static float _timeToExitSlowMotion;
+        static bool _isSlowMotion;
         public static void ToggleSlowMotion()
         {
-            _timeToExitSlowMotion = Time.time + 4f;
+            _isSlowMotion = !_isSlowMotion;
         }
 
         void HandleSlowMotion()
         {
-            if (Time.time > _timeToExitSlowMotion)
+            if (!_isSlowMotion)
                 return;
 
-            CurrentSpeed /= 3f;
-
-            if (_timeToExitSlowMotion - Time.time < 2f)
-                CurrentSpeed = CurrentSpeed * (3 * ((_timeToExitSlowMotion - Time.time) / 2f));       
+            CurrentSpeed /= 3f;      
         }
 
         public static float CurrentSpeed;

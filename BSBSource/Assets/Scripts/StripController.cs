@@ -27,8 +27,16 @@ public class StripController : MonoBehaviour
             return;
 
         if (transform.position.x > GameSettings.RightBorder - 0.5f)
+        {
             return;
- 
+        }
+
+        if (transform.position.x < (GameSettings.RightBorder + GameSettings.LeftBorder) / 2f)
+        {
+            GameStats.ToggleSlowMotion();
+            enabled = false;
+        }
+
         if (InputHelper.RightTap())
         {
             _lastPressRight = Time.time;
@@ -42,7 +50,6 @@ public class StripController : MonoBehaviour
             if (!_toRemove.Contains(runner))
                 runner.HandleStrip(GPoint.position);
         }
-            
 
         if (_toggled)
             return;
@@ -61,6 +68,7 @@ public class StripController : MonoBehaviour
                 var runner = collider.gameObject.GetComponent<RunnerController>();
                 _runners.Add(runner);
                 runner.RigidBody.constraints |= RigidbodyConstraints2D.FreezePositionY;
+
                 break;
         }
     }
@@ -73,6 +81,7 @@ public class StripController : MonoBehaviour
                 var runner = collider.gameObject.GetComponent<RunnerController>();
                 _toRemove.Add(runner);
                 runner.RigidBody.constraints &= ~RigidbodyConstraints2D.FreezePositionY;
+                
                 break;
         }
     }
