@@ -14,6 +14,7 @@ public class BullsController : MonoBehaviour
 
     void Start()
     {
+        _lastFrontBull = Time.time;
         for (var i = 0; i < 3; i++)
         {
             var xPos = GameSettings.LeftBorder + (GameSettings.BullMinOffset * 1.3f) +

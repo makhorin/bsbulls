@@ -1,9 +1,9 @@
-lastUpgrade=00939
-proj.pluginVersion=0.9.39a
-proj.AppId=558870904506
+lastUpgrade=00950
+proj.pluginVersion=0.9.50
+proj.AppId=809063213583
 proj.classDir=Assets
 proj.ConstantsClassName=GPGSIds
-and.ResourceData=%3c%3fxml+version%3d%221.0%22+encoding%3d%22utf-8%22%3f%3e%0d%0a%3cresources%3e%0d%0a++%3cstring+name%3d%22app_id%22%3e558870904506%3c%2fstring%3e%0d%0a++%3cstring+name%3d%22package_name%22%3eru.biglaserlady.bloodstreetbulls%3c%2fstring%3e%0d%0a++%3cstring+name%3d%22leaderboard_runner_leadboard%22%3eCgkIuv20-qEQEAIQAQ%3c%2fstring%3e%0d%0a%3c%2fresources%3e
-and.ClientId=558870904506-sphg1cejljtpjim308gemdmk6ucdhp32.apps.googleusercontent.com
+and.ResourceData=%3c%3fxml+version%3d%221.0%22+encoding%3d%22utf-8%22%3f%3e%0d%0a%3cresources%3e%0d%0a++%3cstring+name%3d%22app_id%22%3e809063213583%3c%2fstring%3e%0d%0a++%3cstring+name%3d%22package_name%22%3eru.sweatyhands.bloodstreetbulls%3c%2fstring%3e%0d%0a++%3cstring+name%3d%22leaderboard_runner_leadboard%22%3eCgkIj9Sz_8UXEAIQAQ%3c%2fstring%3e%0d%0a%3c%2fresources%3e
+and.ClientId=809063213583-9sn0l0482rclfr2d684nvgpqm6s61t76.apps.googleusercontent.com
 android.SetupDone=true
-and.BundleId=ru.biglaserlady.bloodstreetbulls
+and.BundleId=ru.sweatyhands.bloodstreetbulls

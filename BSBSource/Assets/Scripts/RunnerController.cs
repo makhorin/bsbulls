@@ -173,9 +173,11 @@ public class RunnerController : MonoBehaviour
             case "Runner":
                 foreach (var p in collision.contacts)
                 {
-                    if(p.point.y < transform.position.y)
+                    if(p.point.y < transform.position.y || 
+                        Math.Abs(p.point.x - transform.position.x) > 0.4f)
                         return;
                 }
+
                 Fall();
                 break;
             case "Line":

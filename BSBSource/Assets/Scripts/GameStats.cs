@@ -124,7 +124,7 @@ namespace Assets
             CurrentSpeed = GameSettings.DefaultSpeed * _deltaTime;
             _isRunning = false;
 
-            if (InputHelper.RightDown())
+            if (InputHelper.RightDown() || InputHelper.LeftDown())
             {
                 if (Stamina > 0f)
                 {

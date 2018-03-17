@@ -7,6 +7,11 @@ public class HousesGenerator : EnviromentGenerator
     public BldWithChance[] SpecialBuildings;
     private float _lastSpecBld;
 
+    void Start()
+    {
+        _lastSpecBld = Time.time;
+    }
+
     protected override EnviromentScroller SelectBld()
     {
         EnviromentScroller newEnv = null;

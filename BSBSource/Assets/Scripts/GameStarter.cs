@@ -39,8 +39,7 @@ public class GameStarter : MonoBehaviour
         PlayerPrefs.SetFloat("Crowd", Crowd.volume);
         PlayerPrefs.SetFloat("Menu", Menu.volume);
         PlayerPrefs.Save();
-        Screen.SetResolution(720, 480, false);
-#if Android
+#if UNITY_ANDROID
         PlayGamesPlatform.Activate();
 #endif
         SceneManager.sceneLoaded += SceneManagerOnSceneLoaded;
@@ -170,15 +169,22 @@ public class GameStarter : MonoBehaviour
         var startStomp = Stomp.volume;
         var startOst = Ost.volume;
         var ostMin = 0.4f;
-
-#if Android
-        if (!PlayGamesPlatform.Instance.localUser.authenticated)
+        try
         {
-            PlayGamesPlatform.Instance.localUser.Authenticate(OnAuthenticate);
-        }
-        else
-            PlayGamesPlatform.Instance.ReportScore(GameStats.MaxDead, _leaderBoard, OnScoreReported);
+#if UNITY_ANDROID
+            if (!PlayGamesPlatform.Instance.localUser.authenticated)
+            {
+                PlayGamesPlatform.Instance.localUser.Authenticate(OnAuthenticate);
+            }
+            else
+                PlayGamesPlatform.Instance.ReportScore(GameStats.MaxDead, _leaderBoard, OnScoreReported);
 #endif
+        }
+        catch(Exception e)
+        {
+            Debug.LogError(e);
+        }
+
         var blk = Instantiate(Black);
         while (elapsed < duration)
         {
@@ -208,63 +214,94 @@ public class GameStarter : MonoBehaviour
 
     private void OnAuthenticate(bool isAuthenticated)
     {
-        if (!isAuthenticated)
+        try
         {
-            Debug.LogWarning("Auth error");
-            return;
+            if (!isAuthenticated)
+            {
+                Debug.LogWarning("Auth error");
+                return;
+            }
+
+            Debug.Log("Authenticated");
+#if UNITY_ANDROID
+            PlayGamesPlatform.Instance.ReportScore(GameStats.MaxDead, _leaderBoard, OnScoreReported);
+#endif
+        }
+        catch(Exception e)
+        {
+            Debug.LogError(e);
         }
 
-        Debug.Log("Authenticated");
-#if ANDROID
-        PlayGamesPlatform.Instance.ReportScore(GameStats.MaxDead, _leaderBoard, OnScoreReported);
-#endif
+
 
     }
-#if Android
+#if UNITY_ANDROID
     private void OnScoresLoaded(LeaderboardScoreData leaderboardScoreData)
     {
-        var scores = leaderboardScoreData.Scores;
-        if (scores == null)
+        try
         {
-            Debug.LogWarning("No scores");
-            ScoresFinished = true;
+            var scores = leaderboardScoreData.Scores;
+            if (scores == null)
+            {
+                Debug.LogWarning("No scores");
+                ScoresFinished = true;
+            }
+            else
+            {
+                Debug.Log("Got scores");
+                Scores = scores;
+                PlayGamesPlatform.Instance.LoadUsers(Scores.Select(s => s.userID).ToArray(), OuUsersLoaded);
+            }
         }
-        else
+        catch(Exception e)
         {
-            Debug.Log("Got scores");
-            Scores = scores;
-            PlayGamesPlatform.Instance.LoadUsers(Scores.Select(s => s.userID).ToArray(), OuUsersLoaded);
+            Debug.LogError(e);
         }
     }
 #endif
     private void OuUsersLoaded(IUserProfile[] userProfiles)
     {
-        if (userProfiles == null)
+        try
         {
-            Debug.LogWarning("No scores");
-            ScoresFinished = true;
+            if (userProfiles == null)
+            {
+                Debug.LogWarning("No scores");
+                ScoresFinished = true;
+            }
+            else
+            {
+                Debug.Log("Got scores");
+                UserProfiles = userProfiles;
+            }
         }
-        else
+        catch(Exception e)
         {
-            Debug.Log("Got scores");
-            UserProfiles = userProfiles;
+            Debug.LogError(e);
         }
     }
 
     private void OnScoreReported(bool reported)
     {
-        if (!reported)
+        try
         {
-            Debug.LogWarning("Report error");
-            ScoresFinished = true;
-        }
-        else
-        {
-            Debug.Log("Reported");
-#if Android
-            PlayGamesPlatform.Instance.LoadScores(_leaderBoard, LeaderboardStart.TopScores, 5, LeaderboardCollection.Public, LeaderboardTimeSpan.AllTime, OnScoresLoaded);
+            if (!reported)
+            {
+                Debug.LogWarning("Report error");
+                ScoresFinished = true;
+            }
+            else
+            {
+                Debug.Log("Reported");
+#if UNITY_ANDROID
+                PlayGamesPlatform.Instance.LoadScores(_leaderBoard, LeaderboardStart.TopScores, 5, LeaderboardCollection.Public, LeaderboardTimeSpan.AllTime, OnScoresLoaded);
 #endif
+            }
         }
+        catch(Exception e)
+        {
+            Debug.LogError(e);
+        }
+        
     }
 }
 

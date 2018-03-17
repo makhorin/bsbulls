@@ -14,6 +14,7 @@ public class WorldController : MonoBehaviour
 
     void Start()
     {
+        _lastObstacle = Time.time;
         for (var i = 0; i < GameSettings.MaxRunners; i++)
         {
             var line = GameSettings.GetRandomLine();
