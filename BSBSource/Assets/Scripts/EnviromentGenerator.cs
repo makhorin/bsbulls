@@ -13,7 +13,7 @@ public class EnviromentGenerator : MonoBehaviour
     public float Y;
     public float XOffset;
 
-    void Start()
+    protected virtual void Start()
     {
         if (EnviromentPatterns.Length == 0)
             return;

@@ -39,9 +39,6 @@ public class GameStarter : MonoBehaviour
         PlayerPrefs.SetFloat("Crowd", Crowd.volume);
         PlayerPrefs.SetFloat("Menu", Menu.volume);
         PlayerPrefs.Save();
-#if UNITY_ANDROID
-        PlayGamesPlatform.Activate();
-#endif
         SceneManager.sceneLoaded += SceneManagerOnSceneLoaded;
     }
     
@@ -172,11 +169,7 @@ public class GameStarter : MonoBehaviour
         try
         {
 #if UNITY_ANDROID
-            if (!PlayGamesPlatform.Instance.localUser.authenticated)
-            {
-                PlayGamesPlatform.Instance.localUser.Authenticate(OnAuthenticate);
-            }
-            else
+            if (PlayGamesPlatform.Instance.localUser.authenticated)
                 PlayGamesPlatform.Instance.ReportScore(GameStats.MaxDead, _leaderBoard, OnScoreReported);
 #endif
         }
@@ -210,31 +203,9 @@ public class GameStarter : MonoBehaviour
 
     public static IScore[] Scores;
     public static IUserProfile[] UserProfiles;
-    private string _leaderBoard = "CgkIuv20-qEQEAIQAQ";
+    private string _leaderBoard = "CgkIj9Sz_8UXEAIQAQ";
 
-    private void OnAuthenticate(bool isAuthenticated)
-    {
-        try
-        {
-            if (!isAuthenticated)
-            {
-                Debug.LogWarning("Auth error");
-                return;
-            }
-
-            Debug.Log("Authenticated");
-#if UNITY_ANDROID
-            PlayGamesPlatform.Instance.ReportScore(GameStats.MaxDead, _leaderBoard, OnScoreReported);
-#endif
-        }
-        catch(Exception e)
-        {
-            Debug.LogError(e);
-        }
-
-
-
-    }
+    
 #if UNITY_ANDROID
     private void OnScoresLoaded(LeaderboardScoreData leaderboardScoreData)
     {
