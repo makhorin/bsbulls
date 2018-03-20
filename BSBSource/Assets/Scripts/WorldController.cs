@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class WorldController : MonoBehaviour
@@ -12,25 +13,39 @@ public class WorldController : MonoBehaviour
 
     public Vector3 StartPoint;
 
+    private bool _started;
+
+    private List<RunnerController> _startRunners = new List<RunnerController>();
+
     void Start()
     {
-        _lastObstacle = Time.time;
         for (var i = 0; i < GameSettings.MaxRunners; i++)
         {
             var line = GameSettings.GetRandomLine();
             var runnerPosKoef = GameSettings.Rnd.NextDouble();
-            var runner = Instantiate(RunnerPrefab, 
-                new Vector3(-GameSettings.RunnersRadius + GameSettings.Center + 2 * GameSettings.RunnersRadius  * (float)runnerPosKoef, 
-                GameSettings.Ground[line] + 0.1f), 
+            var runner = Instantiate(RunnerPrefab,
+                new Vector3(-GameSettings.RunnersRadius + GameSettings.Center + 2 * GameSettings.RunnersRadius * (float)runnerPosKoef,
+                GameSettings.Ground[line] + 0.1f),
                 _rotation);
-            runner.SetSettings(line,false);
+            runner.SetSettings(line, false);
+            runner.GetComponent<Animator>().Play("Idle");
+            _startRunners.Add(runner);
         }
     }
 
-    
+    internal void StartGame()
+    {
+        _lastObstacle = Time.time;
+        foreach (var r in _startRunners)
+            r.GetComponent<Animator>().Play("Run");
+        _startRunners.Clear();
+        _started = true;
+    }
 
     void Update()
     {
+        if (!_started)
+            return;
         GenerateObstacles();
         RemoveFarObjects();
     }

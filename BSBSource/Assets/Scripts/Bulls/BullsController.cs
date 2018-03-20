@@ -1,4 +1,5 @@
-﻿using Assets;
+﻿using System;
+using Assets;
 using UnityEngine;
 
 public class BullsController : MonoBehaviour
@@ -11,8 +12,17 @@ public class BullsController : MonoBehaviour
     private float _lastFrontBull;
 
     private int _bullsSinceLastGirl;
+    private bool _started;
 
-    void Start()
+    void Update()
+    {
+        if (!_started)
+            return;
+        GenerateFrontBulls();
+        RemoveFarObjects();
+    }
+
+    internal void StartGame()
     {
         _lastFrontBull = Time.time;
         for (var i = 0; i < 3; i++)
@@ -22,12 +32,7 @@ public class BullsController : MonoBehaviour
             var go = Instantiate(BullPatterns[GameSettings.Rnd.Next(0, BullPatterns.Length)], new Vector3(xPos, GameSettings.Ground[i] + 1f), Quaternion.identity);
             go.AddComponent<BackBull>().SetSettings(i, xPos);
         }
-    }
-
-    void Update()
-    {
-        GenerateFrontBulls();
-        RemoveFarObjects();
+        _started = true;
     }
 
     private void RemoveFarObjects()

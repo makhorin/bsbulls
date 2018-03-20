@@ -56,6 +56,12 @@ public class ScoreController : MonoBehaviour
             enabled = false;
         }
     }
+
+    public void Restart()
+    {
+        var gs = FindObjectOfType<GameStarter>();
+        gs.HandleStart();
+    }
 }
 
 [Serializable]

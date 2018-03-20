@@ -487,7 +487,6 @@
     <Compile Include="Assets\LeanTouch\Scripts\LeanSelectable.cs" />
     <Compile Include="Assets\LeanTouch\Scripts\LeanSnapshot.cs" />
     <Compile Include="Assets\LeanTouch\Scripts\LeanTouch.cs" />
-    <Compile Include="Assets\Scripts\AudioHelper.cs" />
     <Compile Include="Assets\Scripts\BloodSplat.cs" />
     <Compile Include="Assets\Scripts\Bulls\BackBull.cs" />
     <Compile Include="Assets\Scripts\Bulls\BullsController.cs" />
@@ -519,6 +518,8 @@
     <Compile Include="Assets\Scripts\UpDownScroller.cs" />
     <Compile Include="Assets\Scripts\WaitingRunnerController.cs" />
     <Compile Include="Assets\Scripts\WorldController.cs" />
+    <Compile Include="Assets\ShopController.cs" />
+    <Compile Include="Assets\Simple UI\Samples\IconPreview.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\GooglePlayGames\Editor\GooglePlayGamesPluginDependencies.xml" />
@@ -531,6 +532,7 @@
     <None Include="Assets\PlayServicesResolver\Editor\play-services-resolver.txt" />
     <None Include="Assets\PlayServicesResolver\proguard-messaging-workaround.txt" />
     <None Include="Assets\PlayServicesResolver\proguard-unity.txt" />
+    <None Include="Assets\Simple UI\Fonts\OFL.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

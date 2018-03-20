@@ -7,19 +7,48 @@ public class GameController : MonoBehaviour
 {
     public Text PlayerScoreField;
     public Text PlayerTimeField;
-    private float _step;
+    public WorldController WorldController;
+    public BullsController BullsController;
+    public GameObject Shop;
 
-    void Start()
+    private float _step;
+    private bool _started;
+
+    private void Start()
     {
-        _step = (GameSettings.MaxSpeed - GameSettings.DefaultSpeed) / (GameSettings.SecondsToReachMaxSpeed * 60);
+        SetStats();
+        GameSettings.DefaultSpeed = 0f;
     }
 
     void Update ()
     {
+        if (!_started)
+            return;
+
         GameStats.IncreaseScore();
+        SetStats();
+        GameStats.CurrentSpeed += _step;
+    }
+
+    private void SetStats()
+    {
         PlayerScoreField.text = GameStats.Score.ToString();
         var t = TimeSpan.FromSeconds(GameStats.GetRunTime());
         PlayerTimeField.text = string.Format("{0:d2}:{1:d2}:{2:d2}", t.Hours, t.Minutes, t.Seconds);
-        GameStats.CurrentSpeed += _step;
+    }
+
+    public void StartGame()
+    {
+        Destroy(Shop);
+        GameStats.Reset();
+        _started = true;
+        GameSettings.DefaultSpeed = 5f;
+        WorldController.StartGame();
+        BullsController.StartGame();
+    }
+
+    public void BuyStamina()
+    {
+        GameSettings.MaxStamina++;
     }
 }

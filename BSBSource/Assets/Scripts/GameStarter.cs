@@ -44,12 +44,8 @@ public class GameStarter : MonoBehaviour
     
     void Update ()
     {
-        if (GameStats.CanStartGame && InputHelper.Down())
-            HandleStart();
-
-        else if (GameStats.GameOver)
+        if (GameStats.GameOver)
             HandleGameOver();
-
         else if (_strip)
         {
             _strip = false;
@@ -57,8 +53,10 @@ public class GameStarter : MonoBehaviour
         }
     }
 
-    private void HandleStart()
+    public void HandleStart()
     {
+        if (!GameStats.CanStartGame)
+            return;
         ResetSounds();
         Ost.Stop();
         Crowd.Stop();

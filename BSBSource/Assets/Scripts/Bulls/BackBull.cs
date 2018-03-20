@@ -9,10 +9,11 @@ public class BackBull : MonoBehaviour
     private float _lastDash;
     private bool _soundPlayed;
     private AudioSource _mooo;
-
+    private Animator _animator;
     private void Start()
     {
         _lastDash = Time.time;
+        _animator = GetComponent<Animator>();
     }
 
     public void SetSettings(int line, float left)
@@ -81,6 +82,7 @@ public class BackBull : MonoBehaviour
             _lastDash = Time.time;
             _isInDash = true;
             GameStats.IsBackBull = true;
+            _animator.SetTrigger("BullRageTrigger");
         }
             
     }
