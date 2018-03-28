@@ -59,6 +59,6 @@
     public static int[] ObstacleLineLayers = new[] { 19, 20, 21 };
     public static string[] BullSortingLayers = new[] { "Bull", "Bull2", "Bull3" };
     public static string[] RunnersSortingLayers = new[] { "Player", "Player2", "Player3" };
-
+    public static int[] KishkiLayers = new[] { 25, 28, 29 };
     public static string[] LayerNames = new[] { "Line1", "Line2", "Line3" };
 }

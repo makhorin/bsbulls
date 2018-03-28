@@ -14,7 +14,7 @@ public class MeshScroller : MonoBehaviour
     }
     void Update()
     {
-        var speed = GameStats.Speed;
+        var speed = GameController.GameStats.Speed;
         _renderer.material.mainTextureOffset = _renderer.material.mainTextureOffset + new Vector2(-speed * Multiplier, 0);
     }
 }

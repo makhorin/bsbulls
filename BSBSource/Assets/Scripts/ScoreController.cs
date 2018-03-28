@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Assets;
-using GooglePlayGames;
-using GooglePlayGames.BasicApi;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 
 public class ScoreController : MonoBehaviour
@@ -12,8 +8,8 @@ public class ScoreController : MonoBehaviour
     public Text PlayerScoreField;
     public Text PlayerTimeField;
     public Score[] Scores;
-    
-    
+
+    private int _score;
 
     void Awake()
     {
@@ -26,21 +22,15 @@ public class ScoreController : MonoBehaviour
 
     void Start ()
     {
-        GameStats.CanStartGame = true;
-        PlayerScoreField.text = GameStats.Dead.ToString();
-        var t = TimeSpan.FromSeconds(GameStats.RunTime);
+        _score = PlayerPrefs.GetInt("score", 0);
+        PlayerScoreField.text = _score.ToString();
+        var t = TimeSpan.FromSeconds(PlayerPrefs.GetFloat("runTime", 0f));
         PlayerTimeField.text = string.Format("{0:d2}:{1:d2}:{2:d2}", t.Hours, t.Minutes, t.Seconds);
     }
 
     
     void Update ()
     {
-        if (GameStarter.ScoresFinished)
-        {
-            enabled = false;
-            return;
-        }
-
         if (GameStarter.Scores != null)
         {
             for (var i = 0; i < Scores.Length && i < GameStarter.Scores.Length; i++)
@@ -52,15 +42,22 @@ public class ScoreController : MonoBehaviour
                 Scores[i].NameField.gameObject.SetActive(true);
                 Scores[i].ScoreField.gameObject.SetActive(true);
             }
-
-            enabled = false;
         }
+
+        HandleMoney();
+        enabled = false;
     }
 
     public void Restart()
     {
         var gs = FindObjectOfType<GameStarter>();
         gs.HandleStart();
+    }
+
+    void HandleMoney()
+    {
+        PlayerPrefs.SetInt("money", _score);
+        PlayerPrefs.Save();
     }
 }
 

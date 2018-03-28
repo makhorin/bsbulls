@@ -10,14 +10,21 @@ public class GameController : MonoBehaviour
     public WorldController WorldController;
     public BullsController BullsController;
     public GameObject Shop;
-
-    private float _step;
     private bool _started;
 
-    private void Start()
+    public static GameStats GameStats;
+
+    private void Awake()
+    {
+        GameStats = new GameStats();
+    }
+
+    void Start()
     {
         SetStats();
         GameSettings.DefaultSpeed = 0f;
+        if (GameStats.Money <= 0)
+            StartGame();
     }
 
     void Update ()
@@ -27,7 +34,34 @@ public class GameController : MonoBehaviour
 
         GameStats.IncreaseScore();
         SetStats();
-        GameStats.CurrentSpeed += _step;
+        HandleSpeed();
+    }
+    private float _deltaTime;
+
+    void HandleSpeed()
+    {
+        _deltaTime += (Time.unscaledDeltaTime - _deltaTime) * 0.1f;
+
+        GameStats.CurrentSpeed = GameSettings.DefaultSpeed * _deltaTime;
+        GameStats.IsRunning = false;
+
+        if (InputHelper.RightDown() || InputHelper.LeftDown())
+        {
+            if (GameStats.Stamina > 0f)
+            {
+                GameStats.SpeedMultipier = GameSettings.SpeedUpMultipier;
+                GameStats.Stamina -= Time.deltaTime;
+                GameStats.IsRunning = true;
+            }
+            else
+                GameStats.SpeedMultipier = 1f;
+        }
+        else
+        {
+            GameStats.SpeedMultipier = 1f;
+            GameStats.Stamina += 0.5f * Time.deltaTime;
+        }
+        GameStats.HandleSlowMotion();
     }
 
     private void SetStats()
@@ -40,15 +74,19 @@ public class GameController : MonoBehaviour
     public void StartGame()
     {
         Destroy(Shop);
-        GameStats.Reset();
+        GameStats.Money = 0;
         _started = true;
         GameSettings.DefaultSpeed = 5f;
         WorldController.StartGame();
         BullsController.StartGame();
+        GameStats.StartGame();
     }
 
     public void BuyStamina()
     {
-        GameSettings.MaxStamina++;
+        if (GameStats.Money <= 0)
+            return;
+        GameStats.Money--;
+        GameStats.MaxStamina++;
     }
 }

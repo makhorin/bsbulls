@@ -3,34 +3,52 @@ using UnityEngine;
 
 namespace Assets
 {
-    public class GameStats : MonoBehaviour
+    public class GameStats
     {
 
-        public static float GetRunTime()
+        public float GetRunTime()
         {
             return _gameStarted.HasValue ? (float)DateTime.Now.Subtract(_gameStarted.Value).TotalSeconds : 0f;
         }
 
-        public static float RunTime = 0f;
+        public float RunTime = 0f;
 
-        public static int Dead;
-        public static int CurrentRunners;
+        public int Dead;
+        public int CurrentRunners;
 
-        public static int Score
+        private int _money;
+        public int Money
+        {
+            get
+            {
+                return _money;
+            }
+            set
+            {
+                if (_money == value)
+                    return;
+                _money = value;
+                PlayerPrefs.SetInt("money", _money);
+                PlayerPrefs.Save();
+            }
+        }
+
+        public int Score
         {
             get
             {
                 return (int)_score;
             }
         }
-        static float _score;
-        internal static void IncreaseScore()
+
+        float _score;
+        internal void IncreaseScore()
         {
             _score += CurrentRunners / 20f;
         }
 
-        static float _stamina;
-        public static float Stamina
+        float _stamina;
+        public float Stamina
         {
             get
             {
@@ -40,116 +58,88 @@ namespace Assets
             {
                 if (value < 0)
                     _stamina = 0;
-                else if (value > GameSettings.MaxStamina)
-                    _stamina = GameSettings.MaxStamina;
+                else if (value > MaxStamina)
+                    _stamina = MaxStamina;
                 else
                     _stamina = value;
             }
         }
 
-
-        private static bool _canStart;
-        public static bool CanStartGame
+        private int? _maxScore;
+        public int MaxScore
         {
-            get { return _canStart; }
+            get
+            {
+                if (!_maxScore.HasValue)
+                    _maxScore = PlayerPrefs.GetInt("maxscore", 0);
+                return _maxScore.Value;
+            }
             set
             {
-                _canStart = value;
+                if (MaxScore > value)
+                    return;
+                _maxScore = value;
+                PlayerPrefs.SetInt("maxscore", _maxScore.Value);
+                PlayerPrefs.Save();
             }
         }
+        public bool GameOver;
 
-        public static int MaxDead;
-        public static bool GameOver;
+        private DateTime? _gameStarted;
 
-        private static DateTime? _gameStarted;
-
-        public static void RegisterRunner(RunnerController runner)
+        public void RegisterRunner(RunnerController runner)
         {
             CurrentRunners++;
             runner.IamDead += ManDied;
         }
 
 
-        public static void ManDied(GameObject obj)
+        public void ManDied(GameObject obj)
         {
             Dead++;
             CurrentRunners--;
 
             if (CurrentRunners > 0)
                 return;
-            var runTime = GetRunTime();
-            RunTime = runTime;
-            if (MaxDead < Dead)
-            {
-                PlayerPrefs.SetString("stats", Dead.ToString());
-                PlayerPrefs.Save();
-                MaxDead = Dead;
-            }
+
+            PlayerPrefs.SetInt("score", Score);
+            PlayerPrefs.SetFloat("runTime", GetRunTime());
+            PlayerPrefs.Save();
 
             GameOver = true;
         }
 
-        public static void StartGame()
+        public float MaxStamina;
+
+        public void StartGame()
         {
             _gameStarted = DateTime.Now;
+            Stamina = MaxStamina;
         }
 
-
-        public static void Reset()
+        public GameStats()
         {
-            _gameStarted = null;
-            RunTime = 0f;
-            Dead = 0;
-            _score = 0f;
             _stamina = GameSettings.MaxStamina;
+            _money = PlayerPrefs.GetInt("money", 0);
+            MaxStamina = GameSettings.MaxStamina;
         }
 
-        public static float Speed
+        public float Speed
         {
-            get { return CurrentSpeed * _speedMultipier; }
+            get { return CurrentSpeed * SpeedMultipier; }
         }
 
-        public static bool IsRunning
-        {
-            get { return _isRunning; }
-        }
+        public bool IsRunning;
 
-        private static float _speedMultipier;
-        private float _deltaTime;
-        static bool _isRunning;
-        void Update()
-        {
-            _deltaTime += (Time.unscaledDeltaTime - _deltaTime) * 0.1f;
-
-            CurrentSpeed = GameSettings.DefaultSpeed * _deltaTime;
-            _isRunning = false;
-
-            if (InputHelper.RightDown() || InputHelper.LeftDown())
-            {
-                if (Stamina > 0f)
-                {
-                    _speedMultipier = GameSettings.SpeedUpMultipier;
-                    Stamina -= Time.deltaTime;
-                    _isRunning = true;
-                }
-                else
-                    _speedMultipier = 1f;
-            }
-            else
-            {
-                _speedMultipier = 1f;
-                Stamina += 0.5f * Time.deltaTime;
-            }
-            HandleSlowMotion();
-        }
-
-        static bool _isSlowMotion;
-        public static void ToggleSlowMotion()
+        public float SpeedMultipier;
+        
+        bool _isSlowMotion;
+        public void ToggleSlowMotion()
         {
             _isSlowMotion = !_isSlowMotion;
         }
 
-        void HandleSlowMotion()
+        public void HandleSlowMotion()
         {
             if (!_isSlowMotion)
                 return;
@@ -157,11 +147,11 @@ namespace Assets
             CurrentSpeed /= 3f;      
         }
 
-        public static float CurrentSpeed;
-        public static bool ShakeIt { get; set; }
+        public float CurrentSpeed;
+        public bool ShakeIt { get; set; }
 
-        public static bool IsStrip { get; set; }
-        public static bool IsFrontBull { get; set; }
-        public static bool IsBackBull { get; set; }
+        public bool IsStrip { get; set; }
+        public bool IsFrontBull { get; set; }
+        public bool IsBackBull { get; set; }
     }
 }

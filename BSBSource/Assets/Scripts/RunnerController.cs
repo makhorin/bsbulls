@@ -46,7 +46,7 @@ public class RunnerController : MonoBehaviour
 
     void Awake()
     {
-        GameStats.RegisterRunner(this);
+        GameController.GameStats.RegisterRunner(this);
         RigidBody = GetComponent<Rigidbody2D>();
         _animation = GetComponent<Animator>();
         foreach (var sp in GetComponentsInChildren<SpriteRenderer>())
@@ -62,6 +62,7 @@ public class RunnerController : MonoBehaviour
 
     void Update ()
     {
+
         var p = transform.position;
         if (p.x > GameSettings.RightBorder || 
             p.x < GameSettings.LeftBorder || 
@@ -73,7 +74,7 @@ public class RunnerController : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (_instantDeath || GameStats.GameOver)
+        if (_instantDeath || GameController.GameStats.GameOver)
         {
             HandleDeath();
         }
@@ -90,7 +91,7 @@ public class RunnerController : MonoBehaviour
 
     public void HandleStrip(Vector3 pos)
     {
-        transform.position = Vector3.MoveTowards(transform.position, pos, GameStats.CurrentSpeed);
+        transform.position = Vector3.MoveTowards(transform.position, pos, GameController.GameStats.CurrentSpeed);
         _animation.SetFloat("SpeedMultiplier", _defaultSpeedMultiplier);
         if (Math.Abs(Vector3.Distance(pos, transform.position)) < 0.1f)
         {
@@ -101,12 +102,15 @@ public class RunnerController : MonoBehaviour
 
     private void HandleRun()
     {
+        if (GameController.GameStats.Speed == 0f)
+            return;
+
         if (Math.Abs(_translateX) < GameSettings.Step)
         {
             var centerDelta = transform.position.x - GameSettings.Center;
             _translateX = centerDelta * GameSettings.ApproachKoef;
 
-            if (GameStats.IsRunning)
+            if (GameController.GameStats.IsRunning)
                 _translateX = Math.Min(_translateX, 0f);
 
             _animation.SetFloat("SpeedMultiplier", _defaultSpeedMultiplier);
@@ -118,7 +122,7 @@ public class RunnerController : MonoBehaviour
             _translateX -= step;
             transform.Translate(-step, 0f, 0f);
 
-            if (GameStats.IsRunning)
+            if (GameController.GameStats.IsRunning)
                 _animation.SetFloat("SpeedMultiplier", _maxSpeedMultiplier);
             else
                 _animation.SetFloat("SpeedMultiplier", _minSpeedMultiplier);
@@ -133,7 +137,7 @@ public class RunnerController : MonoBehaviour
         _canJump = false;
         var jumpKoef = (float)GameSettings.Rnd.NextDouble() * GameSettings.RandomJumpMultipier;
         var jump = GameSettings.MinJumpHeight + jumpKoef;
-        if (GameStats.IsRunning)
+        if (GameController.GameStats.IsRunning)
             jump *= 1.2f;
         RigidBody.AddForce(transform.up * jump);
         _animation.Play("Jump");
@@ -154,7 +158,7 @@ public class RunnerController : MonoBehaviour
 
     private void HandleFall()
     {
-        transform.Translate(-GameStats.Speed, 0f, 0f);
+        transform.Translate(-GameController.GameStats.Speed, 0f, 0f);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -232,20 +236,21 @@ public class RunnerController : MonoBehaviour
     private Vector2[] _forcesOrder = 
     {
         Vector2.up,
-        Vector2.down,
-        Vector2.left,
         Vector2.right
     };
 
     void SpawnKishki()
     {
-        var rndStart = GameSettings.Rnd.Next(0, Kishki.Length);
+        var rnd = GameSettings.Rnd;
+        var rndStart = rnd.Next(0, Kishki.Length);
         var j = 0;
         for (var i = rndStart; i < Kishki.Length + rndStart; i++)
         {
             var ii = i >= Kishki.Length ? i - Kishki.Length : i;
             var k = Instantiate(Kishki[ii], transform.position, Quaternion.identity);
-            k.AddForce(_forcesOrder[j]);
+            k.gameObject.layer = GameSettings.KishkiLayers[_line];
+            k.AddTorque(2f);
+            k.AddForce(new Vector2((float)rnd.NextDouble(), Math.Min(1f,(float)rnd.NextDouble() + 0.5f)) * 500f);
             j++;
             if (j >= _forcesOrder.Length)
                 j = 0;

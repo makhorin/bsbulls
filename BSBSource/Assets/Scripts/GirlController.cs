@@ -11,13 +11,13 @@ public class GirlController : MonoBehaviour
     void Start()
     {
         TutorController.ShowTutor(KeyCode.DownArrow, 1);
-        GameStats.ShakeIt = true;
+        GameController.GameStats.ShakeIt = true;
     }
 
 
     void Update()
     {
-        if (GameStats.GameOver || _laserUsed || !InputHelper.Down())
+        if (GameController.GameStats.GameOver || _laserUsed || !InputHelper.Down())
             return;
 
         try

@@ -1,23 +1,38 @@
-﻿using Assets;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
-public class KishkiController : MonoBehaviour
+public class KishkiController : EnviromentScroller
 {
-    float _destroyTime;
-    Collider2D _collider;
-    void Start () {
-        _collider = GetComponent<Collider2D>();
-    }
-    
+    public ParticleSystem Blood;
+    public ParticleSystem Splash;
+    public Rigidbody2D Rigidbody2D;
+    public GameObject Splat;
+    private bool _fallen;
     void Update ()
     {
-        _destroyTime += Time.deltaTime;
-        if (_destroyTime > 2f)
-            _collider.enabled = false;
-        transform.Translate(-GameStats.Speed * 1.5f, 0f, 0f);
+        Move();
         var p = transform.position;
         if (p.x > GameSettings.RightBorder || p.x < GameSettings.LeftBorder || p.y > GameSettings.Air || p.y < GameSettings.Ground.Last())
             Destroy(gameObject);
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (_fallen)
+            return;
+        switch (collision.gameObject.tag)
+        {
+            case "Line":
+                if (collision.gameObject.transform.position.y > transform.position.y)
+                    return;
+                Blood.Stop();
+                Splash.Play();
+                Renderer.enabled = false;
+                Rigidbody2D.constraints = RigidbodyConstraints2D.FreezeAll;
+                transform.rotation = Quaternion.identity;
+                Splat.SetActive(true);
+                _fallen = true;
+                break;
+        }
     }
 }

@@ -29,8 +29,6 @@ public class GameStarter : MonoBehaviour
     void Start ()
     {
         DontDestroyOnLoad(gameObject);
-        GameStats.CanStartGame = true;
-
         PlayerPrefs.SetFloat("Intro",Intro.volume);
         PlayerPrefs.SetFloat("Ost", Ost.volume);
         PlayerPrefs.SetFloat("PreOst", PreOst.volume);
@@ -44,7 +42,7 @@ public class GameStarter : MonoBehaviour
     
     void Update ()
     {
-        if (GameStats.GameOver)
+        if (GameController.GameStats != null && GameController.GameStats.GameOver)
             HandleGameOver();
         else if (_strip)
         {
@@ -55,16 +53,12 @@ public class GameStarter : MonoBehaviour
 
     public void HandleStart()
     {
-        if (!GameStats.CanStartGame)
-            return;
         ResetSounds();
         Ost.Stop();
         Crowd.Stop();
         Stomp.Stop();
         Menu.Stop();
         Intro.Play();
-        GameStats.CanStartGame = false;
-        GameStats.Reset();
         ScoresFinished = false;
         Scores = null;
         UserProfiles = null;
@@ -76,13 +70,11 @@ public class GameStarter : MonoBehaviour
         if (scene.name != "MainScene")
             return;
 
-        GameStats.StartGame();
         PreStomp.Play();
-        Stomp.PlayDelayed(3f);
+        Stomp.PlayDelayed(PreStomp.clip.length);
         PreOst.PlayDelayed(1f);
-        Ost.PlayDelayed(7f);
+        Ost.PlayDelayed(PreOst.clip.length + 1f);
         Crowd.PlayDelayed(2f);
-        Stomp.PlayDelayed(3f);
     }
 
     private void ResetSounds()
@@ -127,8 +119,8 @@ public class GameStarter : MonoBehaviour
         Strip.Play();
 
         var timeToExit = Time.time + 2f;
-        var prevSpeed = GameStats.CurrentSpeed;
-        GameStats.CurrentSpeed = prevSpeed / 2f;
+        var prevSpeed = GameController.GameStats.CurrentSpeed;
+        GameController.GameStats.CurrentSpeed = prevSpeed / 2f;
         while (Time.time < timeToExit)
         {
             yield return null;
@@ -151,7 +143,7 @@ public class GameStarter : MonoBehaviour
             Crowd.volume = Math.Min(PlayerPrefs.GetFloat("Crowd", 1f), percentComplete);
             PreOst.volume = Math.Min(PlayerPrefs.GetFloat("PreOst", 1f), percentComplete);
             PreStomp.volume = Math.Min(PlayerPrefs.GetFloat("PreStomp", 1f), percentComplete);
-            GameStats.CurrentSpeed = prevSpeed * percentComplete;
+            GameController.GameStats.CurrentSpeed = prevSpeed * percentComplete;
             yield return null;
         }
     }
@@ -168,7 +160,7 @@ public class GameStarter : MonoBehaviour
         {
 #if UNITY_ANDROID
             if (PlayGamesPlatform.Instance.localUser.authenticated)
-                PlayGamesPlatform.Instance.ReportScore(GameStats.MaxDead, _leaderBoard, OnScoreReported);
+                PlayGamesPlatform.Instance.ReportScore(GameController.GameStats.MaxScore, _leaderBoard, OnScoreReported);
 #endif
         }
         catch(Exception e)
@@ -195,7 +187,7 @@ public class GameStarter : MonoBehaviour
         Crowd.Stop();
         Stomp.Stop();
         SceneManager.LoadScene("ScoreScreen");
-        GameStats.GameOver = false;
+        GameController.GameStats.GameOver = false;
         _fading = false;
     }
 

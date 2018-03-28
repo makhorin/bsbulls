@@ -1,5 +1,4 @@
-﻿using Assets;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnviromentScroller : MonoBehaviour
 {
@@ -18,6 +17,11 @@ public class EnviromentScroller : MonoBehaviour
 
     void Update ()
     {
-        transform.Translate(-GameStats.Speed * SpeedMultiplier, 0f, 0f);
+        Move();
+    }
+
+    protected void Move()
+    {
+        transform.Translate(-GameController.GameStats.Speed * SpeedMultiplier, 0f, 0f);
     }
 }

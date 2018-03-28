@@ -23,7 +23,7 @@ public class WaitingRunnerController : MonoBehaviour
     
     void Update ()
     {
-        if (GameStats.GameOver)
+        if (GameController.GameStats.GameOver)
             return;
 
         if (transform.position.x <= GameSettings.LeftBorder)

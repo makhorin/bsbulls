@@ -29,25 +29,25 @@ public class BackBull : MonoBehaviour
 
     void OnDestroy()
     {
-        GameStats.IsBackBull = false;
+        GameController.GameStats.IsBackBull = false;
     }
 
     void Update ()
     {
-        var deltaSpeed = GameStats.CurrentSpeed - GameStats.Speed;
+        var deltaSpeed = GameController.GameStats.CurrentSpeed - GameController.GameStats.Speed;
         var pos = transform.position.x;
         var speed = 0f;
 
-        if (GameStats.GameOver)
-            speed = GameStats.CurrentSpeed * GameSettings.BackBullDashSpeedMultiplier;
+        if (GameController.GameStats.GameOver)
+            speed = GameController.GameStats.CurrentSpeed * GameSettings.BackBullDashSpeedMultiplier;
         else if (deltaSpeed > 0f)
-            speed = deltaSpeed + (_isInDash ? GameStats.CurrentSpeed : 0f) * GameSettings.BackBullDashSpeedMultiplier;
+            speed = deltaSpeed + (_isInDash ? GameController.GameStats.CurrentSpeed : 0f) * GameSettings.BackBullDashSpeedMultiplier;
         else if (deltaSpeed < 0f && pos > _left)
             speed = deltaSpeed;
         else if (Math.Abs(deltaSpeed) < 0.001f)
         {
             if (_isInDash)
-                speed = GameStats.CurrentSpeed * GameSettings.BackBullDashSpeedMultiplier;
+                speed = GameController.GameStats.CurrentSpeed * GameSettings.BackBullDashSpeedMultiplier;
             else if (pos > _left)
                 speed = -GameSettings.BullStep;
         }
@@ -72,16 +72,16 @@ public class BackBull : MonoBehaviour
                 {
                     _isInDash = false;
                     _soundPlayed = false;
-                    GameStats.IsBackBull = false;
+                    GameController.GameStats.IsBackBull = false;
                 }
             }  
         }
         else if (pos <= _left && Time.time - _lastDash > GameSettings.DashCooldownS && 
-            GameSettings.BackBullDashChance > GameSettings.Rnd.NextDouble() && !GameStats.IsFrontBull && !GameStats.IsStrip)
+            GameSettings.BackBullDashChance > GameSettings.Rnd.NextDouble() && !GameController.GameStats.IsFrontBull && !GameController.GameStats.IsStrip)
         {
             _lastDash = Time.time;
             _isInDash = true;
-            GameStats.IsBackBull = true;
+            GameController.GameStats.IsBackBull = true;
             _animator.SetTrigger("BullRageTrigger");
         }
             

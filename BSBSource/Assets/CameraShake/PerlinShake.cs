@@ -20,8 +20,8 @@ public class PerlinShake : MonoBehaviour {
     
     // -------------------------------------------------------------------------
     void Update() {
-        if (GameStats.ShakeIt) {
-            GameStats.ShakeIt = false;
+        if (GameController.GameStats.ShakeIt) {
+            GameController.GameStats.ShakeIt = false;
             PlayShake();
         }
     }
@@ -35,7 +35,7 @@ public class PerlinShake : MonoBehaviour {
         float randomStart = Random.Range(-1000.0f, 1000.0f);
 
         var defShCnt = 3;
-        var koef = GameSettings.DefaultSpeed / GameStats.Speed;
+        var koef = GameSettings.DefaultSpeed / GameController.GameStats.Speed;
         var shCnt = Mathf.CeilToInt(defShCnt * koef);
         for (var i = 0; i < Mathf.Max(shCnt,1); i++)
         {

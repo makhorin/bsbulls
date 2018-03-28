@@ -55,9 +55,12 @@ public class SplashScreenController : MonoBehaviour
                 return;
             }
 
+            var maxScore = PlayerPrefs.GetInt("maxscore", 0);
             Debug.Log("Authenticated");
 #if UNITY_ANDROID
-            PlayGamesPlatform.Instance.ReportScore(GameStats.MaxDead, "CgkIj9Sz_8UXEAIQAQ", OnScoreReported);
+            PlayGamesPlatform.Instance.ReportScore(maxScore, 
+                                                    "CgkIj9Sz_8UXEAIQAQ", 
+                                                    OnScoreReported);
 #endif
         }
         catch (Exception e)

@@ -43,7 +43,7 @@ public class FPSDisplay : MonoBehaviour
         style.alignment = TextAnchor.LowerCenter;
         style.fontSize = h * 2 / 50;
         style.normal.textColor = new Color(0.0f, 1.0f, 0.0f, 1.0f);
-        string text = GameStats.Stamina.ToString("0.00");
+        string text = GameController.GameStats.Stamina.ToString("0.00");
         GUI.Label(rect, text, style);
     }
 }

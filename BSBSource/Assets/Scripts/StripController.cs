@@ -13,17 +13,17 @@ public class StripController : MonoBehaviour
 
     void Start ()
     {
-        GameStats.IsStrip = true;
+        GameController.GameStats.IsStrip = true;
     }
 
     private void OnDestroy()
     {
-        GameStats.IsStrip = false;
+        GameController.GameStats.IsStrip = false;
     }
 
     void Update ()
     {
-        if (GameStats.GameOver)
+        if (GameController.GameStats.GameOver)
             return;
 
         if (transform.position.x > GameSettings.RightBorder - 0.5f)
@@ -33,7 +33,7 @@ public class StripController : MonoBehaviour
 
         if (transform.position.x < (GameSettings.RightBorder + GameSettings.LeftBorder) / 2f)
         {
-            GameStats.ToggleSlowMotion();
+            GameController.GameStats.ToggleSlowMotion();
             enabled = false;
         }
 
@@ -56,7 +56,7 @@ public class StripController : MonoBehaviour
 
         TutorController.ShowTutor(KeyCode.RightArrow, int.MaxValue);
         GameStarter.ToggleStrip();
-        GameStats.ToggleSlowMotion();
+        GameController.GameStats.ToggleSlowMotion();
         _toggled = true;
     }
 

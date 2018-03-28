@@ -47,7 +47,7 @@ public class BullsController : MonoBehaviour
 
     private void GenerateFrontBulls()
     {
-        if (BullPatterns.Length < 1 || Time.time - _lastFrontBull < GameSettings.FrontBullCooldownS || GameStats.IsStrip || GameStats.IsBackBull)
+        if (BullPatterns.Length < 1 || Time.time - _lastFrontBull < GameSettings.FrontBullCooldownS || GameController.GameStats.IsStrip || GameController.GameStats.IsBackBull)
             return;
 
         var chance = GameSettings.Rnd.NextDouble();

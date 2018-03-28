@@ -312,8 +312,6 @@
     <Compile Include="Assets\GooglePlayGames\Editor\GPGSUpgrader.cs" />
     <Compile Include="Assets\GooglePlayGames\Editor\GPGSUtil.cs" />
     <Compile Include="Assets\GooglePlayGames\Editor\NearbyConnectionUI.cs" />
-    <Compile Include="Assets\LeanTouch\Editor\LeanSelectable_Editor.cs" />
-    <Compile Include="Assets\LeanTouch\Editor\LeanTouch_Editor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\GooglePlayGames\Editor\GooglePlayGamesPluginDependencies.xml" />

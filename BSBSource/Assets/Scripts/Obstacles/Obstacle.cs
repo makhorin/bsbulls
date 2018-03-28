@@ -12,7 +12,7 @@ public class Obstacle : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(-GameStats.Speed, 0f, 0f);
+        transform.Translate(-GameController.GameStats.Speed, 0f, 0f);
     }
 }
 

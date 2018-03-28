@@ -1,19 +1,13 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class ShopController : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+    public Text MoneyText;
+    public GameController GameController;
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-    public void StartGame()
+	void Update ()
     {
-
+        MoneyText.text = GameController.GameStats.Money.ToString();
     }
 }
