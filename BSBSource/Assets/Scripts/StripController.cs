@@ -67,8 +67,6 @@ public class StripController : MonoBehaviour
             case "Runner":
                 var runner = collider.gameObject.GetComponent<RunnerController>();
                 _runners.Add(runner);
-                runner.RigidBody.constraints |= RigidbodyConstraints2D.FreezePositionY;
-
                 break;
         }
     }
@@ -81,7 +79,6 @@ public class StripController : MonoBehaviour
                 var runner = collider.gameObject.GetComponent<RunnerController>();
                 _toRemove.Add(runner);
                 runner.RigidBody.constraints &= ~RigidbodyConstraints2D.FreezePositionY;
-                
                 break;
         }
     }

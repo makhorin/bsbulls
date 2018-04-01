@@ -34,36 +34,9 @@ public class GameController : MonoBehaviour
 
         GameStats.IncreaseScore();
         SetStats();
-        HandleSpeed();
+        GameStats.HandleSpeed();
     }
-    private float _deltaTime;
-
-    void HandleSpeed()
-    {
-        _deltaTime += (Time.unscaledDeltaTime - _deltaTime) * 0.1f;
-
-        GameStats.CurrentSpeed = GameSettings.DefaultSpeed * _deltaTime;
-        GameStats.IsRunning = false;
-
-        if (InputHelper.RightDown() || InputHelper.LeftDown())
-        {
-            if (GameStats.Stamina > 0f)
-            {
-                GameStats.SpeedMultipier = GameSettings.SpeedUpMultipier;
-                GameStats.Stamina -= Time.deltaTime;
-                GameStats.IsRunning = true;
-            }
-            else
-                GameStats.SpeedMultipier = 1f;
-        }
-        else
-        {
-            GameStats.SpeedMultipier = 1f;
-            GameStats.Stamina += 0.5f * Time.deltaTime;
-        }
-        GameStats.HandleSlowMotion();
-    }
-
+    
     private void SetStats()
     {
         PlayerScoreField.text = GameStats.Score.ToString();

@@ -34,10 +34,8 @@ public class PerlinShake : MonoBehaviour {
         Vector3 originalCamPos = Camera.main.transform.position;
         float randomStart = Random.Range(-1000.0f, 1000.0f);
 
-        var defShCnt = 3;
-        var koef = GameSettings.DefaultSpeed / GameController.GameStats.Speed;
-        var shCnt = Mathf.CeilToInt(defShCnt * koef);
-        for (var i = 0; i < Mathf.Max(shCnt,1); i++)
+        var defShCnt = 2;
+        for (var i = 0; i < defShCnt; i++)
         {
             while (elapsed < duration)
             {

@@ -34,20 +34,18 @@ public class BackBull : MonoBehaviour
 
     void Update ()
     {
-        var deltaSpeed = GameController.GameStats.CurrentSpeed - GameController.GameStats.Speed;
+        var isRunning = GameController.GameStats.IsRunning;
         var pos = transform.position.x;
         var speed = 0f;
 
         if (GameController.GameStats.GameOver)
-            speed = GameController.GameStats.CurrentSpeed * GameSettings.BackBullDashSpeedMultiplier;
-        else if (deltaSpeed > 0f)
-            speed = deltaSpeed + (_isInDash ? GameController.GameStats.CurrentSpeed : 0f) * GameSettings.BackBullDashSpeedMultiplier;
-        else if (deltaSpeed < 0f && pos > _left)
-            speed = deltaSpeed;
-        else if (Math.Abs(deltaSpeed) < 0.001f)
+            speed = GameSettings.BullStep * GameSettings.BackBullDashSpeedMultiplier;
+        else if (isRunning && pos > _left)
+            speed = -GameSettings.BullStep;
+        else
         {
             if (_isInDash)
-                speed = GameController.GameStats.CurrentSpeed * GameSettings.BackBullDashSpeedMultiplier;
+                speed = GameSettings.BullStep * GameSettings.BackBullDashSpeedMultiplier;
             else if (pos > _left)
                 speed = -GameSettings.BullStep;
         }

@@ -31,21 +31,21 @@ public class ScoreController : MonoBehaviour
     
     void Update ()
     {
-        if (GameStarter.Scores != null)
-        {
-            for (var i = 0; i < Scores.Length && i < GameStarter.Scores.Length; i++)
-            {
-                var userProfile = GameStarter.UserProfiles.FirstOrDefault(u => u.id == GameStarter.Scores[i].userID);
-                var userName = userProfile == null ? GameStarter.Scores[i].userID : userProfile.userName;
-                Scores[i].NameField.text = string.Format("{0}. {1}", GameStarter.Scores[i].rank, userName);
-                Scores[i].ScoreField.text = GameStarter.Scores[i].formattedValue;
-                Scores[i].NameField.gameObject.SetActive(true);
-                Scores[i].ScoreField.gameObject.SetActive(true);
-            }
-        }
-
         HandleMoney();
         enabled = false;
+
+        if (GameStarter.Scores == null)
+            return;
+
+        for (var i = 0; i < Scores.Length && i < GameStarter.Scores.Length; i++)
+        {
+            var userProfile = GameStarter.UserProfiles.FirstOrDefault(u => u.id == GameStarter.Scores[i].userID);
+            var userName = userProfile == null ? GameStarter.Scores[i].userID : userProfile.userName;
+            Scores[i].NameField.text = string.Format("{0}. {1}", GameStarter.Scores[i].rank, userName);
+            Scores[i].ScoreField.text = GameStarter.Scores[i].formattedValue;
+            Scores[i].NameField.gameObject.SetActive(true);
+            Scores[i].ScoreField.gameObject.SetActive(true);
+        }
     }
 
     public void Restart()

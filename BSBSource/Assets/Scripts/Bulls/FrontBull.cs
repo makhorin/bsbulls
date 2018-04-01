@@ -1,5 +1,4 @@
-﻿using Assets;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class FrontBull : MonoBehaviour
 {
@@ -31,7 +30,7 @@ public class FrontBull : MonoBehaviour
     {
         GetComponent<Collider2D>().enabled = false;
         GetComponent<SpriteRenderer>().enabled = false;
-        GetComponentInChildren<Animator>().Play("Bull");
+        GetComponent<Animator>().Play("Explosion");
         foreach (var ps in GetComponentsInChildren<ParticleSystem>())
         {
             if (ps.gameObject.tag == "BloodParticles")
@@ -39,6 +38,7 @@ public class FrontBull : MonoBehaviour
             else
                 ps.Stop();
         }
+
         foreach (var audio in GetComponents<AudioSource>())
         {
             if (audio.clip.name == "Explosion")

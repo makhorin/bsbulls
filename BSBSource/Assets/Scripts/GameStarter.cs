@@ -118,13 +118,9 @@ public class GameStarter : MonoBehaviour
 
         Strip.Play();
 
-        var timeToExit = Time.time + 2f;
-        var prevSpeed = GameController.GameStats.CurrentSpeed;
-        GameController.GameStats.CurrentSpeed = prevSpeed / 2f;
+        var timeToExit = Time.time + 1f;
         while (Time.time < timeToExit)
-        {
             yield return null;
-        }
 
         var elapsed = 0.0f;
         var duration = 1f;
@@ -143,7 +139,6 @@ public class GameStarter : MonoBehaviour
             Crowd.volume = Math.Min(PlayerPrefs.GetFloat("Crowd", 1f), percentComplete);
             PreOst.volume = Math.Min(PlayerPrefs.GetFloat("PreOst", 1f), percentComplete);
             PreStomp.volume = Math.Min(PlayerPrefs.GetFloat("PreStomp", 1f), percentComplete);
-            GameController.GameStats.CurrentSpeed = prevSpeed * percentComplete;
             yield return null;
         }
     }

@@ -115,6 +115,7 @@ namespace Assets
         {
             _gameStarted = DateTime.Now;
             Stamina = MaxStamina;
+            _currentSpeed = GameSettings.DefaultSpeed;
         }
 
         public GameStats()
@@ -124,9 +125,10 @@ namespace Assets
             MaxStamina = GameSettings.MaxStamina;
         }
 
+        private float _currentSpeed;
         public float Speed
         {
-            get { return CurrentSpeed * SpeedMultipier; }
+            get { return _currentSpeed * SpeedMultipier; }
         }
 
         public bool IsRunning;
@@ -139,15 +141,43 @@ namespace Assets
             _isSlowMotion = !_isSlowMotion;
         }
 
-        public void HandleSlowMotion()
+        private float _deltaTime;
+        public void HandleSpeed()
+        {
+            _deltaTime += (Time.unscaledDeltaTime - _deltaTime) * 0.1f;
+
+            _currentSpeed = GameSettings.DefaultSpeed * _deltaTime;
+
+            IsRunning = false;
+
+            if (InputHelper.RightDown() || InputHelper.LeftDown())
+            {
+                if (Stamina > 0f)
+                {
+                    SpeedMultipier = GameSettings.SpeedUpMultipier;
+                    Stamina -= Time.deltaTime;
+                    IsRunning = true;
+                }
+                else
+                    SpeedMultipier = 1f;
+            }
+            else
+            {
+                SpeedMultipier = 1f;
+                Stamina += 0.5f * Time.deltaTime;
+            }
+            HandleSlowMotion();
+        }
+
+        void HandleSlowMotion()
         {
             if (!_isSlowMotion)
                 return;
 
-            CurrentSpeed /= 3f;      
+            _currentSpeed /= 3f;      
         }
 
-        public float CurrentSpeed;
+        
         public bool ShakeIt { get; set; }
 
         public bool IsStrip { get; set; }
