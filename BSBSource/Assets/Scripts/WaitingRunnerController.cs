@@ -48,7 +48,7 @@ public class WaitingRunnerController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    void OnTriggerEnter2D(Collider2D collider)
+    void OnTriggerEnter(Collider collider)
     {
         if (!_show || toGenerate.HasValue || collider.gameObject.tag != "Runner")
             return;

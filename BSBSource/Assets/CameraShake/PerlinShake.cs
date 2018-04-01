@@ -1,15 +1,11 @@
 using UnityEngine;
 using System.Collections;
-using System.Text;
-using Assets;
 
 public class PerlinShake : MonoBehaviour {
     
     public float duration = 0.5f;
     public float speed = 1.0f;
-    public float magnitude = 0.1f;
-
-    public GameSettings Setting;
+    public float magnitude = 0.01f;
     
     // -------------------------------------------------------------------------
     public void PlayShake() {
@@ -57,7 +53,7 @@ public class PerlinShake : MonoBehaviour {
                 x *= magnitude * damper;
                 y *= magnitude * damper;
 
-                Camera.main.transform.position = new Vector3(x, y, originalCamPos.z);
+                Camera.main.transform.position = new Vector3(x, originalCamPos.y + y, originalCamPos.z);
 
                 yield return null;
             }

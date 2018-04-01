@@ -487,6 +487,7 @@
     <Compile Include="Assets\LeanTouch\Scripts\LeanSelectable.cs" />
     <Compile Include="Assets\LeanTouch\Scripts\LeanSnapshot.cs" />
     <Compile Include="Assets\LeanTouch\Scripts\LeanTouch.cs" />
+    <Compile Include="Assets\RunnerShadow.cs" />
     <Compile Include="Assets\Scripts\BloodSplat.cs" />
     <Compile Include="Assets\Scripts\Bulls\BackBull.cs" />
     <Compile Include="Assets\Scripts\Bulls\BullsController.cs" />

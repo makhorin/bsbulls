@@ -29,7 +29,7 @@ public class BullsController : MonoBehaviour
         {
             var xPos = GameSettings.LeftBorder + (GameSettings.BullMinOffset * 1.3f) +
                        (float)GameSettings.Rnd.NextDouble() * (GameSettings.BullMaxOffset - GameSettings.BullMinOffset);
-            var go = Instantiate(BullPatterns[GameSettings.Rnd.Next(0, BullPatterns.Length)], new Vector3(xPos, GameSettings.Ground[i] + 1f), Quaternion.identity);
+            var go = Instantiate(BullPatterns[GameSettings.Rnd.Next(0, BullPatterns.Length)], new Vector3(xPos, -3.5f, GameSettings.Ground[i]), Quaternion.identity);
             go.AddComponent<BackBull>().SetSettings(i, xPos);
         }
         _started = true;
@@ -55,7 +55,7 @@ public class BullsController : MonoBehaviour
         if (chance < 1f - GameSettings.FrontBullChance)
             return;
         var line = GameSettings.GetRandomLine();
-        var go = Instantiate(BullPatterns[GameSettings.Rnd.Next(0, BullPatterns.Length)], new Vector3(GameSettings.RightBorder, GameSettings.Ground[line] + 1f), Quaternion.identity);
+        var go = Instantiate(BullPatterns[GameSettings.Rnd.Next(0, BullPatterns.Length)], new Vector3(GameSettings.RightBorder, -3.5f, GameSettings.Ground[line]), Quaternion.identity);
         var fBull = go.AddComponent<FrontBull>();
         fBull.SetSettings(line);
         _frontBull = go;

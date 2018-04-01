@@ -60,7 +60,7 @@ public class StripController : MonoBehaviour
         _toggled = true;
     }
 
-    void OnTriggerEnter2D(Collider2D collider)
+    void OnTriggerEnter(Collider collider)
     {
         switch (collider.gameObject.tag)
         {
@@ -71,14 +71,13 @@ public class StripController : MonoBehaviour
         }
     }
 
-    void OnTriggerExit2D(Collider2D collider)
+    void OnTriggerExit(Collider collider)
     {
         switch (collider.gameObject.tag)
         {
             case "Runner":
                 var runner = collider.gameObject.GetComponent<RunnerController>();
                 _toRemove.Add(runner);
-                runner.RigidBody.constraints &= ~RigidbodyConstraints2D.FreezePositionY;
                 break;
         }
     }

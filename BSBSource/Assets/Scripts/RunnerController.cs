@@ -7,14 +7,15 @@ public class RunnerController : MonoBehaviour
 {
     private GameSettings _settings;
     private float _translateX;
-    public Rigidbody2D RigidBody;
+    public Rigidbody RigidBody;
     private Animator _animation;
+    public Animator Shadow;
     private float _defaultSpeedMultiplier = 2;
     private float _maxSpeedMultiplier = 5;
     private float _minSpeedMultiplier = 1;
     private int _line;
 
-    public Rigidbody2D[] Kishki;
+    public Rigidbody[] Kishki;
 
     public AudioSource SoundHole;
     public AudioSource SoundHoleCry;
@@ -27,9 +28,7 @@ public class RunnerController : MonoBehaviour
     private bool _bananaFall = false;
     private bool _instantDeath = false;
     private bool _jumpOnStart = false;
-    
 
-    public SpriteRenderer Shadow;
     public GameObject Blood;
 
     public event Action<GameObject> IamDead;
@@ -44,10 +43,15 @@ public class RunnerController : MonoBehaviour
             sp.sortingLayerName = GameSettings.RunnersSortingLayers[line];
     }
 
+    internal void Idle()
+    {
+        _animation.Play("Idle");
+        Shadow.Play("Idle");
+    }
+
     void Awake()
     {
         GameController.GameStats.RegisterRunner(this);
-        RigidBody = GetComponent<Rigidbody2D>();
         _animation = GetComponent<Animator>();
         foreach (var sp in GetComponentsInChildren<SpriteRenderer>())
         {
@@ -55,6 +59,8 @@ public class RunnerController : MonoBehaviour
         }
         _animation.SetFloat("SpeedMultiplier", _defaultSpeedMultiplier);
         _animation.SetFloat("RunOffset", (float)GameSettings.Rnd.NextDouble());
+        Shadow.SetFloat("SpeedMultiplier", _defaultSpeedMultiplier);
+        Shadow.SetFloat("RunOffset", (float)GameSettings.Rnd.NextDouble());
 
         if (_jumpOnStart)
             _animation.Play("Jump");
@@ -67,7 +73,7 @@ public class RunnerController : MonoBehaviour
         if (p.x > GameSettings.RightBorder || 
             p.x < GameSettings.LeftBorder || 
             p.y > GameSettings.Air || 
-            p.y < GameSettings.Ground.Last())
+            p.y < -10)
         {
             PlayDead();
             enabled = false;
@@ -93,7 +99,6 @@ public class RunnerController : MonoBehaviour
     {
         if (!_canJump)
             return;
-        RigidBody.constraints |= RigidbodyConstraints2D.FreezePositionY;
         transform.position = Vector3.MoveTowards(transform.position, pos, GameController.GameStats.Speed * 2f);
         _animation.SetFloat("SpeedMultiplier", _defaultSpeedMultiplier);
         if (Math.Abs(Vector3.Distance(pos, transform.position)) < 0.1f)
@@ -117,6 +122,7 @@ public class RunnerController : MonoBehaviour
                 _translateX = Math.Min(_translateX, 0f);
 
             _animation.SetFloat("SpeedMultiplier", _defaultSpeedMultiplier);
+            Shadow.SetFloat("SpeedMultiplier", _defaultSpeedMultiplier);
         }
         else
         {
@@ -126,9 +132,15 @@ public class RunnerController : MonoBehaviour
             transform.Translate(-step, 0f, 0f);
 
             if (GameController.GameStats.IsRunning)
+            {
                 _animation.SetFloat("SpeedMultiplier", _maxSpeedMultiplier);
+                Shadow.SetFloat("SpeedMultiplier", _maxSpeedMultiplier);
+            }  
             else
+            {
                 _animation.SetFloat("SpeedMultiplier", _minSpeedMultiplier);
+                Shadow.SetFloat("SpeedMultiplier", _minSpeedMultiplier);
+            }  
         }        
     }
 
@@ -136,7 +148,6 @@ public class RunnerController : MonoBehaviour
     {
         if (!_canJump || !InputHelper.Up())
             return;
-        Shadow.enabled = false;
         _canJump = false;
         var jumpKoef = (float)GameSettings.Rnd.NextDouble() * GameSettings.RandomJumpMultipier;
         var jump = GameSettings.MinJumpHeight + jumpKoef;
@@ -144,6 +155,7 @@ public class RunnerController : MonoBehaviour
             jump *= 1.2f;
         RigidBody.AddForce(transform.up * jump);
         _animation.Play("Jump");
+        Shadow.Play("Jump");
     }
 
     private void HandleDeath()
@@ -153,7 +165,6 @@ public class RunnerController : MonoBehaviour
             sp.color = new Color(0, 0, 0, 0);
         }
         Destroy(GetComponent<Collider2D>());
-        RigidBody.constraints |= RigidbodyConstraints2D.FreezePositionY;
         Destroy(RigidBody);
         SpawnKishki();
         enabled = false;
@@ -164,7 +175,7 @@ public class RunnerController : MonoBehaviour
         transform.Translate(-GameController.GameStats.Speed, 0f, 0f);
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnCollisionEnter(Collision collision)
     {
         switch (collision.gameObject.tag)
         {
@@ -174,7 +185,6 @@ public class RunnerController : MonoBehaviour
                 SoundBullSmash.Play();
                 SoundBullCry.PlayDelayed(0.1f);
                 SoundBananaSmash.PlayDelayed(0.5f);
-                Shadow.enabled = false;
                 PlayDead();
                 break;
             case "Runner":
@@ -188,20 +198,18 @@ public class RunnerController : MonoBehaviour
                 Fall();
                 break;
             case "Line":
-                Shadow.enabled = true;
                 _canJump = true;
                 break;
         }
     }
 
-    void OnTriggerEnter2D(Collider2D collider)
+    void OnTriggerEnter(Collider collider)
     {
         switch (collider.gameObject.tag)
         {
             case "Hole":
                 _instantDeath = true;
                 Destroy(gameObject,5f);
-                Shadow.enabled = false;
                 SoundHole.Play();
                 SoundHoleCry.PlayDelayed(0.05f);
                 transform.position = new Vector3(collider.gameObject.transform.position.x, transform.position.y, 0f);
@@ -220,10 +228,10 @@ public class RunnerController : MonoBehaviour
         _bananaFall = true;
         Destroy(gameObject, 5f);
         _animation.Play("Fall");
+        Shadow.Play("Fall");
         SoundBanana.Play();
         SoundBananaSmash.PlayDelayed(0.45f);
         gameObject.layer = GameSettings.FallenLineLayers[_line];
-        Shadow.enabled = false;
         PlayDead();
     }
 
@@ -252,13 +260,13 @@ public class RunnerController : MonoBehaviour
             var ii = i >= Kishki.Length ? i - Kishki.Length : i;
             var k = Instantiate(Kishki[ii], transform.position, Quaternion.identity);
             k.gameObject.layer = GameSettings.KishkiLayers[_line];
-            k.AddTorque(2f);
-            k.AddForce(new Vector2((float)rnd.NextDouble(), Math.Min(1f,(float)rnd.NextDouble() + 0.5f)) * 500f);
+            k.AddTorque(0f, 0f, 2f);
+            k.AddForce(new Vector2((float)rnd.NextDouble(), Math.Min(1f,(float)rnd.NextDouble() + 0.5f)) * 100f);
             j++;
             if (j >= _forcesOrder.Length)
                 j = 0;
         }
-        var go = Instantiate(Blood, new Vector3(transform.position.x, GameSettings.Ground[_line]), Quaternion.identity);
+        var go = Instantiate(Blood, new Vector3(transform.position.x, -4.9f, GameSettings.Ground[_line]), Quaternion.identity);
         Destroy(go,5f);
     }
 }

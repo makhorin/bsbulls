@@ -1,7 +1,7 @@
 ﻿public class GameSettings
 {
     public static System.Random Rnd = new System.Random();
-    public static float[] Ground = new [] {-3f, -4f, -5f};
+    public static float[] Ground = new [] {-1f, -4f, -7f};
     public static float Air = 5f;
     public static float Center = 0f;
     public static float RightBorder = 10.5f;

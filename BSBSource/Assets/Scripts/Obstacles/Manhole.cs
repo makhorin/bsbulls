@@ -6,7 +6,7 @@ public class Manhole : Obstacle
     public SpriteRenderer[] Splats;
     private bool _splatShown;
 
-    void OnTriggerEnter2D(Collider2D collider)
+    void OnTriggerEnter(Collider collider)
     {
         if (_splatShown)
             return;
