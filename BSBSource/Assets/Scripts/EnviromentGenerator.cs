@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class EnviromentGenerator : MonoBehaviour
 {
-    public EnviromentScroller[] EnviromentPatterns;
+    public HousesScroller[] EnviromentPatterns;
     
-    private readonly List<EnviromentScroller> _currentEnviroment = new List<EnviromentScroller>();
+    private readonly List<HousesScroller> _currentEnviroment = new List<HousesScroller>();
     private readonly Quaternion _rotation = Quaternion.identity;
 
     public float Y;
@@ -19,14 +19,14 @@ public class EnviromentGenerator : MonoBehaviour
             return;
 
         var x = GameSettings.LeftBorder + XOffset;
-        var newEnv = EnviromentPatterns[GameSettings.Rnd.Next(0, EnviromentPatterns.Length)];
+        
         do
         {
-            var go = Instantiate(newEnv, new Vector3(x - 0.05f, Y + newEnv.Height / 2f, 0f), _rotation);
+            var newEnv = EnviromentPatterns[GameSettings.Rnd.Next(0, EnviromentPatterns.Length)];
+            var go = Instantiate(newEnv, new Vector3(0f, -100f, 0f), _rotation);
+            go.transform.SetPositionAndRotation(new Vector3(x + go.Bounds.extents.x * 0.4f, Y + go.Bounds.extents.y * 0.4f, 0f), _rotation);
             _currentEnviroment.Add(go);
-            x += go.Width / 2f;
-            newEnv = EnviromentPatterns[GameSettings.Rnd.Next(0, EnviromentPatterns.Length)];
-            x += newEnv.Width / 2f;
+            x += go.Bounds.extents.x * 0.4f;
         } while (x < GameSettings.RightBorder);
     }
 
@@ -42,27 +42,28 @@ public class EnviromentGenerator : MonoBehaviour
             return;
 
         var env = _currentEnviroment.Last();
-        if (env.transform.position.x + env.Width / 2 > GameSettings.RightBorder)
+        var rightSide = env.transform.position.x + env.Bounds.extents.x * 0.4f;
+        if (rightSide > GameSettings.RightBorder)
             return;
 
         var newEnv = SelectBld();
-
-        var pos = env.transform.position.x + newEnv.Width;
-        var go = Instantiate(newEnv, new Vector3(pos - 0.05f, Y + newEnv.Height / 2f, 0f), _rotation);
+        
+        var go = Instantiate(newEnv, new Vector3(0f, -100f, 0f), _rotation);
+        go.transform.SetPositionAndRotation(new Vector3(rightSide + go.Bounds.extents.x * 0.4f, Y, 0f), _rotation);
         _currentEnviroment.Add(go);
     }
 
-    protected virtual EnviromentScroller SelectBld()
+    protected virtual HousesScroller SelectBld()
     {
         return EnviromentPatterns[GameSettings.Rnd.Next(0, EnviromentPatterns.Length)];
     }
 
     private void RemoveFarObjects()
     {
-        var toDestroy = new List<EnviromentScroller>();
+        var toDestroy = new List<HousesScroller>();
         foreach (var env in _currentEnviroment)
         {
-            if (env != null && env.transform.position.x < GameSettings.LeftBorder - env.Width)
+            if (env != null && env.transform.position.x < GameSettings.LeftBorder - env.Bounds.size.x)
             {
                 toDestroy.Add(env);
             }
@@ -79,7 +80,7 @@ public class EnviromentGenerator : MonoBehaviour
 [Serializable]
 public class BldWithChance
 {
-    public EnviromentScroller Bld;
+    public HousesScroller Bld;
     public float Chance;
     public bool IsStrip;
 }

@@ -482,6 +482,7 @@
     <Compile Include="Assets\GooglePlayGames\Platforms\TokenClient.cs" />
     <Compile Include="Assets\GooglePlayGames\PluginVersion.cs" />
     <Compile Include="Assets\GPGSIds.cs" />
+    <Compile Include="Assets\HousesScroller.cs" />
     <Compile Include="Assets\LeanTouch\Scripts\LeanFinger.cs" />
     <Compile Include="Assets\LeanTouch\Scripts\LeanGesture.cs" />
     <Compile Include="Assets\LeanTouch\Scripts\LeanSelectable.cs" />

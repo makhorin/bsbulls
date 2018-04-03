@@ -13,11 +13,11 @@ public class HousesGenerator : EnviromentGenerator
         base.Start();
     }
 
-    protected override EnviromentScroller SelectBld()
+    protected override HousesScroller SelectBld()
     {
-        EnviromentScroller newEnv = null;
+        HousesScroller newEnv = null;
 
-        if (Time.time - _lastSpecBld > GameSettings.SpecBldCooldownS)
+        if (Time.time - _lastSpecBld > GameSettings.SpecBldCooldownS && SpecialBuildings.Length > 0)
         {
             var specBld = SpecialBuildings[GameSettings.Rnd.Next(0, SpecialBuildings.Length)];
             if (GameSettings.Rnd.NextDouble() > 1f - specBld.Chance && (

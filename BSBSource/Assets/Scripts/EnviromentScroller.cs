@@ -7,12 +7,12 @@ public class EnviromentScroller : MonoBehaviour
 
     public float Width
     {
-        get { return Renderer.sprite.textureRect.width / Renderer.sprite.pixelsPerUnit; }
+        get { return Renderer.sprite.textureRect.width * Renderer.transform.localScale.x / Renderer.sprite.pixelsPerUnit; }
     }
 
     public float Height
     {
-        get { return Renderer.sprite.textureRect.height / Renderer.sprite.pixelsPerUnit; }
+        get { return Renderer.sprite.textureRect.height * Renderer.transform.localScale.y / Renderer.sprite.pixelsPerUnit; }
     }
 
     void Update ()

@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: aa08a828bdc6bc3499c10044ca4d061e
+timeCreated: 1522707825
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Boncegro FF 4F
+  fontNames:
+  - Boncegro FF 4F
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

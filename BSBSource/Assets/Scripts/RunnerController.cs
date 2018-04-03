@@ -14,6 +14,9 @@ public class RunnerController : MonoBehaviour
     private float _minSpeedMultiplier = 1;
     private int _line;
 
+    private Vector2 _shadowPos;
+    private Vector2 _shadowScale;
+
     public Rigidbody2D[] Kishki;
 
     public AudioSource SoundHole;
@@ -42,6 +45,9 @@ public class RunnerController : MonoBehaviour
         _line = line;
         foreach (var sp in GetComponentsInChildren<SpriteRenderer>())
             sp.sortingLayerName = GameSettings.RunnersSortingLayers[line];
+        Shadow.sortingOrder = -1;
+        _shadowScale = Shadow.transform.localScale;
+        _shadowPos = Shadow.transform.position;
     }
 
     void Awake()
@@ -86,7 +92,17 @@ public class RunnerController : MonoBehaviour
         {
             HandleJump();
             HandleRun();
+            HandleShadow();
         }
+    }
+
+    private void HandleShadow()
+    {
+        var ground = GameSettings.Ground[_line];
+        Shadow.transform.position = new Vector3(Shadow.transform.position.x, _shadowPos.y, Shadow.transform.position.z);
+        var delta = 1 - Math.Min((transform.position.y - 2f) - ground, 1f);
+        Shadow.transform.localScale = new Vector2(Math.Min(_shadowScale.x,_shadowScale.x * delta),
+            Math.Min(_shadowScale.y,_shadowScale.y * delta));
     }
 
     public void HandleStrip(Vector3 pos)
@@ -136,7 +152,6 @@ public class RunnerController : MonoBehaviour
     {
         if (!_canJump || !InputHelper.Up())
             return;
-        Shadow.enabled = false;
         _canJump = false;
         var jumpKoef = (float)GameSettings.Rnd.NextDouble() * GameSettings.RandomJumpMultipier;
         var jump = GameSettings.MinJumpHeight + jumpKoef;
@@ -188,7 +203,6 @@ public class RunnerController : MonoBehaviour
                 Fall();
                 break;
             case "Line":
-                Shadow.enabled = true;
                 _canJump = true;
                 break;
         }
