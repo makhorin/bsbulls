@@ -19,14 +19,19 @@ public class EnviromentGenerator : MonoBehaviour
             return;
 
         var x = GameSettings.LeftBorder + XOffset;
-        
+        var newEnv = EnviromentPatterns[GameSettings.Rnd.Next(0, EnviromentPatterns.Length)];
+        float? offset = null;
         do
         {
-            var newEnv = EnviromentPatterns[GameSettings.Rnd.Next(0, EnviromentPatterns.Length)];
             var go = Instantiate(newEnv, new Vector3(0f, -100f, 0f), _rotation);
-            go.transform.SetPositionAndRotation(new Vector3(x + go.Bounds.extents.x * 0.4f, Y + go.Bounds.extents.y * 0.4f, 0f), _rotation);
+            go.transform.SetPositionAndRotation(new Vector3((offset.HasValue ?
+                offset.Value
+                : x + go.Bounds.extents.x), Y + go.Bounds.extents.y + go.YOffset, 0f), _rotation);
             _currentEnviroment.Add(go);
-            x += go.Bounds.extents.x * 0.4f;
+            x += go.Bounds.extents.x;
+            var newHouse = newEnv.NextPossibleHouses[GameSettings.Rnd.Next(0, newEnv.NextPossibleHouses.Length)];
+            offset = go.transform.position.x + newHouse.XOffset;
+            newEnv = newHouse.Bld;
         } while (x < GameSettings.RightBorder);
     }
 
@@ -42,14 +47,16 @@ public class EnviromentGenerator : MonoBehaviour
             return;
 
         var env = _currentEnviroment.Last();
-        var rightSide = env.transform.position.x + env.Bounds.extents.x * 0.4f;
+        var rightSide = env.transform.position.x + env.Bounds.extents.x - 0.2f;
         if (rightSide > GameSettings.RightBorder)
             return;
 
-        var newEnv = SelectBld();
-        
-        var go = Instantiate(newEnv, new Vector3(0f, -100f, 0f), _rotation);
-        go.transform.SetPositionAndRotation(new Vector3(rightSide + go.Bounds.extents.x * 0.4f, Y, 0f), _rotation);
+        var newEnv = env.NextPossibleHouses[GameSettings.Rnd.Next(0, env.NextPossibleHouses.Length)];
+
+        var go = Instantiate(newEnv.Bld, new Vector3(env.transform.position.x + newEnv.XOffset, -100f, 0f), _rotation);
+        var y = go.Bounds.extents.y + Y + go.YOffset;
+        go.transform.SetPositionAndRotation(new Vector3(go.transform.position.x, y, 0f), _rotation);
+        go.GetComponent<SpriteRenderer>().sortingOrder = env.GetComponent<SpriteRenderer>().sortingOrder + newEnv.LayerOffset;
         _currentEnviroment.Add(go);
     }
 

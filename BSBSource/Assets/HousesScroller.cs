@@ -1,7 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class HousesScroller : MonoBehaviour {
 
+    public NextBld[] NextPossibleHouses;
+    public float YOffset;
     private Bounds _bounds;
     public Bounds Bounds
     {
@@ -30,4 +33,12 @@ public class HousesScroller : MonoBehaviour {
             _bounds.Encapsulate(renderer.bounds);
         }
     }
+}
+
+[Serializable]
+public class NextBld
+{
+    public HousesScroller Bld;
+    public float XOffset;
+    public short LayerOffset;
 }

@@ -116,6 +116,7 @@ namespace Assets
             _gameStarted = DateTime.Now;
             Stamina = MaxStamina;
             _currentSpeed = GameSettings.DefaultSpeed;
+            SpeedMultipier = 1f;
         }
 
         public GameStats()
