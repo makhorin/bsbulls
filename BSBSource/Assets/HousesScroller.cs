@@ -13,7 +13,7 @@ public class HousesScroller : MonoBehaviour {
 
     void Update ()
     {
-        transform.Translate(-GameController.GameStats.Speed, 0f, 0f);
+       transform.Translate(-GameController.GameStats.Speed, 0f, 0f);
     }
 }
 
