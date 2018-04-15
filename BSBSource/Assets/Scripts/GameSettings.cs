@@ -11,8 +11,6 @@
     public static float RandomJumpMultipier = 100f;
     public static float DefaultSpeed = 0.1f;
     public static float DefaultTutorShowTime = 1.5f;
-    public static float MaxSpeed = 0.1f;
-    public static float SecondsToReachMaxSpeed = 10f;
     public static float SpeedUpMultipier = 2f;
     public static float SpeedDownMultiplier = 0.5f;
     public static float GroundObstaclesChance = 0.1f;

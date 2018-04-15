@@ -22,7 +22,6 @@ public class GameController : MonoBehaviour
     void Start()
     {
         SetStats();
-        GameSettings.DefaultSpeed = 0f;
         if (GameStats.Money <= 0)
             StartGame();
     }
@@ -49,7 +48,6 @@ public class GameController : MonoBehaviour
         Destroy(Shop);
         GameStats.Money = 0;
         _started = true;
-        GameSettings.DefaultSpeed = 5f;
         WorldController.StartGame();
         BullsController.StartGame();
         GameStats.StartGame();

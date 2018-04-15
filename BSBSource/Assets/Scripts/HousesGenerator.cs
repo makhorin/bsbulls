@@ -1,36 +1,98 @@
-﻿using Assets;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class HousesGenerator : EnviromentGenerator
+public class HousesGenerator : MonoBehaviour
 {
 
     public BldWithChance[] SpecialBuildings;
     private float _lastSpecBld;
 
-    protected override void Start()
+    public HousesScroller[] EnviromentPatterns;
+
+    private readonly List<HousesScroller> _currentEnviroment = new List<HousesScroller>();
+    private readonly Quaternion _rotation = Quaternion.identity;
+
+    public float Y;
+    public float XOffset;
+
+    protected void Start()
     {
         _lastSpecBld = Time.time;
-        base.Start();
+        if (EnviromentPatterns.Length == 0)
+            return;
+
+        var newEnv = EnviromentPatterns[GameSettings.Rnd.Next(0, EnviromentPatterns.Length)];
+        var offset = GameSettings.LeftBorder;
+        var sortingOrder = 0;
+        do
+        {
+            var go = Instantiate(newEnv, new Vector3(offset, Y + newEnv.YOffset, 0f), _rotation);
+            _currentEnviroment.Add(go);
+            SetSortingOrger(go.gameObject, sortingOrder);
+            sortingOrder-=10;
+            var newHouse = newEnv.NextPossibleHouses[GameSettings.Rnd.Next(0, newEnv.NextPossibleHouses.Length)];
+            offset = go.transform.position.x + newHouse.XOffset;
+            newEnv = newHouse.Bld;
+        } while (offset < GameSettings.RightBorder);
     }
 
-    protected override HousesScroller SelectBld()
+    void Update()
     {
-        HousesScroller newEnv = null;
+        GenerateEnviroment();
+        RemoveFarObjects();
+    }
 
-        if (Time.time - _lastSpecBld > GameSettings.SpecBldCooldownS && SpecialBuildings.Length > 0)
+    private void GenerateEnviroment()
+    {
+        if (EnviromentPatterns.Length == 0)
+            return;
+
+        var env = _currentEnviroment[_currentEnviroment.Count - 1];
+        var rightSide = env.transform.position.x;
+        if (rightSide > GameSettings.RightBorder)
+            return;
+
+        var newEnv = env.NextPossibleHouses[GameSettings.Rnd.Next(0, env.NextPossibleHouses.Length)];
+        var go = Instantiate(newEnv.Bld, new Vector3(env.transform.position.x + newEnv.XOffset, -100f, 0f), _rotation);
+        var y = Y + go.YOffset;
+        go.transform.SetPositionAndRotation(new Vector3(go.transform.position.x, y, 0f), _rotation);
+        SetSortingOrger(go.gameObject, env.GetComponent<SpriteRenderer>().sortingOrder - 1);
+        _currentEnviroment.Add(go);
+    }
+
+    private void RemoveFarObjects()
+    {
+        if (_currentEnviroment.Count <= 7)
+            return;
+
+        while (_currentEnviroment.Count > 7)
         {
-            var specBld = SpecialBuildings[GameSettings.Rnd.Next(0, SpecialBuildings.Length)];
-            if (GameSettings.Rnd.NextDouble() > 1f - specBld.Chance && (
-                    !specBld.IsStrip || (!GameController.GameStats.IsFrontBull && !GameController.GameStats.IsBackBull)))
-            {
-                newEnv = specBld.Bld;
-                _lastSpecBld = Time.time;
-            }
+            Destroy(_currentEnviroment[0].gameObject);
+            _currentEnviroment.RemoveAt(0);
         }
 
-        if (newEnv == null)
-            newEnv = base.SelectBld();
-
-        return newEnv;
+        for (var i = 0; i < _currentEnviroment.Count; i++)
+            SetSortingOrger(_currentEnviroment[i].gameObject, i * -10);
     }
+
+    void SetSortingOrger(GameObject go, int order)
+    {
+        var baseRenderer = go.GetComponent<SpriteRenderer>().sortingOrder;
+        foreach (var renderer in go.GetComponentsInChildren<SpriteRenderer>())
+            renderer.sortingOrder = renderer.sortingOrder - baseRenderer + order;
+    }
+
+    protected HousesScroller SelectBld()
+    {
+        return EnviromentPatterns[GameSettings.Rnd.Next(0, EnviromentPatterns.Length)];
+    }
+}
+
+[Serializable]
+public class BldWithChance
+{
+    public HousesScroller Bld;
+    public float Chance;
+    public bool IsStrip;
 }

@@ -1,5 +1,4 @@
-﻿using Assets;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MeshScroller : MonoBehaviour
 {
@@ -15,6 +14,6 @@ public class MeshScroller : MonoBehaviour
     void Update()
     {
         var speed = GameController.GameStats.Speed;
-        _renderer.material.mainTextureOffset = _renderer.material.mainTextureOffset + new Vector2(-speed * Multiplier, 0);
+        _renderer.material.mainTextureOffset = new Vector2(_renderer.material.mainTextureOffset.x - speed * Multiplier, 0);
     }
 }

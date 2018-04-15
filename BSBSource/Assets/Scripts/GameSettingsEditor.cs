@@ -7,8 +7,6 @@ public class GameSettingsEditor : MonoBehaviour
     public float RandomJumpMultipier = 100f;
     public float DefaultSpeed = 0.1f;
     public float DefaultTutorShowTime = 1.5f;
-    public float MaxSpeed = 0.1f;
-    public float SecondsToReachMaxSpeed = 10f;
     public float SpeedUpMultipier = 2f;
     public float SpeedDownMultiplier = 0.5f;
     public float GroundObstaclesChance = 0.1f;
@@ -51,8 +49,6 @@ public class GameSettingsEditor : MonoBehaviour
         GameSettings.RandomJumpMultipier = RandomJumpMultipier;
         GameSettings.DefaultSpeed = DefaultSpeed;
         GameSettings.DefaultTutorShowTime = DefaultTutorShowTime;
-        GameSettings.MaxSpeed = MaxSpeed;
-        GameSettings.SecondsToReachMaxSpeed = SecondsToReachMaxSpeed;
         GameSettings.SpeedUpMultipier = SpeedUpMultipier;
         GameSettings.SpeedDownMultiplier = SpeedDownMultiplier;
         GameSettings.GroundObstaclesChance = GroundObstaclesChance;

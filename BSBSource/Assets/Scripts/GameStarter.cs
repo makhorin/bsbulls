@@ -12,13 +12,15 @@ public class GameStarter : MonoBehaviour
 {
     public AudioSource Intro;
     public AudioSource Ost;
-    public AudioSource PreOst;
     public AudioSource PreStomp;
     public AudioSource Stomp;
     public AudioSource Crowd;
     public AudioSource Menu;
     public AudioSource Strip;
     public SpriteRenderer Black;
+
+    public AudioClip OstSound;
+    public AudioClip PreOstSound;
 
     private bool _fading;
 
@@ -31,7 +33,6 @@ public class GameStarter : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         PlayerPrefs.SetFloat("Intro",Intro.volume);
         PlayerPrefs.SetFloat("Ost", Ost.volume);
-        PlayerPrefs.SetFloat("PreOst", PreOst.volume);
         PlayerPrefs.SetFloat("PreStomp", PreStomp.volume);
         PlayerPrefs.SetFloat("Stomp", Stomp.volume);
         PlayerPrefs.SetFloat("Crowd", Crowd.volume);
@@ -72,16 +73,26 @@ public class GameStarter : MonoBehaviour
 
         PreStomp.Play();
         Stomp.PlayDelayed(PreStomp.clip.length);
-        PreOst.PlayDelayed(1f);
-        Ost.PlayDelayed(PreOst.clip.length + 1f);
         Crowd.PlayDelayed(2f);
+
+        StartCoroutine(PlayOst());
+    }
+
+    IEnumerator PlayOst()
+    {
+        Ost.clip = PreOstSound;
+        Ost.loop = false;
+        Ost.Play();
+        yield return new WaitForSeconds(PreOstSound.length - 0.3f);
+        Ost.clip = OstSound;
+        Ost.loop = true;
+        Ost.Play();
     }
 
     private void ResetSounds()
     {
         Intro.volume = PlayerPrefs.GetFloat("Intro", Intro.volume);
         Ost.volume = PlayerPrefs.GetFloat("Ost", Ost.volume);
-        PreOst.volume = PlayerPrefs.GetFloat("PreOst", PreOst.volume);
         PreStomp.volume = PlayerPrefs.GetFloat("PreStomp", PreStomp.volume);
         Stomp.volume = PlayerPrefs.GetFloat("Stomp", Stomp.volume);
         Crowd.volume = PlayerPrefs.GetFloat("Crowd", Crowd.volume);
@@ -104,7 +115,6 @@ public class GameStarter : MonoBehaviour
 
     IEnumerator StripCoroutine()
     {
-        PreOst.Pause();
         PreStomp.Pause();
         Ost.Pause();
         Stomp.Pause();
@@ -112,7 +122,6 @@ public class GameStarter : MonoBehaviour
 
         Ost.volume = 0;
         Stomp.volume = 0;
-        PreOst.volume = 0;
         PreStomp.volume = 0;
         Crowd.volume = 0;
 
@@ -128,7 +137,6 @@ public class GameStarter : MonoBehaviour
         Ost.UnPause();
         Crowd.UnPause();
         Stomp.UnPause();
-        PreOst.UnPause();
         PreStomp.UnPause();
         while (elapsed < duration)
         {
@@ -137,7 +145,6 @@ public class GameStarter : MonoBehaviour
             Ost.volume = Math.Min(PlayerPrefs.GetFloat("Ost", 1f), percentComplete);
             Stomp.volume = Math.Min(PlayerPrefs.GetFloat("Stomp", 1f), percentComplete);
             Crowd.volume = Math.Min(PlayerPrefs.GetFloat("Crowd", 1f), percentComplete);
-            PreOst.volume = Math.Min(PlayerPrefs.GetFloat("PreOst", 1f), percentComplete);
             PreStomp.volume = Math.Min(PlayerPrefs.GetFloat("PreStomp", 1f), percentComplete);
             yield return null;
         }

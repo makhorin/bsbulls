@@ -113,12 +113,12 @@ TextureImporter:
       name: BULL_RUN_01_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 15
         y: 0
-        width: 750
+        width: 749.25
         height: 661
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -127,12 +127,12 @@ TextureImporter:
       name: BULL_RUN_01_1
       rect:
         serializedVersion: 2
-        x: 750
+        x: 764
         y: 0
-        width: 750
+        width: 749.25
         height: 661
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -141,12 +141,12 @@ TextureImporter:
       name: BULL_RUN_01_2
       rect:
         serializedVersion: 2
-        x: 1500
+        x: 1513
         y: 0
-        width: 750
+        width: 749.25
         height: 661
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -155,12 +155,12 @@ TextureImporter:
       name: BULL_RUN_01_3
       rect:
         serializedVersion: 2
-        x: 2250
+        x: 2262
         y: 0
-        width: 750
+        width: 749.25
         height: 661
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -169,12 +169,12 @@ TextureImporter:
       name: BULL_RUN_01_4
       rect:
         serializedVersion: 2
-        x: 3000
+        x: 3011
         y: 0
-        width: 750
+        width: 749.25
         height: 661
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -183,12 +183,12 @@ TextureImporter:
       name: BULL_RUN_01_5
       rect:
         serializedVersion: 2
-        x: 3750
+        x: 3760
         y: 0
-        width: 750
+        width: 749.25
         height: 661
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -197,12 +197,12 @@ TextureImporter:
       name: BULL_RUN_01_6
       rect:
         serializedVersion: 2
-        x: 4500
+        x: 4509
         y: 0
-        width: 750
+        width: 749.25
         height: 661
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -211,12 +211,12 @@ TextureImporter:
       name: BULL_RUN_01_7
       rect:
         serializedVersion: 2
-        x: 5250
+        x: 5258
         y: 0
-        width: 750
+        width: 749.25
         height: 661
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -225,12 +225,12 @@ TextureImporter:
       name: BULL_RUN_01_8
       rect:
         serializedVersion: 2
-        x: 6000
+        x: 6017
         y: 0
-        width: 750
+        width: 726
         height: 661
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -239,12 +239,12 @@ TextureImporter:
       name: BULL_RUN_01_9
       rect:
         serializedVersion: 2
-        x: 6750
+        x: 6773
         y: 0
-        width: 750
+        width: 732
         height: 661
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -253,12 +253,12 @@ TextureImporter:
       name: BULL_RUN_01_10
       rect:
         serializedVersion: 2
-        x: 7500
+        x: 7522
         y: 0
-        width: 750
+        width: 733
         height: 661
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -267,12 +267,12 @@ TextureImporter:
       name: BULL_RUN_01_11
       rect:
         serializedVersion: 2
-        x: 8250
+        x: 8288
         y: 0
-        width: 750
+        width: 715
         height: 661
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -281,12 +281,12 @@ TextureImporter:
       name: BULL_RUN_01_12
       rect:
         serializedVersion: 2
-        x: 9000
+        x: 9046
         y: 0
-        width: 750
-        height: 661
+        width: 706
+        height: 659
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -295,12 +295,12 @@ TextureImporter:
       name: BULL_RUN_01_13
       rect:
         serializedVersion: 2
-        x: 9750
+        x: 9816
         y: 0
-        width: 750
+        width: 686
         height: 661
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -309,12 +309,12 @@ TextureImporter:
       name: BULL_RUN_01_14
       rect:
         serializedVersion: 2
-        x: 10500
+        x: 10560
         y: 0
-        width: 750
+        width: 691
         height: 661
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -323,12 +323,12 @@ TextureImporter:
       name: BULL_RUN_01_15
       rect:
         serializedVersion: 2
-        x: 11250
+        x: 11309
         y: 0
-        width: 750
+        width: 691
         height: 661
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -337,12 +337,12 @@ TextureImporter:
       name: BULL_RUN_01_16
       rect:
         serializedVersion: 2
-        x: 12000
+        x: 11999
         y: 0
-        width: 750
+        width: 749.25
         height: 661
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -351,12 +351,12 @@ TextureImporter:
       name: BULL_RUN_01_17
       rect:
         serializedVersion: 2
-        x: 12750
+        x: 12778
         y: 0
-        width: 750
+        width: 719
         height: 661
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -365,12 +365,12 @@ TextureImporter:
       name: BULL_RUN_01_18
       rect:
         serializedVersion: 2
-        x: 13500
+        x: 13523
         y: 0
-        width: 750
+        width: 723
         height: 661
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -379,12 +379,12 @@ TextureImporter:
       name: BULL_RUN_01_19
       rect:
         serializedVersion: 2
-        x: 14250
+        x: 14267
         y: 0
-        width: 750
+        width: 728
         height: 661
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
