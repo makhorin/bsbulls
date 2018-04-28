@@ -22,15 +22,18 @@ public class GameController : MonoBehaviour
     void Start()
     {
         SetStats();
-        if (GameStats.Money <= 0)
-            StartGame();
+        
     }
 
     void Update ()
     {
         if (!_started)
+        {
+            if (GameStats.Money <= 0)
+                StartGame();
             return;
-
+        }
+            
         GameStats.IncreaseScore();
         SetStats();
         GameStats.HandleSpeed();

@@ -31,6 +31,9 @@ public class WorldController : MonoBehaviour
             runner.GetComponent<Animator>().Play("Idle");
             _startRunners.Add(runner);
         }
+
+        if (_started)
+            StartGame();
     }
 
     internal void StartGame()

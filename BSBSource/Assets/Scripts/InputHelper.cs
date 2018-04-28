@@ -59,20 +59,16 @@ namespace Assets
 
             LeanTouch.OnFingerSwipe += OnSwipe;
             LeanTouch.OnFingerTap += OnFingerTap;
-            LeanTouch.OnFingerDown += OnFingerDown;
-            LeanTouch.OnFingerUp += OnFingerUp;
+            LeanTouch.OnFingerSet += OnFingerDown;
         }
 
         void OnFingerDown(LeanFinger finger)
         {
+            if (finger.Age < 0.2f)
+                return;
+
             _rightTouch = finger.ScreenPosition.x > Screen.width / 2f;
             _leftTouch = !_rightTouch;
-        }
-
-        void OnFingerUp(LeanFinger finger)
-        {
-            _rightTouch =false;
-            _leftTouch = false;
         }
 
         void OnFingerTap(LeanFinger finger)
@@ -94,6 +90,8 @@ namespace Assets
             _swipeDown = false;
             _leftTap = false;
             _rightTap = false;
+            _rightTouch = false;
+            _leftTouch = false;
         }
 
         void Update()

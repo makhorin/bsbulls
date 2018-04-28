@@ -56,16 +56,15 @@ public class RunnerController : MonoBehaviour
         RigidBody = GetComponent<Rigidbody2D>();
         _animation = GetComponent<Animator>();
         foreach (var sp in GetComponentsInChildren<SpriteRenderer>())
-        {
             sp.sortingOrder = _line;
-        }
-        _animation.SetFloat("SpeedMultiplier", _defaultSpeedMultiplier);
+
         _animation.SetFloat("RunOffset", (float)GameSettings.Rnd.NextDouble());
 
         if (_jumpOnStart)
             _animation.Play("Jump");
     }
 
+    bool _isShocked;
     void Update ()
     {
 
@@ -93,6 +92,9 @@ public class RunnerController : MonoBehaviour
             HandleJump();
             HandleRun();
             HandleShadow();
+            if (GameController.GameStats.IsBackBull && !_isShocked)
+                _animation.Play("Shock");
+            _isShocked = GameController.GameStats.IsBackBull;
         }
     }
 
@@ -111,7 +113,7 @@ public class RunnerController : MonoBehaviour
             return;
         RigidBody.constraints |= RigidbodyConstraints2D.FreezePositionY;
         transform.position = Vector3.MoveTowards(transform.position, pos, GameController.GameStats.Speed * 2f);
-        _animation.SetFloat("SpeedMultiplier", _defaultSpeedMultiplier);
+        _animation.SetBool("IsRunning", false);
         if (Math.Abs(Vector3.Distance(pos, transform.position)) < 0.1f)
         {
             PlayDead();
@@ -119,6 +121,7 @@ public class RunnerController : MonoBehaviour
         }
     }
 
+    bool _isFastRunning;
     private void HandleRun()
     {
         if (GameController.GameStats.Speed == 0f)
@@ -131,8 +134,6 @@ public class RunnerController : MonoBehaviour
 
             if (GameController.GameStats.IsRunning)
                 _translateX = Math.Min(_translateX, 0f);
-
-            _animation.SetFloat("SpeedMultiplier", _defaultSpeedMultiplier);
         }
         else
         {
@@ -140,12 +141,18 @@ public class RunnerController : MonoBehaviour
             var step = sign * GameSettings.Step;
             _translateX -= step;
             transform.Translate(-step, 0f, 0f);
+        }
 
-            if (GameController.GameStats.IsRunning)
-                _animation.SetFloat("SpeedMultiplier", _maxSpeedMultiplier);
+        if (_isFastRunning != GameController.GameStats.IsRunning)
+        {
+            _isFastRunning = GameController.GameStats.IsRunning;
+            if (_isFastRunning)
+                _animation.Play("FastRun");
             else
-                _animation.SetFloat("SpeedMultiplier", _minSpeedMultiplier);
-        }        
+                _animation.Play("Run");
+        }
+
+        _animation.SetBool("IsRunning", GameController.GameStats.IsRunning);
     }
 
     private void HandleJump()
