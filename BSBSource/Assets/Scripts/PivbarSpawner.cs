@@ -6,6 +6,7 @@ namespace Assets.Scripts
     public class PivbarSpawner : MonoBehaviour
     {
         public RunnerController RunnerObj;
+        public GameObject Door;
 
         private int _minTaps;
         private bool _spawning;
@@ -28,7 +29,7 @@ namespace Assets.Scripts
                     _minTaps--;
                 return;
             }
-
+            Door.SetActive(true);
             _spawning = true;
             StartCoroutine("SpawnCoroutine");
         }

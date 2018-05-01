@@ -31,13 +31,10 @@ public class TutorController : MonoBehaviour {
             switch (_key.Value)
             {
                 case KeyCode.LeftArrow:
-                    if (InputHelper.LeftTap())
+                case KeyCode.RightArrow:
+                    if (InputHelper.LeftTap() || InputHelper.RightTap())
                         _times--;
                     break;
-                case KeyCode.RightArrow:
-                    if (InputHelper.RightTap())
-                        _times--;
-                     break;
                 case KeyCode.DownArrow:
                     if (InputHelper.Down())
                         _times--;
@@ -65,13 +62,11 @@ public class TutorController : MonoBehaviour {
             switch (_key.Value)
             {
                 case KeyCode.LeftArrow:
-                    TextField.text = "TAP LEFT";
-                    break;
                 case KeyCode.RightArrow:
-                    TextField.text = "TAP RIGHT";
+                    TextField.text = "TAP";
                     break;
                 case KeyCode.DownArrow:
-                    TextField.text = "GET DOWN";
+                    TextField.text = "SWIPE DOWN";
                     break;
             }
             _showTime = Time.time;

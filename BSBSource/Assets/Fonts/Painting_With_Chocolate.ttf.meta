@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 055d2823c5a5f144786ccb85ad27e3c8
+timeCreated: 1525176279
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Painting With Chocolate
+  fontNames:
+  - Painting With Chocolate
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

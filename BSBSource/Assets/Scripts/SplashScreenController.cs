@@ -1,37 +1,39 @@
-﻿using Assets;
-using GooglePlayGames;
+﻿using GooglePlayGames;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SplashScreenController : MonoBehaviour
 {
-    public DelayedObject[] DelayedObjects;
-    private List<DelayedObject> _toCreate;
-    void Start ()
-    {
-        Array.Sort(DelayedObjects, (p, n) => p.DelayS.CompareTo(n.DelayS));
-        _toCreate = DelayedObjects.ToList();
-
-#if UNITY_ANDROID
-        
-#endif
-    }
-    
+    public Transform Bull;
+    public Transform BullPivot;
+    public Text[] Text;
+    bool _textReady;
+    bool _bullReady;
+    float _textSeconds = 1f;
+    float _textAlpha = 0f;
+    float _bullTime = 0.2f;
     void Update ()
     {
-        if (_toCreate.Count > 0)
+        if (!_textReady)
         {
-            var cr = _toCreate[0];
-            if (cr.DelayS < Time.time)
-            {
-                cr.Obj.SetActive(true);
-                _toCreate.Remove(cr);
-            }
+            _textAlpha += Time.deltaTime / _textSeconds;
+            if (_textAlpha > 1f)
+                _textReady = true;
+            else
+                foreach (var txt in Text)
+                    txt.color = new Color(txt.color.r, txt.color.g, txt.color.b, _textAlpha);
+        }
+        else if (!_bullReady)
+        {
+            _bullTime -= Time.deltaTime;
+            Bull.RotateAround(BullPivot.position, new Vector3(0, 0, 1), Time.deltaTime * 240);
+            if (_bullTime <= 0f)
+                _bullReady = true;
         }
         else
         {
+            GameSettings.CanStartGame = true;
             StartCoroutine("GPAuthenticate");
             enabled = false;
         }

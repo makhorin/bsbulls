@@ -75,7 +75,7 @@ public class GameSettings
 
     public static int MinTapsForPivbar = 5;
 
-    public static bool CanStartGame = true;
+    public static bool CanStartGame = false;
 
     public static int MinTapsForStrip = 5;
 }

@@ -277,10 +277,3 @@ public class GameStarter : MonoBehaviour
         
     }
 }
-
-[Serializable]
-public class DelayedObject
-{
-    public GameObject Obj;
-    public float DelayS;
-}

@@ -312,6 +312,8 @@
     <Compile Include="Assets\GooglePlayGames\Editor\GPGSUpgrader.cs" />
     <Compile Include="Assets\GooglePlayGames\Editor\GPGSUtil.cs" />
     <Compile Include="Assets\GooglePlayGames\Editor\NearbyConnectionUI.cs" />
+    <Compile Include="Assets\Kino\Bloom\Editor\BloomEditor.cs" />
+    <Compile Include="Assets\Kino\Bloom\Editor\BloomGraphDrawer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\GooglePlayGames\Editor\GooglePlayGamesPluginDependencies.xml" />
@@ -321,6 +323,8 @@
     <None Include="Assets\GooglePlayGames\Editor\template-Constants.txt" />
     <None Include="Assets\GooglePlayGames\Editor\template-GameInfo.txt" />
     <None Include="Assets\GooglePlayGames\Plugins\Android\GooglePlayGamesManifest.plugin\AndroidManifest.xml" />
+    <None Include="Assets\Kino\Bloom\Shader\Bloom.cginc" />
+    <None Include="Assets\Kino\Bloom\Shader\Bloom.shader" />
     <None Include="Assets\PlayServicesResolver\Editor\play-services-resolver.txt" />
     <None Include="Assets\PlayServicesResolver\proguard-messaging-workaround.txt" />
     <None Include="Assets\PlayServicesResolver\proguard-unity.txt" />

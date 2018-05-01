@@ -3,6 +3,7 @@
 public class PivBarController : HousesScroller {
 
     public RunnerController RunnerObj;
+
     public int MinTaps;
     private int? toGenerate;
 
