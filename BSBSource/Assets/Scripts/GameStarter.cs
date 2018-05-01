@@ -40,20 +40,29 @@ public class GameStarter : MonoBehaviour
         PlayerPrefs.Save();
         SceneManager.sceneLoaded += SceneManagerOnSceneLoaded;
     }
-    
+
+    private bool _starting;
     void Update ()
     {
         if (GameController.GameStats != null && GameController.GameStats.GameOver)
+        {
             HandleGameOver();
+        }
         else if (_strip)
         {
             _strip = false;
             StartCoroutine("StripCoroutine");
         }
+        else if (GameSettings.CanStartGame && !_starting)
+        {
+            if (InputHelper.LeftTap() || InputHelper.RightTap())
+                HandleStart();
+        }
     }
 
     public void HandleStart()
     {
+        _starting = true;
         ResetSounds();
         Ost.Stop();
         Crowd.Stop();
@@ -103,6 +112,7 @@ public class GameStarter : MonoBehaviour
     {
         if (_fading)
             return;
+        _starting = false;
         _fading = true;
         StartCoroutine("FadeOnGameOver");
     }

@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class RunnerController : MonoBehaviour
 {
-    private GameSettings _settings;
-    private float _translateX;
     public Rigidbody2D RigidBody;
     private Animator _animation;
     private float _defaultSpeedMultiplier = 2;
@@ -26,14 +24,14 @@ public class RunnerController : MonoBehaviour
     public AudioSource SoundBananaSmash;
     public AudioSource SoundBullSmash;
 
-    private bool _canJump = true;
+    private bool _canJump = false;
     private bool _bananaFall = false;
     private bool _instantDeath = false;
     private bool _jumpOnStart = false;
     
 
     public SpriteRenderer Shadow;
-    public GameObject Blood;
+    public BloodSplat Blood;
 
     public event Action<GameObject> IamDead;
 
@@ -67,6 +65,10 @@ public class RunnerController : MonoBehaviour
     bool _isShocked;
     void Update ()
     {
+        if (GameController.GameStats.IsStrip)
+            RigidBody.constraints |= RigidbodyConstraints2D.FreezePositionY;
+        else
+            RigidBody.constraints &= ~RigidbodyConstraints2D.FreezePositionY;
 
         var p = transform.position;
         if (p.x > GameSettings.RightBorder || 
@@ -109,10 +111,7 @@ public class RunnerController : MonoBehaviour
 
     public void HandleStrip(Vector3 pos)
     {
-        if (!_canJump)
-            return;
-        RigidBody.constraints |= RigidbodyConstraints2D.FreezePositionY;
-        transform.position = Vector3.MoveTowards(transform.position, pos, GameController.GameStats.Speed * 2f);
+         transform.position = Vector3.MoveTowards(transform.position, pos, GameController.GameStats.Speed);
         _animation.SetBool("IsRunning", false);
         if (Math.Abs(Vector3.Distance(pos, transform.position)) < 0.1f)
         {
@@ -127,20 +126,17 @@ public class RunnerController : MonoBehaviour
         if (GameController.GameStats.Speed == 0f)
             return;
 
-        if (Math.Abs(_translateX) < GameSettings.Step)
-        {
-            var centerDelta = transform.position.x - GameSettings.Center;
-            _translateX = centerDelta * GameSettings.ApproachKoef;
+        var centerDelta = transform.position.x - GameSettings.Center;
 
-            if (GameController.GameStats.IsRunning)
-                _translateX = Math.Min(_translateX, 0f);
-        }
-        else
+        if (centerDelta < -0.5)
         {
-            var sign = Math.Sign(_translateX);
-            var step = sign * GameSettings.Step;
-            _translateX -= step;
-            transform.Translate(-step, 0f, 0f);
+            if (GameController.GameStats.IsRunning)
+                transform.Translate(GameSettings.Step * GameSettings.ApproachKoef, 0f, 0f);
+        }
+        else if (centerDelta > 1)
+        {
+            if (!GameController.GameStats.IsRunning)
+                transform.Translate(-GameSettings.Step * GameSettings.ApproachKoef, 0f, 0f);
         }
 
         if (_isFastRunning != GameController.GameStats.IsRunning)
@@ -186,6 +182,19 @@ public class RunnerController : MonoBehaviour
         transform.Translate(-GameController.GameStats.Speed, 0f, 0f);
     }
 
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        switch (collision.gameObject.tag)
+        {
+            case "Runner":
+                if (collision.transform.position.y - collision.otherCollider.transform.position.y > 0.2f)
+                    transform.Translate(-GameSettings.Step, 0f, 0f);
+                else if (collision.transform.position.y - collision.otherCollider.transform.position.y < -0.2f)
+                    transform.Translate(GameSettings.Step, 0f, 0f);
+                break;
+        }
+    }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         switch (collision.gameObject.tag)
@@ -198,16 +207,6 @@ public class RunnerController : MonoBehaviour
                 SoundBananaSmash.PlayDelayed(0.5f);
                 Shadow.enabled = false;
                 PlayDead();
-                break;
-            case "Runner":
-                foreach (var p in collision.contacts)
-                {
-                    if(p.point.y < transform.position.y || 
-                        Math.Abs(p.point.x - transform.position.x) > 0.4f)
-                        return;
-                }
-
-                Fall();
                 break;
             case "Line":
                 _canJump = true;
@@ -280,6 +279,7 @@ public class RunnerController : MonoBehaviour
                 j = 0;
         }
         var go = Instantiate(Blood, new Vector3(transform.position.x, GameSettings.Ground[_line]), Quaternion.identity);
+        go.Blood.GetComponent<Renderer>().sortingLayerName = GameSettings.BullSortingLayers[_line];
         Destroy(go,5f);
     }
 }

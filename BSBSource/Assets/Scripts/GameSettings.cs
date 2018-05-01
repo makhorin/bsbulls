@@ -1,4 +1,6 @@
-﻿public class GameSettings
+﻿using System;
+
+public class GameSettings
 {
     public static System.Random Rnd = new System.Random();
     public static float[] Ground = new [] {-3f, -4f, -5f};
@@ -16,7 +18,7 @@
     public static float GroundObstaclesChance = 0.1f;
     public static int MaxRunners = 2;
     public static float RunnersRadius = 5f;
-    public static float ApproachKoef = 0.8f;
+    public static float ApproachKoef = 5f;
     public static float Step = 0.01f;
     public static float BullStep = 0.1f;
 
@@ -46,6 +48,9 @@
 
     public static float MaxStamina = 1f;
 
+    public static float WaitingRunnersCooldown = 2f;
+    public static float WaitingRunnersChance = 0.5f;
+
     public static int GetRandomLine()
     {
         return Rnd.Next(0, 3);
@@ -59,4 +64,18 @@
     public static string[] RunnersSortingLayers = new[] { "Player", "Player2", "Player3" };
     public static int[] KishkiLayers = new[] { 25, 28, 29 };
     public static string[] LayerNames = new[] { "Line1", "Line2", "Line3" };
+
+    public static double PivBarCooldown = 10;
+    public static double PivBarChance = 0.5;
+
+    public static double StripCooldown = 15;
+    public static double StripChance = 0.3;
+
+    public static int PivBarSpawn = 10;
+
+    public static int MinTapsForPivbar = 5;
+
+    public static bool CanStartGame = true;
+
+    public static int MinTapsForStrip = 5;
 }

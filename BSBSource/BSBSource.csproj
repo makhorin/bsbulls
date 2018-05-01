@@ -509,17 +509,16 @@
     <Compile Include="Assets\Scripts\Obstacles\Manhole.cs" />
     <Compile Include="Assets\Scripts\Obstacles\Obstacle.cs" />
     <Compile Include="Assets\Scripts\PivBarController.cs" />
+    <Compile Include="Assets\Scripts\PivbarSpawner.cs" />
     <Compile Include="Assets\Scripts\RunnerController.cs" />
     <Compile Include="Assets\Scripts\ScoreController.cs" />
     <Compile Include="Assets\Scripts\SplashScreenController.cs" />
     <Compile Include="Assets\Scripts\StripController.cs" />
-    <Compile Include="Assets\Scripts\ToPointScroller.cs" />
     <Compile Include="Assets\Scripts\TutorController.cs" />
     <Compile Include="Assets\Scripts\UpDownScroller.cs" />
     <Compile Include="Assets\Scripts\WaitingRunnerController.cs" />
     <Compile Include="Assets\Scripts\WorldController.cs" />
-    <Compile Include="Assets\ShopController.cs" />
-    <Compile Include="Assets\Simple UI\Samples\IconPreview.cs" />
+    <Compile Include="Assets\WaitingRunnersGroup.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\GooglePlayGames\Editor\GooglePlayGamesPluginDependencies.xml" />
@@ -533,6 +532,7 @@
     <None Include="Assets\PlayServicesResolver\proguard-messaging-workaround.txt" />
     <None Include="Assets\PlayServicesResolver\proguard-unity.txt" />
     <None Include="Assets\SpriteShadow.shader" />
+    <None Include="Assets\Textures\Player\anim_player_fastrun.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

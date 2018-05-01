@@ -1,85 +1,65 @@
 ﻿using Assets;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class StripController : MonoBehaviour
+public class StripController : HousesScroller
 {
     private bool _toggled;
     private float _lastPressRight;
-    private HashSet<RunnerController> _runners = new HashSet<RunnerController>();
-    private HashSet<RunnerController> _toRemove = new HashSet<RunnerController>();
+    private int _minTaps;
 
     public Transform GPoint;
 
-    void Start ()
+    public override bool CanBeShown
     {
+        get
+        {
+            return GameController.GameStats.ShowStrip;
+        }
+    }
+
+    protected override void Start ()
+    {
+        base.Start();
+        _minTaps = GameSettings.MinTapsForStrip;
         GameController.GameStats.IsStrip = true;
     }
 
     private void OnDestroy()
     {
-        GameController.GameStats.IsStrip = false;
+       GameController.GameStats.IsStrip = false;
     }
 
-    void Update ()
+    protected override void Update ()
     {
-        if (GameController.GameStats.GameOver)
+        base.Update();
+        if (GameController.GameStats.GameOver || 
+            transform.position.x < (GameSettings.RightBorder + GameSettings.LeftBorder) / 2f ||
+            _minTaps <= 0)
+        {
+            Time.timeScale = 1f;
+            GameController.GameStats.IsStrip = false;
+            return;
+        }  
+        else if (transform.position.x > GameSettings.RightBorder - 0.5f)
             return;
 
-        if (transform.position.x > GameSettings.RightBorder - 0.5f)
+        if (InputHelper.RightTap() || InputHelper.LeftTap())
         {
+            _minTaps--;
             return;
         }
 
-        if (transform.position.x < (GameSettings.RightBorder + GameSettings.LeftBorder) / 2f)
-        {
-            GameController.GameStats.ToggleSlowMotion();
-            enabled = false;
-        }
+        var runners = FindObjectsOfType<RunnerController>();
 
-        if (InputHelper.RightTap())
-        {
-            _lastPressRight = Time.time;
-            return;
-        }
-        else if (Time.time - _lastPressRight <= GameSettings.LastPressOffset)
-            return;
-
-        foreach (var runner in _runners)
-        {
-            if (!_toRemove.Contains(runner))
-                runner.HandleStrip(GPoint.position);
-        }
+        foreach (var runner in runners)
+            runner.HandleStrip(GPoint.position);
 
         if (_toggled)
             return;
-
+        
         TutorController.ShowTutor(KeyCode.RightArrow, int.MaxValue);
         GameStarter.ToggleStrip();
-        GameController.GameStats.ToggleSlowMotion();
+        Time.timeScale = 0.2f;
         _toggled = true;
-    }
-
-    void OnTriggerEnter2D(Collider2D collider)
-    {
-        switch (collider.gameObject.tag)
-        {
-            case "Runner":
-                var runner = collider.gameObject.GetComponent<RunnerController>();
-                _runners.Add(runner);
-                break;
-        }
-    }
-
-    void OnTriggerExit2D(Collider2D collider)
-    {
-        switch (collider.gameObject.tag)
-        {
-            case "Runner":
-                var runner = collider.gameObject.GetComponent<RunnerController>();
-                _toRemove.Add(runner);
-                runner.RigidBody.constraints &= ~RigidbodyConstraints2D.FreezePositionY;
-                break;
-        }
     }
 }

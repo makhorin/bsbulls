@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class HousesGenerator : MonoBehaviour
 {
-
-    public BldWithChance[] SpecialBuildings;
     private float _lastSpecBld;
 
     public HousesScroller[] EnviromentPatterns;
@@ -31,7 +29,17 @@ public class HousesGenerator : MonoBehaviour
             _currentEnviroment.Add(go);
             SetSortingOrger(go.gameObject, sortingOrder);
             sortingOrder-=10;
-            var newHouse = newEnv.NextPossibleHouses[GameSettings.Rnd.Next(0, newEnv.NextPossibleHouses.Length)];
+
+            var nextPossible = newEnv.NextPossibleHouses.Length;
+            var index = GameSettings.Rnd.Next(0, nextPossible);
+            NextBld newHouse;
+            do
+            {
+                newHouse = newEnv.NextPossibleHouses[index];
+                index++;
+                if (nextPossible <= index)
+                    index = 0;
+            } while (!newHouse.Bld.CanBeShown);
             offset = go.transform.position.x + newHouse.XOffset;
             newEnv = newHouse.Bld;
         } while (offset < GameSettings.RightBorder);
@@ -53,8 +61,18 @@ public class HousesGenerator : MonoBehaviour
         if (rightSide > GameSettings.RightBorder)
             return;
 
-        var newEnv = env.NextPossibleHouses[GameSettings.Rnd.Next(0, env.NextPossibleHouses.Length)];
-        var go = Instantiate(newEnv.Bld, new Vector3(env.transform.position.x + newEnv.XOffset, -100f, 0f), _rotation);
+        var nextPossible = env.NextPossibleHouses.Length;
+        var index = GameSettings.Rnd.Next(0, nextPossible);
+        NextBld newHouse;
+        do
+        {
+            newHouse = env.NextPossibleHouses[index];
+            index++;
+            if (nextPossible <= index)
+                index = 0;
+        } while (!newHouse.Bld.CanBeShown);
+        
+        var go = Instantiate(newHouse.Bld, new Vector3(env.transform.position.x + newHouse.XOffset, -100f, 0f), _rotation);
         var y = Y + go.YOffset;
         go.transform.SetPositionAndRotation(new Vector3(go.transform.position.x, y, 0f), _rotation);
         SetSortingOrger(go.gameObject, env.GetComponent<SpriteRenderer>().sortingOrder - 1);

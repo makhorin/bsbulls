@@ -5,13 +5,16 @@ public class HousesScroller : MonoBehaviour {
 
     public NextBld[] NextPossibleHouses;
     public float YOffset;
-
-    private void Start()
+    public virtual bool CanBeShown
+    {
+        get {return true;}
+    }
+    protected virtual void Start()
     {
         transform.Translate(-GameController.GameStats.Speed, 0f, 0f);
     }
 
-    void Update ()
+    protected virtual void Update ()
     {
        transform.Translate(-GameController.GameStats.Speed, 0f, 0f);
     }

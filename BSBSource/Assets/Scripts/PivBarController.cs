@@ -1,14 +1,21 @@
 ﻿using UnityEngine;
 
-public class PivBarController : MonoBehaviour {
+public class PivBarController : HousesScroller {
 
-	// Use this for initialization
-	void Start () {
-		TutorController.ShowTutor(KeyCode.LeftArrow, 3);
+    public RunnerController RunnerObj;
+    public int MinTaps;
+    private int? toGenerate;
+
+    protected override void Start () {
+        base.Start();
+        TutorController.ShowTutor(KeyCode.LeftArrow, 3);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    public override bool CanBeShown
+    {
+        get
+        {
+            return GameController.GameStats.ShowPivBar;
+        }
+    }
 }

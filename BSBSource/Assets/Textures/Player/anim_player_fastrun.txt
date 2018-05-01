@@ -1,0 +1,108 @@
+{"frames": {
+
+"Armature_RUN_02_00.png":
+{
+	"frame": {"x":1282,"y":2,"w":578,"h":498},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":41,"y":208,"w":578,"h":498},
+	"sourceSize": {"w":1210,"h":748}
+},
+"Armature_RUN_02_01.png":
+{
+	"frame": {"x":628,"y":478,"w":618,"h":430},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":18,"y":230,"w":618,"h":430},
+	"sourceSize": {"w":1210,"h":748}
+},
+"Armature_RUN_02_02.png":
+{
+	"frame": {"x":1248,"y":502,"w":586,"h":444},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":8,"y":222,"w":586,"h":444},
+	"sourceSize": {"w":1210,"h":748}
+},
+"Armature_RUN_02_03.png":
+{
+	"frame": {"x":512,"y":1420,"w":520,"h":466},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":5,"y":213,"w":520,"h":466},
+	"sourceSize": {"w":1210,"h":748}
+},
+"Armature_RUN_02_04.png":
+{
+	"frame": {"x":2,"y":942,"w":522,"h":470},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":206,"w":522,"h":470},
+	"sourceSize": {"w":1210,"h":748}
+},
+"Armature_RUN_02_05.png":
+{
+	"frame": {"x":2,"y":468,"w":624,"h":472},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":4,"y":198,"w":624,"h":472},
+	"sourceSize": {"w":1210,"h":748}
+},
+"Armature_RUN_02_06.png":
+{
+	"frame": {"x":2,"y":2,"w":652,"h":464},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":13,"y":205,"w":652,"h":464},
+	"sourceSize": {"w":1210,"h":748}
+},
+"Armature_RUN_02_07.png":
+{
+	"frame": {"x":656,"y":2,"w":624,"h":474},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":27,"y":198,"w":624,"h":474},
+	"sourceSize": {"w":1210,"h":748}
+},
+"Armature_RUN_02_08.png":
+{
+	"frame": {"x":628,"y":910,"w":508,"h":510},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":52,"y":206,"w":508,"h":510},
+	"sourceSize": {"w":1210,"h":748}
+},
+"Armature_RUN_02_09.png":
+{
+	"frame": {"x":980,"y":1420,"w":474,"h":510},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":47,"y":207,"w":474,"h":510},
+	"sourceSize": {"w":1210,"h":748}
+},
+"Armature_RUN_02_10.png":
+{
+	"frame": {"x":2,"y":1414,"w":482,"h":508},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":43,"y":208,"w":482,"h":508},
+	"sourceSize": {"w":1210,"h":748}
+},
+"Armature_RUN_02_11.png":
+{
+	"frame": {"x":1282,"y":2,"w":578,"h":498},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":41,"y":208,"w":578,"h":498},
+	"sourceSize": {"w":1210,"h":748}
+}},
+"meta": {
+	"app": "http://www.texturepacker.com",
+	"version": "1.0",
+	"image": "anim_player_fastrun.png",
+	"format": "RGBA8888",
+	"size": {"w":2048,"h":2048},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:aeecadf1fc1c48ef2e0e731de6fb269d$"
+}
+}

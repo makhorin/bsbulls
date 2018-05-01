@@ -5,7 +5,6 @@ namespace Assets
 {
     public class GameStats
     {
-
         public float GetRunTime()
         {
             return _gameStarted.HasValue ? (float)DateTime.Now.Subtract(_gameStarted.Value).TotalSeconds : 0f;
@@ -15,23 +14,6 @@ namespace Assets
 
         public int Dead;
         public int CurrentRunners;
-
-        private int _money;
-        public int Money
-        {
-            get
-            {
-                return _money;
-            }
-            set
-            {
-                if (_money == value)
-                    return;
-                _money = value;
-                PlayerPrefs.SetInt("money", _money);
-                PlayerPrefs.Save();
-            }
-        }
 
         public int Score
         {
@@ -115,18 +97,23 @@ namespace Assets
         {
             _gameStarted = DateTime.Now;
             Stamina = MaxStamina;
-            _currentSpeed = GameSettings.DefaultSpeed;
+            _defaultSpeed = GameSettings.DefaultSpeed * 0.5f;
+            _currentSpeed = _defaultSpeed;
             SpeedMultipier = 1f;
+            _lastWaitingRunners = DateTime.Now;
+            _lastPivBar = DateTime.Now;
+            _lastStrip = DateTime.Now;
+            GameSettings.CanStartGame = false;
         }
 
         public GameStats()
         {
             _stamina = GameSettings.MaxStamina;
-            _money = PlayerPrefs.GetInt("money", 0);
             MaxStamina = GameSettings.MaxStamina;
         }
 
         private float _currentSpeed;
+        private float _defaultSpeed;
         public float Speed
         {
             get { return _currentSpeed * SpeedMultipier; }
@@ -136,18 +123,18 @@ namespace Assets
 
         public float SpeedMultipier;
         
-        bool _isSlowMotion;
-        public void ToggleSlowMotion()
-        {
-            _isSlowMotion = !_isSlowMotion;
-        }
-
         private float _deltaTime;
         public void HandleSpeed()
         {
-            _deltaTime += (Time.unscaledDeltaTime - _deltaTime) * 0.1f;
+            _deltaTime += (Time.deltaTime - _deltaTime) * 0.1f;
 
-            _currentSpeed = GameSettings.DefaultSpeed * _deltaTime;
+            if (_defaultSpeed < GameSettings.DefaultSpeed)
+                _defaultSpeed += Time.deltaTime;
+
+            if (_defaultSpeed > GameSettings.DefaultSpeed)
+                _defaultSpeed = GameSettings.DefaultSpeed;
+
+            _currentSpeed = _defaultSpeed * _deltaTime;
 
             IsRunning = false;
 
@@ -167,22 +154,68 @@ namespace Assets
                 SpeedMultipier = 1f;
                 Stamina += 0.5f * Time.deltaTime;
             }
-            HandleSlowMotion();
         }
-
-        void HandleSlowMotion()
-        {
-            if (!_isSlowMotion)
-                return;
-
-            _currentSpeed /= 3f;      
-        }
-
         
         public bool ShakeIt { get; set; }
 
         public bool IsStrip { get; set; }
         public bool IsFrontBull { get; set; }
         public bool IsBackBull { get; set; }
+
+        private DateTime _lastPivBar;
+        public bool ShowPivBar
+        {
+            get
+            {
+                if (!_gameStarted.HasValue)
+                    return false;
+                if (DateTime.Now.Subtract(_lastPivBar).TotalSeconds < GameSettings.PivBarCooldown)
+                    return false;
+
+                if (GameSettings.Rnd.NextDouble() > GameSettings.PivBarChance)
+                    return false;
+
+                _lastPivBar = DateTime.Now;
+                return true;
+            }
+        }
+
+        private DateTime _lastStrip;
+        public bool ShowStrip
+        {
+            get
+            {
+                if (!_gameStarted.HasValue)
+                    return false;
+                if (DateTime.Now.Subtract(_lastStrip).TotalSeconds < GameSettings.StripCooldown)
+                    return false;
+
+                if (GameSettings.Rnd.NextDouble() > GameSettings.StripChance)
+                    return false;
+
+                _lastStrip = DateTime.Now;
+                return true;
+            }
+        }
+
+
+        private DateTime _lastWaitingRunners;
+        public bool ShowWaitingRunners
+        {
+            get
+            {
+                if (!_gameStarted.HasValue)
+                    return false;
+
+                if (DateTime.Now.Subtract(_lastWaitingRunners).TotalSeconds < GameSettings.WaitingRunnersCooldown)
+                    return false;
+
+                if (GameSettings.Rnd.NextDouble() > GameSettings.WaitingRunnersChance)
+                    return false;
+
+                _lastWaitingRunners = DateTime.Now;
+                return true;
+            }
+        }
     }
 }

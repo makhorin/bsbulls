@@ -9,7 +9,8 @@ public class GameController : MonoBehaviour
     public Text PlayerTimeField;
     public WorldController WorldController;
     public BullsController BullsController;
-    public GameObject Shop;
+    public SpriteRenderer Black;
+
     private bool _started;
 
     public static GameStats GameStats;
@@ -22,18 +23,13 @@ public class GameController : MonoBehaviour
     void Start()
     {
         SetStats();
-        
     }
 
     void Update ()
     {
         if (!_started)
-        {
-            if (GameStats.Money <= 0)
-                StartGame();
-            return;
-        }
-            
+            StartGame();
+
         GameStats.IncreaseScore();
         SetStats();
         GameStats.HandleSpeed();
@@ -48,19 +44,9 @@ public class GameController : MonoBehaviour
 
     public void StartGame()
     {
-        Destroy(Shop);
-        GameStats.Money = 0;
         _started = true;
         WorldController.StartGame();
         BullsController.StartGame();
         GameStats.StartGame();
-    }
-
-    public void BuyStamina()
-    {
-        if (GameStats.Money <= 0)
-            return;
-        GameStats.Money--;
-        GameStats.MaxStamina++;
     }
 }

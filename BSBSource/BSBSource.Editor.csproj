@@ -325,6 +325,7 @@
     <None Include="Assets\PlayServicesResolver\proguard-messaging-workaround.txt" />
     <None Include="Assets\PlayServicesResolver\proguard-unity.txt" />
     <None Include="Assets\SpriteShadow.shader" />
+    <None Include="Assets\Textures\Player\anim_player_fastrun.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Advertisements;
 using UnityEngine.UI;
 
 public class ScoreController : MonoBehaviour
@@ -31,34 +32,34 @@ public class ScoreController : MonoBehaviour
     
     void Update ()
     {
-        HandleMoney();
-        enabled = false;
-
-        if (GameStarter.Scores == null)
-            return;
-
-        for (var i = 0; i < Scores.Length && i < GameStarter.Scores.Length; i++)
+        if (GameStarter.Scores != null)
         {
-            var userProfile = GameStarter.UserProfiles.FirstOrDefault(u => u.id == GameStarter.Scores[i].userID);
-            var userName = userProfile == null ? GameStarter.Scores[i].userID : userProfile.userName;
-            Scores[i].NameField.text = string.Format("{0}. {1}", GameStarter.Scores[i].rank, userName);
-            Scores[i].ScoreField.text = GameStarter.Scores[i].formattedValue;
-            Scores[i].NameField.gameObject.SetActive(true);
-            Scores[i].ScoreField.gameObject.SetActive(true);
+            for (var i = 0; i < Scores.Length && i < GameStarter.Scores.Length; i++)
+            {
+                var userProfile = GameStarter.UserProfiles.FirstOrDefault(u => u.id == GameStarter.Scores[i].userID);
+                var userName = userProfile == null ? GameStarter.Scores[i].userID : userProfile.userName;
+                Scores[i].NameField.text = string.Format("{0}. {1}", GameStarter.Scores[i].rank, userName);
+                Scores[i].ScoreField.text = GameStarter.Scores[i].formattedValue;
+                Scores[i].NameField.gameObject.SetActive(true);
+                Scores[i].ScoreField.gameObject.SetActive(true);
+            }
         }
     }
 
-    public void Restart()
+    public void ShowAds()
     {
-        var gs = FindObjectOfType<GameStarter>();
-        gs.HandleStart();
+        GameSettings.CanStartGame = true;
+        //if (Advertisement.IsReady("rewardedVideo"))
+        //{
+        //    var options = new ShowOptions { resultCallback = HandleShowResult };
+        //    Advertisement.Show("rewardedVideo", options);
+        //}
     }
 
-    void HandleMoney()
-    {
-        PlayerPrefs.SetInt("money", _score);
-        PlayerPrefs.Save();
-    }
+    //private void HandleShowResult(ShowResult obj)
+    //{
+    //    Debug.LogWarning(obj);
+    //}
 }
 
 [Serializable]

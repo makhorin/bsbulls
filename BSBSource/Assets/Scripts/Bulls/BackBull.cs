@@ -80,8 +80,17 @@ public class BackBull : MonoBehaviour
             _lastDash = Time.time;
             _isInDash = true;
             GameController.GameStats.IsBackBull = true;
-            _animator.SetTrigger("BullRageTrigger");
         }
             
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        switch (collision.gameObject.tag)
+        {
+            case "Player":
+                _animator.Play("BullRage");
+                break;
+        }
     }
 }
