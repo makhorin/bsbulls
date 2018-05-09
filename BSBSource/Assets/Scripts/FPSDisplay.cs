@@ -13,7 +13,7 @@ public class FPSDisplay : MonoBehaviour
 
     void OnGUI()
     {
-        //FPS();
+        FPS();
     }
 
     void FPS()

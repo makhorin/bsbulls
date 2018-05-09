@@ -507,7 +507,6 @@
     <Compile Include="Assets\Scripts\GirlController.cs" />
     <Compile Include="Assets\Scripts\HousesGenerator.cs" />
     <Compile Include="Assets\Scripts\InputHelper.cs" />
-    <Compile Include="Assets\Scripts\KishkiController.cs" />
     <Compile Include="Assets\Scripts\MeshScroller.cs" />
     <Compile Include="Assets\Scripts\Obstacles\Manhole.cs" />
     <Compile Include="Assets\Scripts\Obstacles\Obstacle.cs" />
@@ -538,7 +537,6 @@
     <None Include="Assets\PlayServicesResolver\proguard-messaging-workaround.txt" />
     <None Include="Assets\PlayServicesResolver\proguard-unity.txt" />
     <None Include="Assets\SpriteShadow.shader" />
-    <None Include="Assets\Textures\Player\anim_player_fastrun.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
