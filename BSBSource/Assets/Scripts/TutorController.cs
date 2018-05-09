@@ -15,8 +15,8 @@ public class TutorController : MonoBehaviour {
 
     public static void ShowTutor(KeyCode key, int times)
     {
-        _key = key;
-        _times = times;
+       // _key = key;
+       // _times = times;
     }
 
     void Start()

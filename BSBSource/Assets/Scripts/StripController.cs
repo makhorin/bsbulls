@@ -13,7 +13,7 @@ public class StripController : HousesScroller
     {
         get
         {
-            return GameController.GameStats.ShowStrip;
+            return false;//GameController.GameStats.ShowStrip;
         }
     }
 

@@ -48,7 +48,7 @@ public class GameSettings
 
     public static float MaxStamina = 1f;
 
-    public static float WaitingRunnersCooldown = 2f;
+    public static float WaitingRunnersCooldown = 1f;
     public static float WaitingRunnersChance = 0.5f;
 
     public static int GetRandomLine()
@@ -65,13 +65,13 @@ public class GameSettings
     public static int[] KishkiLayers = new[] { 25, 28, 29 };
     public static string[] LayerNames = new[] { "Line1", "Line2", "Line3" };
 
-    public static double PivBarCooldown = 10;
-    public static double PivBarChance = 0.5;
+    public static double PivBarCooldown = 5;
+    public static double PivBarChance = 1;
 
     public static double StripCooldown = 15;
     public static double StripChance = 0.3;
 
-    public static int PivBarSpawn = 10;
+    public static int PivBarSpawn = 5;
 
     public static int MinTapsForPivbar = 5;
 

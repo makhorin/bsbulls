@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class Manhole : Obstacle
 {
-    public SpriteRenderer[] Splats;
+    public ParticleSystem Fontain;
+    public SpriteRenderer Splat;
     private bool _splatShown;
 
     void OnTriggerEnter2D(Collider2D collider)
@@ -14,10 +15,8 @@ public class Manhole : Obstacle
         switch (collider.gameObject.tag)
         {
             case "Runner":
-                foreach (var s in Splats)
-                {
-                    s.enabled = true;
-                }
+                Splat.gameObject.SetActive(true);
+                Fontain.Play();
                 _splatShown = true;
                 break;
         }

@@ -25,10 +25,10 @@ public class WorldController : MonoBehaviour
             var runnerPosKoef = GameSettings.Rnd.NextDouble();
             var runner = Instantiate(RunnerPrefab,
                 new Vector3(-GameSettings.RunnersRadius + GameSettings.Center + 2 * GameSettings.RunnersRadius * (float)runnerPosKoef,
-                GameSettings.Ground[line] + 0.1f),
+                GameSettings.Ground[line] + 0.5f),
                 _rotation);
             runner.SetSettings(line, false);
-            runner.GetComponent<Animator>().Play("Idle");
+            runner.GetComponent<Animator>().Play("Shock");
             _startRunners.Add(runner);
         }
 
@@ -71,7 +71,6 @@ public class WorldController : MonoBehaviour
         }
     }
 
-
     private void GenerateObstacles()
     {
         if (Time.time - _lastObstacle < GameSettings.ObstacleCooldownS)
@@ -82,11 +81,13 @@ public class WorldController : MonoBehaviour
         if (chance > 1f - GameSettings.GroundObstaclesChance && GroundObstaclesPatterns != null && GroundObstaclesPatterns.Length > 0)
         {
             var line = GameSettings.GetRandomLine();
+
             var go = Instantiate(GroundObstaclesPatterns[GameSettings.Rnd.Next(0, GroundObstaclesPatterns.Length)], new Vector3(StartPoint.x, GameSettings.Ground[line]), _rotation);
             go.SetSettings(line);
             _currentObstacles.Add(go);
-            _lastObstacle = Time.time;
         }
+
+        _lastObstacle = Time.time;
     }
 
 

@@ -17,7 +17,7 @@ public class GameStarter : MonoBehaviour
     public AudioSource Crowd;
     public AudioSource Menu;
     public AudioSource Strip;
-    public SpriteRenderer Black;
+    public Black Black;
 
     public AudioClip OstSound;
     public AudioClip PreOstSound;
@@ -31,6 +31,7 @@ public class GameStarter : MonoBehaviour
     void Start ()
     {
         DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(Black);
         PlayerPrefs.SetFloat("Intro",Intro.volume);
         PlayerPrefs.SetFloat("Ost", Ost.volume);
         PlayerPrefs.SetFloat("PreStomp", PreStomp.volume);
@@ -56,11 +57,11 @@ public class GameStarter : MonoBehaviour
         else if (GameSettings.CanStartGame && !_starting)
         {
             if (InputHelper.LeftTap() || InputHelper.RightTap())
-                HandleStart();
+                StartCoroutine(HandleStart());
         }
     }
 
-    public void HandleStart()
+    public IEnumerator HandleStart()
     {
         _starting = true;
         ResetSounds();
@@ -72,7 +73,8 @@ public class GameStarter : MonoBehaviour
         ScoresFinished = false;
         Scores = null;
         UserProfiles = null;
-        SceneManager.LoadScene("MainScene", LoadSceneMode.Single);  
+        SceneManager.LoadSceneAsync("MainScene", LoadSceneMode.Single);
+        return Black.Fade();
     }
 
     private void SceneManagerOnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
@@ -89,6 +91,8 @@ public class GameStarter : MonoBehaviour
 
     IEnumerator PlayOst()
     {
+        yield return Black.Show();
+
         Ost.clip = PreOstSound;
         Ost.loop = false;
         Ost.Play();
@@ -180,7 +184,6 @@ public class GameStarter : MonoBehaviour
             Debug.LogError(e);
         }
 
-        var blk = Instantiate(Black);
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
@@ -190,15 +193,14 @@ public class GameStarter : MonoBehaviour
             Crowd.volume = Math.Max(0f,startCrowd - percentComplete);
             Stomp.volume = Math.Max(0f, startStomp - percentComplete);
             Ost.volume = Math.Max(ostMin, startOst - percentComplete);
-
-            blk.color = new Color(255,255,255,percentComplete);
-
             yield return null;
         }
 
+        yield return Black.Fade();
+
         Crowd.Stop();
         Stomp.Stop();
-        SceneManager.LoadScene("ScoreScreen");
+        SceneManager.LoadSceneAsync("ScoreScreen");
         GameController.GameStats.GameOver = false;
         _fading = false;
     }

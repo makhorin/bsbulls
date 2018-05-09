@@ -7,6 +7,7 @@ public class KishkiController : EnviromentScroller
     public ParticleSystem Splash;
     public Rigidbody2D Rigidbody2D;
     public GameObject Splat;
+    public SpriteRenderer Sprite;
     private bool _fallen;
     void Update ()
     {
@@ -27,7 +28,7 @@ public class KishkiController : EnviromentScroller
                     return;
                 Blood.Stop();
                 Splash.Play();
-                Renderer.enabled = false;
+                Sprite.enabled = false;
                 Rigidbody2D.constraints = RigidbodyConstraints2D.FreezeAll;
                 transform.rotation = Quaternion.identity;
                 Splat.SetActive(true);

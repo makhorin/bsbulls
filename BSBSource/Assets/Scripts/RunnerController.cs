@@ -12,11 +12,6 @@ public class RunnerController : MonoBehaviour
     private float _minSpeedMultiplier = 1;
     private int _line;
 
-    private Vector2 _shadowPos;
-    private Vector2 _shadowScale;
-
-    public Rigidbody2D[] Kishki;
-
     public AudioSource SoundHole;
     public AudioSource SoundHoleCry;
     public AudioSource SoundBullCry;
@@ -28,10 +23,9 @@ public class RunnerController : MonoBehaviour
     private bool _bananaFall = false;
     private bool _instantDeath = false;
     private bool _jumpOnStart = false;
-    
 
-    public SpriteRenderer Shadow;
     public BloodSplat Blood;
+    public ParticleSystem Dust;
 
     public event Action<GameObject> IamDead;
 
@@ -43,9 +37,9 @@ public class RunnerController : MonoBehaviour
         _line = line;
         foreach (var sp in GetComponentsInChildren<SpriteRenderer>())
             sp.sortingLayerName = GameSettings.RunnersSortingLayers[line];
-        Shadow.sortingOrder = -1;
-        _shadowScale = Shadow.transform.localScale;
-        _shadowPos = Shadow.transform.position;
+
+        foreach (var sp in GetComponentsInChildren<ParticleSystem>())
+            sp.GetComponent<Renderer>().sortingLayerName = GameSettings.RunnersSortingLayers[line];
     }
 
     void Awake()
@@ -93,20 +87,10 @@ public class RunnerController : MonoBehaviour
         {
             HandleJump();
             HandleRun();
-            HandleShadow();
             if (GameController.GameStats.IsBackBull && !_isShocked)
                 _animation.Play("Shock");
             _isShocked = GameController.GameStats.IsBackBull;
         }
-    }
-
-    private void HandleShadow()
-    {
-        var ground = GameSettings.Ground[_line];
-        Shadow.transform.position = new Vector3(Shadow.transform.position.x, _shadowPos.y, Shadow.transform.position.z);
-        var delta = 1 - Math.Min((transform.position.y - 2f) - ground, 1f);
-        Shadow.transform.localScale = new Vector2(Math.Min(_shadowScale.x,_shadowScale.x * delta),
-            Math.Min(_shadowScale.y,_shadowScale.y * delta));
     }
 
     public void HandleStrip(Vector3 pos)
@@ -173,7 +157,6 @@ public class RunnerController : MonoBehaviour
         Destroy(GetComponent<Collider2D>());
         RigidBody.constraints |= RigidbodyConstraints2D.FreezePositionY;
         Destroy(RigidBody);
-        SpawnKishki();
         enabled = false;
     }
 
@@ -201,11 +184,13 @@ public class RunnerController : MonoBehaviour
         {
             case "Bull":
                 _instantDeath = true;
-                Destroy(gameObject, 5f);
+                Destroy(gameObject, 1f);
                 SoundBullSmash.Play();
                 SoundBullCry.PlayDelayed(0.1f);
                 SoundBananaSmash.PlayDelayed(0.5f);
-                Shadow.enabled = false;
+                var go = Instantiate(Blood, new Vector3(transform.position.x, GameSettings.Ground[_line]), Quaternion.identity);
+                go.Blood.GetComponent<Renderer>().sortingLayerName = GameSettings.BullSortingLayers[_line];
+                Destroy(go, 5f);
                 PlayDead();
                 break;
             case "Line":
@@ -220,8 +205,7 @@ public class RunnerController : MonoBehaviour
         {
             case "Hole":
                 _instantDeath = true;
-                Destroy(gameObject,5f);
-                Shadow.enabled = false;
+                Destroy(gameObject,1f);
                 SoundHole.Play();
                 SoundHoleCry.PlayDelayed(0.05f);
                 transform.position = new Vector3(collider.gameObject.transform.position.x, transform.position.y, 0f);
@@ -230,7 +214,7 @@ public class RunnerController : MonoBehaviour
             case "Banana":
                 SoundBanana.Play();
                 Fall();
-                Destroy(collider.gameObject);
+                //Destroy(collider.gameObject,5f);
                 break;
         }
     }
@@ -243,7 +227,6 @@ public class RunnerController : MonoBehaviour
         SoundBanana.Play();
         SoundBananaSmash.PlayDelayed(0.45f);
         gameObject.layer = GameSettings.FallenLineLayers[_line];
-        Shadow.enabled = false;
         PlayDead();
     }
 
@@ -256,30 +239,15 @@ public class RunnerController : MonoBehaviour
             IamDead(gameObject);
     }
 
+    void PlayDust()
+    {
+        if (_canJump)
+            Dust.Play();
+    }
+
     private Vector2[] _forcesOrder = 
     {
         Vector2.up,
         Vector2.right
     };
-
-    void SpawnKishki()
-    {
-        var rnd = GameSettings.Rnd;
-        var rndStart = rnd.Next(0, Kishki.Length);
-        var j = 0;
-        for (var i = rndStart; i < Kishki.Length + rndStart; i++)
-        {
-            var ii = i >= Kishki.Length ? i - Kishki.Length : i;
-            var k = Instantiate(Kishki[ii], transform.position, Quaternion.identity);
-            k.gameObject.layer = GameSettings.KishkiLayers[_line];
-            k.AddTorque(2f);
-            k.AddForce(new Vector2((float)rnd.NextDouble(), Math.Min(1f,(float)rnd.NextDouble() + 0.5f)) * 500f);
-            j++;
-            if (j >= _forcesOrder.Length)
-                j = 0;
-        }
-        var go = Instantiate(Blood, new Vector3(transform.position.x, GameSettings.Ground[_line]), Quaternion.identity);
-        go.Blood.GetComponent<Renderer>().sortingLayerName = GameSettings.BullSortingLayers[_line];
-        Destroy(go,5f);
-    }
 }

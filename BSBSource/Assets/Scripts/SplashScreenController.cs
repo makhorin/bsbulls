@@ -34,18 +34,18 @@ public class SplashScreenController : MonoBehaviour
         else
         {
             GameSettings.CanStartGame = true;
-            StartCoroutine("GPAuthenticate");
+            //StartCoroutine("GPAuthenticate");
             enabled = false;
         }
     }
 
-    void GPAuthenticate()
-    {
-        PlayGamesPlatform.Activate();
-        if (!PlayGamesPlatform.Instance.localUser.authenticated &&
-            Application.internetReachability != NetworkReachability.NotReachable)
-            PlayGamesPlatform.Instance.localUser.Authenticate(OnAuthenticate);
-    }
+    //void GPAuthenticate()
+    //{
+    //    PlayGamesPlatform.Activate();
+    //    if (!PlayGamesPlatform.Instance.localUser.authenticated &&
+    //        Application.internetReachability != NetworkReachability.NotReachable)
+    //        PlayGamesPlatform.Instance.localUser.Authenticate(OnAuthenticate);
+    //}
 
     private void OnAuthenticate(bool isAuthenticated)
     {
