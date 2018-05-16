@@ -25,6 +25,8 @@ public class BackBull : MonoBehaviour
             sp.sortingLayerName = GameSettings.BullSortingLayers[line];
         foreach (var sp in GetComponentsInChildren<ParticleSystem>())
             sp.GetComponent<Renderer>().sortingLayerName = GameSettings.BullSortingLayers[line];
+
+        transform.Translate(-5f, 0f,0f);
     }
 
     void OnDestroy()
@@ -46,8 +48,12 @@ public class BackBull : MonoBehaviour
         {
             if (_isInDash)
                 speed = GameSettings.BullStep * GameSettings.BackBullDashSpeedMultiplier;
-            else if (pos > _left)
-                speed = -GameSettings.BullStep;
+            else
+            {
+                var delta = _left - pos;
+                if (delta != 0)
+                    speed = Math.Min(Math.Abs(delta), GameSettings.BullStep) * Math.Sign(delta);
+            }
         }
 
         transform.Translate(speed, 0f, 0f);

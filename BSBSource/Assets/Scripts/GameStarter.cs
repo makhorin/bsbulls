@@ -7,10 +7,9 @@ using GooglePlayGames.BasicApi;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms;
-
+using Debug = UnityEngine.Debug;
 public class GameStarter : MonoBehaviour
 {
-    public AudioSource Intro;
     public AudioSource Ost;
     public AudioSource PreStomp;
     public AudioSource Stomp;
@@ -21,18 +20,19 @@ public class GameStarter : MonoBehaviour
 
     public AudioClip OstSound;
     public AudioClip PreOstSound;
+    public AudioClip Intro;
 
     private bool _fading;
 
     public static bool ScoresFinished;
-
+    public GameObject[] DontDestroy;
 
 
     void Start ()
     {
-        DontDestroyOnLoad(gameObject);
-        DontDestroyOnLoad(Black);
-        PlayerPrefs.SetFloat("Intro",Intro.volume);
+        foreach(var dd in DontDestroy)
+            DontDestroyOnLoad(dd);
+        
         PlayerPrefs.SetFloat("Ost", Ost.volume);
         PlayerPrefs.SetFloat("PreStomp", PreStomp.volume);
         PlayerPrefs.SetFloat("Stomp", Stomp.volume);
@@ -56,25 +56,27 @@ public class GameStarter : MonoBehaviour
         }
         else if (GameSettings.CanStartGame && !_starting)
         {
-            if (InputHelper.LeftTap() || InputHelper.RightTap())
+            _starting = InputHelper.LeftTap() || InputHelper.RightTap();
+            if (_starting)
                 StartCoroutine(HandleStart());
         }
     }
 
     public IEnumerator HandleStart()
     {
-        _starting = true;
         ResetSounds();
         Ost.Stop();
         Crowd.Stop();
         Stomp.Stop();
         Menu.Stop();
-        Intro.Play();
         ScoresFinished = false;
         Scores = null;
         UserProfiles = null;
-        SceneManager.LoadSceneAsync("MainScene", LoadSceneMode.Single);
-        return Black.Fade();
+        Ost.clip = Intro;
+        Ost.loop = false;
+        Ost.Play();
+        yield return Black.Fade();
+        SceneManager.LoadScene("MainScene", LoadSceneMode.Single);
     }
 
     private void SceneManagerOnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
@@ -91,8 +93,6 @@ public class GameStarter : MonoBehaviour
 
     IEnumerator PlayOst()
     {
-        yield return Black.Show();
-
         Ost.clip = PreOstSound;
         Ost.loop = false;
         Ost.Play();
@@ -104,7 +104,6 @@ public class GameStarter : MonoBehaviour
 
     private void ResetSounds()
     {
-        Intro.volume = PlayerPrefs.GetFloat("Intro", Intro.volume);
         Ost.volume = PlayerPrefs.GetFloat("Ost", Ost.volume);
         PreStomp.volume = PlayerPrefs.GetFloat("PreStomp", PreStomp.volume);
         Stomp.volume = PlayerPrefs.GetFloat("Stomp", Stomp.volume);
@@ -118,7 +117,7 @@ public class GameStarter : MonoBehaviour
             return;
         _starting = false;
         _fading = true;
-        StartCoroutine("FadeOnGameOver");
+        StartCoroutine(FadeOnGameOver());
     }
 
     private static bool _strip;
@@ -196,11 +195,12 @@ public class GameStarter : MonoBehaviour
             yield return null;
         }
 
+        Black.gameObject.SetActive(true);
         yield return Black.Fade();
 
         Crowd.Stop();
         Stomp.Stop();
-        SceneManager.LoadSceneAsync("ScoreScreen");
+        SceneManager.LoadScene("ScoreScreen");
         GameController.GameStats.GameOver = false;
         _fading = false;
     }

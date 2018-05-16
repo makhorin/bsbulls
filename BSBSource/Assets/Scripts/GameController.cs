@@ -1,48 +1,80 @@
 ﻿using Assets;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
-    public Text PlayerScoreField;
     public WorldController WorldController;
     public BullsController BullsController;
-    public SpriteRenderer Black;
-
+    public HousesGenerator HousesGenerator;
+    public Black Black;
     private bool _started;
 
     public static GameStats GameStats;
 
-    private void Awake()
+    private void Start()
     {
-        GameStats = new GameStats();
+        SceneManager.sceneLoaded += SceneLoaded;
+        SceneManager.sceneUnloaded += SceneUnloaded;
     }
 
-    void Start()
+    private void SceneUnloaded(Scene scene)
     {
-        SetStats();
+        if (scene.name != "MainScene")
+            return;
+        StopGame();
     }
 
-    void Update ()
+    private void SceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        switch(scene.name)
+        {
+            case "MainScene":
+            {
+                InitGame();
+                StartCoroutine(StartGame());
+                break;
+            }
+            case "ScoreScreen":
+            {
+                StartCoroutine(Black.Show());
+                break;
+            }
+        }       
+    }
+
+    void Update()
     {
         if (!_started)
-            StartGame();
+            return;
 
         GameStats.IncreaseScore();
-        SetStats();
         GameStats.HandleSpeed();
     }
-    
-    private void SetStats()
+
+    public void InitGame()
     {
-        PlayerScoreField.text = GameStats.Score.ToString();
+        GameStats = new GameStats();
+        WorldController.InitGame();
+        HousesGenerator.InitGame();
     }
 
-    public void StartGame()
+    public IEnumerator StartGame()
     {
-        _started = true;
+        yield return Black.Show();
+        Black.gameObject.SetActive(false);
+        GameStats.StartGame();
         WorldController.StartGame();
         BullsController.StartGame();
-        GameStats.StartGame();
+        HousesGenerator.StartGame();
+        _started = true;
+    }
+
+    public void StopGame()
+    {
+        WorldController.StopGame();
+        BullsController.StopGame();
+        HousesGenerator.StopGame();
     }
 }

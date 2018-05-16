@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using UnityEngine;
-//using UnityEngine.Advertisements;
 using UnityEngine.UI;
 
 public class ScoreController : MonoBehaviour
@@ -9,7 +7,6 @@ public class ScoreController : MonoBehaviour
     public Text PlayerScoreField;
     public Text PlayerTimeField;
     public Score[] Scores;
-    public GameObject Card;
 
     private int _score;
 
@@ -28,7 +25,6 @@ public class ScoreController : MonoBehaviour
         PlayerScoreField.text = _score.ToString();
         var t = TimeSpan.FromSeconds(PlayerPrefs.GetFloat("runTime", 0f));
         PlayerTimeField.text = string.Format("{0:d2}:{1:d2}:{2:d2}", t.Hours, t.Minutes, t.Seconds);
-        Card.SetActive(true);
     }
 
     
@@ -47,27 +43,6 @@ public class ScoreController : MonoBehaviour
         //    }
         //}
     }
-
-    public void ShowAds()
-    {
-        
-        //if (Advertisement.IsReady("rewardedVideo"))
-        //{
-        //    var options = new ShowOptions { resultCallback = HandleShowResult };
-        //    Advertisement.Show("rewardedVideo", options);
-        //}
-        //else
-        //{
-            GameSettings.CanStartGame = true;
-        //}
-    }
-
-    //private void HandleShowResult(ShowResult obj)
-    //{
-    //    Debug.LogWarning(obj);
-    //    GameSettings.CanStartGame = true;
-    //    Card.SetActive(false);
-    //}
 }
 
 [Serializable]

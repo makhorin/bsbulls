@@ -65,7 +65,7 @@ public class GameSettings
     public static int[] KishkiLayers = new[] { 25, 28, 29 };
     public static string[] LayerNames = new[] { "Line1", "Line2", "Line3" };
 
-    public static double PivBarCooldown = 5;
+    public static double PivBarCooldown = 10;
     public static double PivBarChance = 1;
 
     public static double StripCooldown = 15;

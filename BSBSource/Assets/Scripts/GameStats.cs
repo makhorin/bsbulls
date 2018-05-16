@@ -5,6 +5,21 @@ namespace Assets
 {
     public class GameStats
     {
+        public void StartGame()
+        {
+            _gameStarted = DateTime.Now;
+            MaxStamina = GameSettings.MaxStamina;
+            Stamina = MaxStamina;
+            _defaultSpeed = GameSettings.DefaultSpeed * 0.5f;
+            _currentSpeed = _defaultSpeed;
+            SpeedMultipier = 1f;
+            _lastWaitingRunners = DateTime.Now;
+            _lastPivBar = DateTime.Now;
+            _lastStrip = DateTime.Now;
+            GameSettings.CanStartGame = false;
+            Started = true;
+        }
+
         public float GetRunTime()
         {
             return _gameStarted.HasValue ? (float)DateTime.Now.Subtract(_gameStarted.Value).TotalSeconds : 0f;
@@ -93,24 +108,7 @@ namespace Assets
 
         public float MaxStamina;
 
-        public void StartGame()
-        {
-            _gameStarted = DateTime.Now;
-            Stamina = MaxStamina;
-            _defaultSpeed = GameSettings.DefaultSpeed * 0.5f;
-            _currentSpeed = _defaultSpeed;
-            SpeedMultipier = 1f;
-            _lastWaitingRunners = DateTime.Now;
-            _lastPivBar = DateTime.Now;
-            _lastStrip = DateTime.Now;
-            GameSettings.CanStartGame = false;
-        }
-
-        public GameStats()
-        {
-            _stamina = GameSettings.MaxStamina;
-            MaxStamina = GameSettings.MaxStamina;
-        }
+        
 
         private float _currentSpeed;
         private float _defaultSpeed;
@@ -217,5 +215,7 @@ namespace Assets
                 return true;
             }
         }
+
+        public bool Started { get; internal set; }
     }
 }

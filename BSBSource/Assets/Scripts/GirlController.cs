@@ -17,7 +17,7 @@ public class GirlController : MonoBehaviour
 
     void Update()
     {
-        if (GameController.GameStats.GameOver || _laserUsed || !InputHelper.Down())
+        if (GameController.GameStats.GameOver || _laserUsed || !InputHelper.Swipe())
             return;
 
         try

@@ -297,11 +297,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Black.cs" />
-    <Compile Include="Assets\BoostControler.cs" />
     <Compile Include="Assets\CameraShake\PerlinShake.cs" />
     <Compile Include="Assets\CameraShake\Util_Noise.cs" />
-    <Compile Include="Assets\EventScript.cs" />
+    <Compile Include="Assets\CreateController.cs" />
+    <Compile Include="Assets\FastMobileBloom\FastMobileBloom.cs" />
     <Compile Include="Assets\GooglePlayGames\BasicApi\Achievement.cs" />
     <Compile Include="Assets\GooglePlayGames\BasicApi\CommonStatusCodes.cs" />
     <Compile Include="Assets\GooglePlayGames\BasicApi\CommonTypes.cs" />
@@ -484,7 +483,6 @@
     <Compile Include="Assets\GooglePlayGames\Platforms\TokenClient.cs" />
     <Compile Include="Assets\GooglePlayGames\PluginVersion.cs" />
     <Compile Include="Assets\GPGSIds.cs" />
-    <Compile Include="Assets\HousesScroller.cs" />
     <Compile Include="Assets\Kino\Bloom\Bloom.cs" />
     <Compile Include="Assets\LeanTouch\Scripts\LeanFinger.cs" />
     <Compile Include="Assets\LeanTouch\Scripts\LeanGesture.cs" />
@@ -495,35 +493,40 @@
     <Compile Include="Assets\Scripts\Bulls\BackBull.cs" />
     <Compile Include="Assets\Scripts\Bulls\BullsController.cs" />
     <Compile Include="Assets\Scripts\Bulls\FrontBull.cs" />
-    <Compile Include="Assets\Scripts\ColorRandomizer.cs" />
-    <Compile Include="Assets\Scripts\EnviromentGenerator.cs" />
-    <Compile Include="Assets\Scripts\EnviromentScroller.cs" />
-    <Compile Include="Assets\Scripts\FPSDisplay.cs" />
+    <Compile Include="Assets\Scripts\Enviroment\ColorRandomizer.cs" />
+    <Compile Include="Assets\Scripts\Enviroment\EnviromentScroller.cs" />
+    <Compile Include="Assets\Scripts\Enviroment\MeshScroller.cs" />
+    <Compile Include="Assets\Scripts\Enviroment\TutorController.cs" />
+    <Compile Include="Assets\Scripts\Enviroment\UpDownScroller.cs" />
+    <Compile Include="Assets\Scripts\EventScript.cs" />
     <Compile Include="Assets\Scripts\GameController.cs" />
     <Compile Include="Assets\Scripts\GameSettings.cs" />
     <Compile Include="Assets\Scripts\GameSettingsEditor.cs" />
     <Compile Include="Assets\Scripts\GameStarter.cs" />
     <Compile Include="Assets\Scripts\GameStats.cs" />
     <Compile Include="Assets\Scripts\GirlController.cs" />
-    <Compile Include="Assets\Scripts\HousesGenerator.cs" />
-    <Compile Include="Assets\Scripts\InputHelper.cs" />
-    <Compile Include="Assets\Scripts\MeshScroller.cs" />
+    <Compile Include="Assets\Scripts\Houses\Bar\PivBarController.cs" />
+    <Compile Include="Assets\Scripts\Houses\Bar\PivbarSpawner.cs" />
+    <Compile Include="Assets\Scripts\Houses\Club\StripController.cs" />
+    <Compile Include="Assets\Scripts\Houses\HousesGenerator.cs" />
+    <Compile Include="Assets\Scripts\Houses\HousesScroller.cs" />
     <Compile Include="Assets\Scripts\Obstacles\Manhole.cs" />
     <Compile Include="Assets\Scripts\Obstacles\Obstacle.cs" />
-    <Compile Include="Assets\Scripts\PivBarController.cs" />
-    <Compile Include="Assets\Scripts\PivbarSpawner.cs" />
     <Compile Include="Assets\Scripts\RunnerController.cs" />
     <Compile Include="Assets\Scripts\ScoreController.cs" />
     <Compile Include="Assets\Scripts\SplashScreenController.cs" />
-    <Compile Include="Assets\Scripts\StripController.cs" />
-    <Compile Include="Assets\Scripts\TutorController.cs" />
-    <Compile Include="Assets\Scripts\UpDownScroller.cs" />
+    <Compile Include="Assets\Scripts\UI\Black.cs" />
+    <Compile Include="Assets\Scripts\UI\BoostControler.cs" />
+    <Compile Include="Assets\Scripts\UI\FPSDisplay.cs" />
+    <Compile Include="Assets\Scripts\UI\InputHelper.cs" />
+    <Compile Include="Assets\Scripts\UI\ScoreController.cs" />
     <Compile Include="Assets\Scripts\WaitingRunnerController.cs" />
+    <Compile Include="Assets\Scripts\WaitingRunnersGroup.cs" />
     <Compile Include="Assets\Scripts\WorldController.cs" />
-    <Compile Include="Assets\WaitingRunnersGroup.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Confetti FX\Readme.txt" />
+    <None Include="Assets\FastMobileBloom\FastMobileBloom.shader" />
     <None Include="Assets\GooglePlayGames\Editor\GooglePlayGamesPluginDependencies.xml" />
     <None Include="Assets\GooglePlayGames\Editor\GooglePlayGamesPlugin_v0.9.50.txt" />
     <None Include="Assets\GooglePlayGames\Editor\m2repository\com\google\games\gpgs-plugin-support\maven-metadata.xml" />
@@ -536,7 +539,6 @@
     <None Include="Assets\PlayServicesResolver\Editor\play-services-resolver.txt" />
     <None Include="Assets\PlayServicesResolver\proguard-messaging-workaround.txt" />
     <None Include="Assets\PlayServicesResolver\proguard-unity.txt" />
-    <None Include="Assets\SpriteShadow.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

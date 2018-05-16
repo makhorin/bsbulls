@@ -23,14 +23,21 @@ public class BullsController : MonoBehaviour
     internal void StartGame()
     {
         _lastFrontBull = Time.time;
+        _started = true;
+
         for (var i = 0; i < 3; i++)
         {
-            var xPos = GameSettings.LeftBorder + (GameSettings.BullMinOffset * 1.3f) +
-                       (float)GameSettings.Rnd.NextDouble() * (GameSettings.BullMaxOffset - GameSettings.BullMinOffset);
+            var xPos = GameSettings.LeftBorder + GameSettings.BullMinOffset +
+                       (float)GameSettings.Rnd.NextDouble() * (GameSettings.BullMaxOffset - 1.5f);
             var go = Instantiate(BackBull, new Vector3(xPos, GameSettings.Ground[i] + 1f), Quaternion.identity);
             go.SetSettings(i, xPos);
         }
-        _started = true;
+    }
+
+    public void StopGame()
+    {
+        _started = false;
+        _frontBull = null;
     }
 
     private void RemoveFarObjects()

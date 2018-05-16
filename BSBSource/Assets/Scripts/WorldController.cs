@@ -17,7 +17,7 @@ public class WorldController : MonoBehaviour
 
     private List<RunnerController> _startRunners = new List<RunnerController>();
 
-    void Start()
+    internal void InitGame()
     {
         for (var i = 0; i < GameSettings.MaxRunners; i++)
         {
@@ -28,21 +28,24 @@ public class WorldController : MonoBehaviour
                 GameSettings.Ground[line] + 0.5f),
                 _rotation);
             runner.SetSettings(line, false);
-            runner.GetComponent<Animator>().Play("Shock");
+            runner.GetComponent<Animator>().Play("Idle");
             _startRunners.Add(runner);
         }
-
-        if (_started)
-            StartGame();
     }
 
     internal void StartGame()
     {
         _lastObstacle = Time.time;
         foreach (var r in _startRunners)
-            r.GetComponent<Animator>().Play("Run");
+            r.GetComponent<Animator>().Play("Shock");
         _startRunners.Clear();
         _started = true;
+    }
+
+    public void StopGame()
+    {
+        _started = false;
+        _currentObstacles.Clear();
     }
 
     void Update()

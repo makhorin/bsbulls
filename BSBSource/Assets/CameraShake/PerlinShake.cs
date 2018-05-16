@@ -1,7 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using System.Text;
-using Assets;
 
 public class PerlinShake : MonoBehaviour {
     
