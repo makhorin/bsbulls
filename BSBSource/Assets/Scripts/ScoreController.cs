@@ -10,21 +10,13 @@ public class ScoreController : MonoBehaviour
 
     private int _score;
 
-    void Awake()
-    {
-        foreach (var s in Scores)
-        {
-            s.NameField.gameObject.SetActive(false);
-            s.ScoreField.gameObject.SetActive(false);
-        }
-    }
-
     void Start ()
     {
         _score = PlayerPrefs.GetInt("score", 0);
         PlayerScoreField.text = _score.ToString();
         var t = TimeSpan.FromSeconds(PlayerPrefs.GetFloat("runTime", 0f));
         PlayerTimeField.text = string.Format("{0:d2}:{1:d2}:{2:d2}", t.Hours, t.Minutes, t.Seconds);
+        GameSettings.CanStartGame = true;
     }
 
     
