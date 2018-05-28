@@ -7,11 +7,13 @@ public class GirlController : MonoBehaviour
     public SpriteRenderer Laser;
     public AudioSource LaserSound;
     private bool _laserUsed;
+    private Animator _animator;
 
     void Start()
     {
         TutorController.ShowTutor(KeyCode.DownArrow, 1);
         GameController.GameStats.ShakeIt = true;
+        _animator = GetComponent<Animator>();
     }
 
 
@@ -19,7 +21,11 @@ public class GirlController : MonoBehaviour
     {
         if (GameController.GameStats.GameOver || _laserUsed || !InputHelper.Swipe())
             return;
+        _animator.Play("Scream");
+    }
 
+    void Fire()
+    {
         try
         {
             if (Laser.transform.position.x > TargetBull.transform.position.x)
@@ -38,7 +44,7 @@ public class GirlController : MonoBehaviour
         var scale = distance / laserWidth;
         Laser.transform.position = center;
         Laser.transform.localScale = new Vector3(scale, Laser.transform.localScale.y, 1f);
-        
+
         var vectorToTarget = TargetBull.transform.position - (Vector3)center;
         var angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
         Laser.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
