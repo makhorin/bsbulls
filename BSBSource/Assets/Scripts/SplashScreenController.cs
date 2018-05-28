@@ -1,4 +1,4 @@
-﻿using GooglePlayGames;
+﻿//using GooglePlayGames;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -60,9 +60,9 @@ public class SplashScreenController : MonoBehaviour
             var maxScore = PlayerPrefs.GetInt("maxscore", 0);
             Debug.Log("Authenticated");
 #if UNITY_ANDROID
-            PlayGamesPlatform.Instance.ReportScore(maxScore, 
-                                                    "CgkIj9Sz_8UXEAIQAQ", 
-                                                    OnScoreReported);
+            //PlayGamesPlatform.Instance.ReportScore(maxScore, 
+            //                                        "CgkIj9Sz_8UXEAIQAQ", 
+            //                                        OnScoreReported);
 #endif
         }
         catch (Exception e)

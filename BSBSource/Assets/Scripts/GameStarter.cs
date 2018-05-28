@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Linq;
 using Assets;
-using GooglePlayGames;
-using GooglePlayGames.BasicApi;
+//using GooglePlayGames;
+//using GooglePlayGames.BasicApi;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms;
@@ -173,10 +173,10 @@ public class GameStarter : MonoBehaviour
         var ostMin = 0.4f;
         try
         {
-#if UNITY_ANDROID
-            if (PlayGamesPlatform.Instance.localUser.authenticated)
-                PlayGamesPlatform.Instance.ReportScore(GameController.GameStats.MaxScore, _leaderBoard, OnScoreReported);
-#endif
+//#if UNITY_ANDROID
+//            if (PlayGamesPlatform.Instance.localUser.authenticated)
+//                PlayGamesPlatform.Instance.ReportScore(GameController.GameStats.MaxScore, _leaderBoard, OnScoreReported);
+//#endif
         }
         catch(Exception e)
         {
@@ -211,28 +211,28 @@ public class GameStarter : MonoBehaviour
 
     
 #if UNITY_ANDROID
-    private void OnScoresLoaded(LeaderboardScoreData leaderboardScoreData)
-    {
-        try
-        {
-            var scores = leaderboardScoreData.Scores;
-            if (scores == null)
-            {
-                Debug.LogWarning("No scores");
-                ScoresFinished = true;
-            }
-            else
-            {
-                Debug.Log("Got scores");
-                Scores = scores;
-                PlayGamesPlatform.Instance.LoadUsers(Scores.Select(s => s.userID).ToArray(), OuUsersLoaded);
-            }
-        }
-        catch(Exception e)
-        {
-            Debug.LogError(e);
-        }
-    }
+    //private void OnScoresLoaded(LeaderboardScoreData leaderboardScoreData)
+    //{
+    //    try
+    //    {
+    //        var scores = leaderboardScoreData.Scores;
+    //        if (scores == null)
+    //        {
+    //            Debug.LogWarning("No scores");
+    //            ScoresFinished = true;
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("Got scores");
+    //            Scores = scores;
+    //            PlayGamesPlatform.Instance.LoadUsers(Scores.Select(s => s.userID).ToArray(), OuUsersLoaded);
+    //        }
+    //    }
+    //    catch(Exception e)
+    //    {
+    //        Debug.LogError(e);
+    //    }
+    //}
 #endif
     private void OuUsersLoaded(IUserProfile[] userProfiles)
     {
@@ -268,7 +268,7 @@ public class GameStarter : MonoBehaviour
             {
                 Debug.Log("Reported");
 #if UNITY_ANDROID
-                PlayGamesPlatform.Instance.LoadScores(_leaderBoard, LeaderboardStart.TopScores, 5, LeaderboardCollection.Public, LeaderboardTimeSpan.AllTime, OnScoresLoaded);
+              //  PlayGamesPlatform.Instance.LoadScores(_leaderBoard, LeaderboardStart.TopScores, 5, LeaderboardCollection.Public, LeaderboardTimeSpan.AllTime, OnScoresLoaded);
 #endif
             }
         }
