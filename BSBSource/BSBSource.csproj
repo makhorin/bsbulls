@@ -296,7 +296,6 @@
   <ItemGroup>
     <Compile Include="Assets\CameraShake\PerlinShake.cs" />
     <Compile Include="Assets\CameraShake\Util_Noise.cs" />
-    <Compile Include="Assets\FastMobileBloom\FastMobileBloom.cs" />
     <Compile Include="Assets\GPGSIds.cs" />
     <Compile Include="Assets\Kino\Bloom\Bloom.cs" />
     <Compile Include="Assets\LeanTouch\Scripts\LeanFinger.cs" />
@@ -341,7 +340,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Confetti FX\Readme.txt" />
-    <None Include="Assets\FastMobileBloom\FastMobileBloom.shader" />
     <None Include="Assets\Kino\Bloom\Shader\Bloom.cginc" />
     <None Include="Assets\Kino\Bloom\Shader\Bloom.shader" />
   </ItemGroup>

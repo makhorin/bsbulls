@@ -6,6 +6,7 @@ public class Black : MonoBehaviour {
     SpriteRenderer _sprite;
     float _alpha;
     float _timeToFinsh = 1f;
+    bool _fading;
 
 	void Start ()
     {
@@ -15,7 +16,8 @@ public class Black : MonoBehaviour {
 
     public IEnumerator Fade()
     {
-        while (_alpha < 1f)
+        _fading = true;
+        while (_alpha < 1f && _fading)
         {
             _alpha += Time.deltaTime / _timeToFinsh;
             _sprite.color = new Color(1f, 1f, 1f, _alpha);
@@ -25,7 +27,8 @@ public class Black : MonoBehaviour {
 
     public IEnumerator Show()
     {
-        while (_alpha > 0f)
+        _fading = false;
+        while (_alpha > 0f && !_fading)
         {
             _alpha -= Time.deltaTime / _timeToFinsh;
             _sprite.color = new Color(1f, 1f, 1f, _alpha);

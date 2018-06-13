@@ -28,39 +28,4 @@ public class StripController : HousesScroller
     {
        GameController.GameStats.IsStrip = false;
     }
-
-    protected override void Update ()
-    {
-        base.Update();
-        if (GameController.GameStats.GameOver || 
-            transform.position.x < (GameSettings.RightBorder + GameSettings.LeftBorder) / 2f ||
-            _minTaps <= 0)
-        {
-            Time.timeScale = 1f;
-            GameController.GameStats.IsStrip = false;
-            return;
-        }
-
-        if (transform.position.x >= GameSettings.RightBorder)
-            return;
-
-        if (InputHelper.RightTap() || InputHelper.LeftTap())
-        {
-            _minTaps--;
-            return;
-        }
-
-        var runners = FindObjectsOfType<RunnerController>();
-
-        foreach (var runner in runners)
-            runner.HandleStrip(GPoint.position);
-
-        if (_toggled)
-            return;
-        
-        TutorController.ShowTutor(KeyCode.RightArrow, _minTaps);
-        GameStarter.ToggleStrip();
-        Time.timeScale = 0.2f;
-        _toggled = true;
-    }
 }

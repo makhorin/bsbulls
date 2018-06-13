@@ -59,11 +59,6 @@ public class RunnerController : MonoBehaviour
     bool _isShocked;
     void Update ()
     {
-        if (GameController.GameStats.IsStrip)
-            RigidBody.constraints |= RigidbodyConstraints2D.FreezePositionY;
-        else
-            RigidBody.constraints &= ~RigidbodyConstraints2D.FreezePositionY;
-
         var p = transform.position;
         if (p.x > GameSettings.RightBorder || 
             p.x < GameSettings.LeftBorder || 
@@ -214,7 +209,7 @@ public class RunnerController : MonoBehaviour
             case "Banana":
                 SoundBanana.Play();
                 Fall();
-                //Destroy(collider.gameObject,5f);
+                Destroy(collider.gameObject);
                 break;
         }
     }

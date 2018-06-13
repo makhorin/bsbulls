@@ -64,6 +64,7 @@ public class GameController : MonoBehaviour
     {
         yield return Black.Show();
         Black.gameObject.SetActive(false);
+        GameObject.FindGameObjectWithTag("controls").SetActive(false);
         GameStats.StartGame();
         WorldController.StartGame();
         BullsController.StartGame();
@@ -73,6 +74,7 @@ public class GameController : MonoBehaviour
 
     public void StopGame()
     {
+        _started = false;
         WorldController.StopGame();
         BullsController.StopGame();
         HousesGenerator.StopGame();

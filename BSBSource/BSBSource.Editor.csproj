@@ -305,7 +305,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Confetti FX\Readme.txt" />
-    <None Include="Assets\FastMobileBloom\FastMobileBloom.shader" />
     <None Include="Assets\Kino\Bloom\Shader\Bloom.cginc" />
     <None Include="Assets\Kino\Bloom\Shader\Bloom.shader" />
   </ItemGroup>
