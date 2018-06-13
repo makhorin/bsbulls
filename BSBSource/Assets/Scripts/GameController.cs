@@ -1,4 +1,5 @@
 ﻿using Assets;
+using GameAnalyticsSDK;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,6 +16,7 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
+        GameAnalytics.Initialize();
         SceneManager.sceneLoaded += SceneLoaded;
         SceneManager.sceneUnloaded += SceneUnloaded;
     }
@@ -70,6 +72,7 @@ public class GameController : MonoBehaviour
         BullsController.StartGame();
         HousesGenerator.StartGame();
         _started = true;
+        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, "game");
     }
 
     public void StopGame()
@@ -78,5 +81,6 @@ public class GameController : MonoBehaviour
         WorldController.StopGame();
         BullsController.StopGame();
         HousesGenerator.StopGame();
+        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "game", GameStats.Score);
     }
 }
