@@ -11,7 +11,6 @@ public class TutorController : MonoBehaviour {
 
     public Text TextField;
     public Shadow Shadow;
-    public GameSettings Settings;
 
     public static void ShowTutor(KeyCode key, int times)
     {
@@ -23,6 +22,7 @@ public class TutorController : MonoBehaviour {
     {
         if (GameController.GameStats.GameOver)
         {
+            _key = null;
             TextField.gameObject.SetActive(false);
         }
         else if (TextField.IsActive())
