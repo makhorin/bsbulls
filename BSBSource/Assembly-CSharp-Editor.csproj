@@ -137,6 +137,15 @@
  <Reference Include="UnityEditor.WindowsStandalone.Extensions">
  <HintPath>C:/Program Files/Unity2017/Editor/Data/PlaybackEngines/windowsstandalonesupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
  </Reference>
+ <Reference Include="Google.IOSResolver">
+ <HintPath>C:/NotWork/BSB/BSBSource/Assets/PlayServicesResolver/Editor/Google.IOSResolver.dll</HintPath>
+ </Reference>
+ <Reference Include="Google.JarResolver">
+ <HintPath>C:/NotWork/BSB/BSBSource/Assets/PlayServicesResolver/Editor/Google.JarResolver.dll</HintPath>
+ </Reference>
+ <Reference Include="Google.PackageManager">
+ <HintPath>C:/NotWork/BSB/BSBSource/Assets/PlayServicesResolver/Editor/Google.PackageManager.dll</HintPath>
+ </Reference>
  <Reference Include="Google.VersionHandler">
  <HintPath>C:/NotWork/BSB/BSBSource/Assets/PlayServicesResolver/Editor/Google.VersionHandler.dll</HintPath>
  </Reference>
@@ -175,15 +184,6 @@
  </Reference>
  <Reference Include="Facebook.Unity.Settings">
  <HintPath>C:/NotWork/BSB/BSBSource/Assets/FacebookSDK/Plugins/Settings/Facebook.Unity.Settings.dll</HintPath>
- </Reference>
- <Reference Include="Google.JarResolver">
- <HintPath>C:/NotWork/BSB/BSBSource/Assets/PlayServicesResolver/Editor/Google.JarResolver.dll</HintPath>
- </Reference>
- <Reference Include="Google.IOSResolver">
- <HintPath>C:/NotWork/BSB/BSBSource/Assets/PlayServicesResolver/Editor/Google.IOSResolver.dll</HintPath>
- </Reference>
- <Reference Include="Google.PackageManager">
- <HintPath>C:/NotWork/BSB/BSBSource/Assets/PlayServicesResolver/Editor/Google.PackageManager.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>C:/Program Files/Unity2017/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
