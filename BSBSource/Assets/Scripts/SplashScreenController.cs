@@ -4,8 +4,6 @@ using UnityEngine.UI;
 
 public class SplashScreenController : MonoBehaviour
 {
-    public Transform Bull;
-    public Transform BullPivot;
     public Text[] Text;
     public GameObject TapToStart;
     bool _textReady;
